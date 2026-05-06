@@ -108,7 +108,7 @@ export const Navbar: React.FC<NavbarProps> = ({ cartCount, onOpenCart, isSearchO
   const getProductImage = (product: Product) => {
     if (product.image && typeof product.image === 'string' && product.image.trim()) return product.image;
     const fallback = PRODUCTS.find(fp => String(fp.id) === String(product.id));
-    return fallback?.image || 'https://placehold.co/160x160?text=AIDAYNE';
+    return fallback?.image || 'https://placehold.co/160x160?text=KhoAI';
   };
 
   const formatProductPrice = (price: unknown) => {
@@ -243,7 +243,7 @@ export const Navbar: React.FC<NavbarProps> = ({ cartCount, onOpenCart, isSearchO
               <div className="flex items-center gap-3">
                 <Link to="/" className="flex items-center gap-1 group">
                   <span className="font-extrabold text-xl lg:text-xl tracking-tight text-gray-900">
-                    AIDAYNE<span className="text-primary">.com</span>
+                    KhoAI<span className="text-primary">.vn</span>
                   </span>
                 </Link>
               </div>
@@ -420,7 +420,7 @@ export const Navbar: React.FC<NavbarProps> = ({ cartCount, onOpenCart, isSearchO
             {/* Header */}
             <div className="p-6 border-b border-gray-100 flex items-center justify-between bg-gray-50/50">
                <span className="font-extrabold text-xl tracking-tight text-gray-900">
-                  AIDAYNE<span className="text-primary">.com</span>
+                  KhoAI<span className="text-primary">.vn</span>
                </span>
                <button type="button" aria-label="Đóng menu" onClick={() => setIsMobileMenuOpen(false)} className="min-w-11 min-h-11 p-2 bg-white rounded-full border border-gray-200 shadow-sm active:scale-95 transition-transform flex items-center justify-center">
                   <X size={20} className="text-gray-500" />
@@ -533,7 +533,7 @@ export const Navbar: React.FC<NavbarProps> = ({ cartCount, onOpenCart, isSearchO
                                     onClick={() => handleProductSelect(p)}
                                     className={`w-full flex items-center gap-3 sm:gap-4 p-3 rounded-2xl cursor-pointer transition-all text-left active:scale-[0.99] ${idx === selectedIndex ? 'bg-primary text-white shadow-lg shadow-primary/30 scale-[1.01]' : 'hover:bg-gray-100 text-gray-900'}`}
                                  >
-                                    <img src={getProductImage(p)} alt={p.name || 'Sản phẩm AIDAYNE'} className={`w-12 h-12 sm:w-10 sm:h-10 rounded-xl object-cover shrink-0 ${idx === selectedIndex ? 'bg-white/20' : 'bg-gray-100'}`} />
+                                    <img src={getProductImage(p)} alt={p.name || 'Sản phẩm KhoAI'} className={`w-12 h-12 sm:w-10 sm:h-10 rounded-xl object-cover shrink-0 ${idx === selectedIndex ? 'bg-white/20' : 'bg-gray-100'}`} />
                                     <div className="flex-1 min-w-0">
                                        <div className="font-bold text-sm truncate">{p.name}</div>
                                        <div className={`text-xs truncate ${idx === selectedIndex ? 'text-white/80' : 'text-gray-500'}`}>{p.category || 'Sản phẩm số'}</div>
@@ -604,7 +604,7 @@ export const Navbar: React.FC<NavbarProps> = ({ cartCount, onOpenCart, isSearchO
                     <span><span className="bg-gray-200 px-1.5 py-0.5 rounded text-gray-600 mr-1">↑↓</span> Di chuyển</span>
                     <span><span className="bg-gray-200 px-1.5 py-0.5 rounded text-gray-600 mr-1">↵</span> Chọn</span>
                  </div>
-                 <span>AIDAYNE Search</span>
+                 <span>KhoAI Search</span>
               </div>
            </div>
         </div>

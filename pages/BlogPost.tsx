@@ -303,7 +303,7 @@ export const BlogPost: React.FC<BlogPostProps> = ({ addToCart }) => {
     "headline": post.title,
     "image": post.image,
     "author": { "@type": "Person", "name": post.author },
-    "publisher": { "@type": "Organization", "name": "AIDAYNE" },
+    "publisher": { "@type": "Organization", "name": "KhoAI" },
     "datePublished": post.date
   };
 

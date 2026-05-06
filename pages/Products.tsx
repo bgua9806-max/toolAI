@@ -138,53 +138,53 @@ export const ProductsPage: React.FC<ProductsPageProps> = ({ addToCart }) => {
     <main className="min-h-screen bg-[#F5F5F7] pb-20">
       
       <SEO 
-        title={selectedCategory === 'all' ? "Tất cả sản phẩm - AIDAYNE Store" : `Mua ${currentCategoryName} bản quyền giá rẻ`}
+        title={selectedCategory === 'all' ? "Tất cả sản phẩm - KhoAI Store" : `Mua ${currentCategoryName} bản quyền giá rẻ`}
         description={`Danh sách các sản phẩm ${currentCategoryName} tốt nhất. Bảo hành trọn đời, giá rẻ hơn gốc đến 70%.`}
       />
 
       {/* Premium Dark Hero Banner */}
-      <div className="relative bg-gray-950 pt-32 pb-20 mb-10 overflow-hidden rounded-b-[2.5rem] shadow-2xl shadow-gray-900/10">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_30%,rgba(0,104,255,0.25),transparent_40%),radial-gradient(circle_at_80%_80%,rgba(16,185,129,0.15),transparent_40%)]"></div>
+      <div className="relative bg-gray-950 pt-24 pb-12 md:pt-32 md:pb-20 mb-6 md:mb-10 overflow-hidden rounded-b-[2rem] md:rounded-b-[2.5rem] shadow-2xl shadow-gray-900/10">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_30%,rgba(0,104,255,0.22),transparent_38%),radial-gradient(circle_at_80%_80%,rgba(16,185,129,0.14),transparent_38%)]"></div>
         <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-            <span className="inline-block py-1.5 px-4 rounded-full bg-white/10 border border-white/10 text-blue-200 text-xs font-black uppercase tracking-widest mb-6 backdrop-blur-md">
+            <span className="inline-block py-1 px-3 md:py-1.5 md:px-4 rounded-full bg-white/10 border border-white/10 text-blue-200 text-[10px] md:text-xs font-black uppercase tracking-widest mb-4 md:mb-6 backdrop-blur-md">
                 Cửa hàng bản quyền
             </span>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-6 tracking-tight">
+            <h1 className="text-3xl md:text-5xl lg:text-6xl font-black text-white mb-3 md:mb-6 tracking-tight leading-tight">
                 Khám Phá <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-emerald-400">Giải Pháp</span>
             </h1>
-            <p className="text-gray-400 max-w-2xl mx-auto text-lg md:text-xl font-medium">Hàng trăm phần mềm và tài khoản Premium đang chờ bạn với mức giá tiết kiệm lên đến 80%.</p>
+            <p className="text-gray-400 max-w-2xl mx-auto text-sm md:text-xl font-medium leading-relaxed">Hàng trăm phần mềm và tài khoản Premium với mức giá tiết kiệm đến 80%.</p>
         </div>
       </div>
 
       {/* Control Bar */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8 relative z-20">
-          <div className="bg-white/80 backdrop-blur-xl border border-gray-200 rounded-2xl p-4 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-6 md:mb-8 relative z-20">
+          <div className="bg-white/80 backdrop-blur-xl border border-gray-200 rounded-2xl p-3 md:p-4 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-3 md:gap-4">
             
-            <div className="flex items-center gap-3 text-sm text-gray-500 font-medium">
-               <span className="cursor-pointer hover:text-blue-600 transition-colors" onClick={() => navigate('/')}>Trang chủ</span>
-               <span className="text-gray-300">/</span>
-               <span className="font-bold text-gray-900">Tất cả sản phẩm</span>
-               <span className="bg-blue-50 text-blue-700 px-2.5 py-0.5 rounded-full text-xs font-black">{filteredProducts.length} kết quả</span>
+            <div className="flex items-center gap-2 md:gap-3 text-xs md:text-sm text-gray-500 font-medium overflow-x-auto no-scrollbar whitespace-nowrap">
+               <span className="cursor-pointer hover:text-blue-600 transition-colors shrink-0" onClick={() => navigate('/')}>Trang chủ</span>
+               <span className="text-gray-300 shrink-0">/</span>
+               <span className="font-bold text-gray-900 shrink-0">Tất cả sản phẩm</span>
+               <span className="bg-blue-50 text-blue-700 px-2 py-0.5 rounded-full text-[11px] md:text-xs font-black shrink-0">{filteredProducts.length} kết quả</span>
             </div>
 
-            <div className="flex items-center gap-3">
+            <div className="grid grid-cols-[auto_1fr] md:flex md:items-center gap-2 md:gap-3 min-w-0">
               {/* Mobile Filter Trigger */}
               <button 
-                className="md:hidden flex items-center gap-2 px-4 py-2 bg-gray-100 rounded-xl text-sm font-bold text-gray-700"
+                className="md:hidden inline-flex items-center justify-center gap-1.5 px-3 py-2 bg-gray-100 rounded-xl text-xs font-bold text-gray-700 whitespace-nowrap shrink-0 leading-none"
                 onClick={() => setIsMobileFilterOpen(true)}
               >
-                <Filter size={16} /> Bộ lọc
+                <Filter size={15} /> Bộ lọc
               </button>
 
               {/* Sort Dropdown */}
-              <div className="relative group">
-                 <div className="flex items-center gap-2 px-4 py-2 bg-gray-50 hover:bg-white border border-transparent hover:border-gray-200 rounded-xl transition-all cursor-pointer">
-                    <ArrowUpDown size={14} className="text-gray-500" />
+              <div className="relative group min-w-0">
+                 <div className="flex items-center gap-1.5 md:gap-2 px-3 md:px-4 py-2 bg-gray-50 hover:bg-white border border-transparent hover:border-gray-200 rounded-xl transition-all cursor-pointer min-w-0">
+                    <ArrowUpDown size={14} className="text-gray-500 shrink-0" />
                     <select 
                       value={sortBy} 
                       onChange={(e) => setSortBy(e.target.value)}
-                      className="bg-transparent text-sm font-bold text-gray-700 outline-none cursor-pointer appearance-none pr-4"
+                      className="bg-transparent text-xs md:text-sm font-bold text-gray-700 outline-none cursor-pointer appearance-none pr-3 md:pr-4 w-full min-w-0 whitespace-nowrap"
                     >
                       <option value="default">Phổ biến nhất</option>
                       <option value="newest">Mới nhất</option>

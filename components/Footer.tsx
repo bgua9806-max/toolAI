@@ -16,7 +16,7 @@ export const Footer: React.FC = () => {
             <div className="w-full flex flex-col items-center lg:items-start">
               <Link to="/" className="inline-flex items-center gap-2 mb-2">
                 <span className="font-extrabold text-2xl text-white tracking-tighter">
-                  AIDAYNE<span className="text-primary">.com</span>
+                  KhoAI<span className="text-primary">.vn</span>
                 </span>
               </Link>
               <p className="text-gray-400/90 leading-relaxed text-[12px] sm:text-[13px] max-w-xs sm:max-w-sm">
@@ -69,7 +69,7 @@ export const Footer: React.FC = () => {
               <span className="rounded-full bg-white/[0.06] px-2.5 py-1">Momo</span>
               <span className="rounded-full bg-white/[0.06] px-2.5 py-1">ZaloPay</span>
             </div>
-            <p className="text-[10px] sm:text-[11px] text-gray-600 text-center">© 2024 AIDAYNE.com. All rights reserved.</p>
+            <p className="text-[10px] sm:text-[11px] text-gray-600 text-center">© 2024 KhoAI.vn. All rights reserved.</p>
           </div>
         </div>
       </div>

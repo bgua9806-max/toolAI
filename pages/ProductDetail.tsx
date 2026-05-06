@@ -116,12 +116,12 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({ addToCart }) => {
   const ZALO_PHONE = '0374770023';
 
   const getConsultationMessage = () => {
-      if (!product) return 'Xin chào AIDAYNE, tôi cần tư vấn sản phẩm.';
+      if (!product) return 'Xin chào KhoAI, tôi cần tư vấn sản phẩm.';
       const packageName = selectedVariant ? ` - Gói: ${selectedVariant.name}` : '';
       const referencePrice = Number.isFinite(Number(currentPrice))
           ? ` - Giá tham khảo đang hiển thị: ${new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND', maximumFractionDigits: 0 }).format(currentPrice)}`
           : '';
-      return `Xin chào AIDAYNE, tôi muốn tư vấn sản phẩm: ${product.name}${packageName}${referencePrice}. Vui lòng báo giá mới nhất và hướng dẫn kích hoạt giúp tôi.`;
+      return `Xin chào KhoAI, tôi muốn tư vấn sản phẩm: ${product.name}${packageName}${referencePrice}. Vui lòng báo giá mới nhất và hướng dẫn kích hoạt giúp tôi.`;
   };
 
   const getZaloUrl = () => `https://zalo.me/${ZALO_PHONE}?text=${encodeURIComponent(getConsultationMessage())}`;
@@ -181,7 +181,7 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({ addToCart }) => {
     "softwareVersion": product.version || "Latest",
     "brand": {
       "@type": "Brand",
-      "name": product.developer || "AIDAYNE"
+      "name": product.developer || "KhoAI"
     },
     "sku": product.id,
     "offers": {
@@ -533,11 +533,19 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({ addToCart }) => {
 
               {/* Related */}
               {relatedProducts.length > 0 && (
-                  <div>
-                      <h3 className="font-bold text-gray-900 mb-3 px-2">Có thể bạn thích</h3>
-                      <div className="flex overflow-x-auto gap-3 pb-4 no-scrollbar -mx-4 px-4 snap-x snap-mandatory">
+                  <div className="relative -mx-4 mt-2 overflow-hidden bg-white py-5 shadow-sm border-y border-gray-100">
+                      <div className="px-4 mb-3 flex items-end justify-between gap-3">
+                          <div>
+                              <h3 className="font-black text-gray-900 text-base">Có thể bạn thích</h3>
+                              <p className="text-xs text-gray-500 mt-0.5">Gợi ý cùng danh mục, kéo ngang để xem thêm</p>
+                          </div>
+                          <span className="text-[10px] font-black text-blue-600 bg-blue-50 px-2.5 py-1 rounded-full shrink-0">{relatedProducts.length} mục</span>
+                      </div>
+                      <div className="flex overflow-x-auto gap-3 pb-2 no-scrollbar px-4 snap-x snap-mandatory scroll-px-4">
                           {relatedProducts.map(p => (
-                              <MobileProductCard key={p.id} product={p} onAddToCart={addToCart} />
+                              <div key={p.id} className="shrink-0 w-[112px] min-[390px]:w-[124px] snap-start">
+                                  <MobileProductCard product={p} onAddToCart={addToCart} />
+                              </div>
                           ))}
                       </div>
                   </div>

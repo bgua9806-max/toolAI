@@ -62,7 +62,7 @@ export const Home: React.FC<HomeProps> = ({ addToCart }) => {
     "@graph": [
       {
         "@type": "Organization",
-        "name": "AIDAYNE",
+        "name": "KhoAI",
         "url": window.location.origin,
         "logo": "https://placehold.co/512x512?text=A", // REPLACE THIS with your actual logo URL
         "sameAs": [
@@ -72,7 +72,7 @@ export const Home: React.FC<HomeProps> = ({ addToCart }) => {
       },
       {
         "@type": "WebSite",
-        "name": "AIDAYNE.com",
+        "name": "KhoAI.vn",
         "url": window.location.origin,
         "potentialAction": {
           "@type": "SearchAction",
@@ -89,7 +89,7 @@ export const Home: React.FC<HomeProps> = ({ addToCart }) => {
   return (
     <main className="min-h-screen bg-[#F2F2F7] pb-24">
       <SEO 
-        title="AIDAYNE.com - Bản Quyền Phần Mềm & AI Tools Giá Rẻ" 
+        title="KhoAI.vn - Bản Quyền Phần Mềm & AI Tools Giá Rẻ" 
         description="Mua bản quyền ChatGPT Plus, Netflix, Youtube Premium, Adobe, Windows, Office giá rẻ, bảo hành trọn đời. Uy tín, giao hàng tự động 24/7."
         schema={homeSchema}
       />

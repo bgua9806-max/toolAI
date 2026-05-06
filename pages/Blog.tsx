@@ -46,7 +46,7 @@ export const Blog: React.FC = () => {
                         ? fallback!.image
                         : hasValidImage
                             ? post.image
-                            : 'https://placehold.co/1200x600?text=AIDAYNE+Blog'
+                            : 'https://placehold.co/1200x600?text=KhoAI+Blog'
                 } as BlogPost;
             });
             setPosts(enhancedPosts);

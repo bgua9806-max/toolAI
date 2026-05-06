@@ -126,7 +126,7 @@ export const AdminOrders: React.FC = () => {
           </head>
           <body>
             <div class="header">
-               <div class="logo">AIDAYNE<span style="color: #0071E3">.com</span></div>
+               <div class="logo">KhoAI<span style="color: #0071E3">.vn</span></div>
                <div class="invoice-title">Hóa đơn</div>
             </div>
             
@@ -165,7 +165,7 @@ export const AdminOrders: React.FC = () => {
             </div>
 
             <div class="footer">
-               Cảm ơn bạn đã mua sắm tại AIDAYNE.com!<br/>
+               Cảm ơn bạn đã mua sắm tại KhoAI.vn!<br/>
                Mọi thắc mắc xin liên hệ support@aidayne.com hoặc hotline 0374.770.023
             </div>
             

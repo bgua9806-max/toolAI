@@ -12,7 +12,7 @@ interface SEOProps {
 
 export const SEO: React.FC<SEOProps> = ({ 
   title, 
-  description = "AIDAYNE.com - Kho phần mềm bản quyền, AI Tools & Tài khoản Premium giá rẻ, uy tín số 1 Việt Nam.", 
+  description = "KhoAI.vn - Kho phần mềm bản quyền, AI Tools & Tài khoản Premium giá rẻ, uy tín số 1 Việt Nam.", 
   image = "https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?auto=format&fit=crop&q=80",
   url = window.location.href,
   type = 'website',
@@ -21,7 +21,7 @@ export const SEO: React.FC<SEOProps> = ({
   
   useEffect(() => {
     // 1. Update Title
-    const finalTitle = title.includes('AIDAYNE') ? title : `${title} | AIDAYNE.com`;
+    const finalTitle = title.includes('KhoAI') ? title : `${title} | KhoAI.vn`;
     document.title = finalTitle;
 
     // Helper to update or create meta tags
@@ -52,7 +52,7 @@ export const SEO: React.FC<SEOProps> = ({
     updateMeta('og:image:alt', title, 'property'); // Alt text for image
     updateMeta('og:url', url, 'property');
     updateMeta('og:type', type, 'property');
-    updateMeta('og:site_name', 'AIDAYNE.com', 'property');
+    updateMeta('og:site_name', 'KhoAI.vn', 'property');
     // Force image size hint for faster rendering on social
     updateMeta('og:image:width', '1200', 'property'); 
     updateMeta('og:image:height', '630', 'property');

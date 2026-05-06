@@ -40,7 +40,7 @@ export const Contact: React.FC = () => {
     },
     {
       question: "Chính sách bảo hành như thế nào?",
-      answer: "AIDAYNE cam kết bảo hành trọn đời cho thời gian sử dụng gói dịch vụ. Nếu có lỗi phát sinh (mất premium, lỗi key...), chúng tôi sẽ đổi mới 1-1 ngay lập tức hoặc hoàn tiền theo thời gian chưa sử dụng."
+      answer: "KhoAI cam kết bảo hành trọn đời cho thời gian sử dụng gói dịch vụ. Nếu có lỗi phát sinh (mất premium, lỗi key...), chúng tôi sẽ đổi mới 1-1 ngay lập tức hoặc hoàn tiền theo thời gian chưa sử dụng."
     },
     {
       question: "Tôi có thể đăng nhập tài khoản trên nhiều thiết bị không?",
@@ -61,7 +61,7 @@ export const Contact: React.FC = () => {
           Liên hệ & Hỗ trợ
         </h1>
         <p className="text-gray-500 text-lg max-w-2xl mx-auto">
-          Đội ngũ AIDAYNE luôn sẵn sàng lắng nghe và giải đáp mọi thắc mắc của bạn 24/7.
+          Đội ngũ KhoAI luôn sẵn sàng lắng nghe và giải đáp mọi thắc mắc của bạn 24/7.
         </p>
       </div>
 

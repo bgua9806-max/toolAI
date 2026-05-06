@@ -237,7 +237,7 @@ export const AdminBlogEditor: React.FC = () => {
                             <span className="font-bold text-[10px] text-gray-500">A</span>
                         </div>
                         <div className="flex flex-col">
-                            <span className="text-[11px] text-gray-800 font-medium leading-none">AIDAYNE.com</span>
+                            <span className="text-[11px] text-gray-800 font-medium leading-none">KhoAI.vn</span>
                             <span className="text-[10px] text-gray-500 leading-none mt-0.5">blog › {post.slug || 'slug-bai-viet'}</span>
                         </div>
                     </div>

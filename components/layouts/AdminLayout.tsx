@@ -67,7 +67,7 @@ export const AdminLayout: React.FC = () => {
         <div className={`h-16 lg:h-20 flex items-center border-b border-gray-100 shrink-0 transition-all ${isCollapsed ? 'justify-center px-0' : 'justify-between px-5 lg:px-6'}`}>
              {!isCollapsed && (
                  <span className="font-extrabold text-xl lg:text-2xl tracking-tighter text-gray-900 animate-fade-in">
-                    AIDAYNE<span className="text-primary">.Admin</span>
+                    KhoAI<span className="text-primary">.Admin</span>
                  </span>
              )}
              {isCollapsed && (
