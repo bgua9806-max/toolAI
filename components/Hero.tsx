@@ -86,13 +86,13 @@ export const Hero: React.FC = () => {
   }, [currentSlide, isPaused, slides.length, nextSlide]);
 
   if (loading) {
-    return <div className="pt-24 lg:pt-32 pb-8 lg:pb-12 px-4 max-w-[1440px] mx-auto h-[200px] sm:h-[350px] md:h-[480px] bg-gray-100 rounded-[2rem] lg:rounded-[2.5rem] animate-pulse"></div>;
+    return <div className="pt-32 sm:pt-28 lg:pt-32 pb-8 lg:pb-12 px-4 max-w-[1440px] mx-auto h-[200px] sm:h-[350px] md:h-[480px] bg-gray-100 rounded-[2rem] lg:rounded-[2.5rem] animate-pulse"></div>;
   }
 
   if (slides.length === 0) return null;
 
   return (
-    <div className="pt-24 lg:pt-32 pb-6 lg:pb-12 px-3 sm:px-6 lg:px-8 max-w-[1440px] mx-auto">
+    <div className="pt-32 sm:pt-28 lg:pt-32 pb-6 lg:pb-12 px-3 sm:px-6 lg:px-8 max-w-[1440px] mx-auto">
       {/* 
          Mobile Height: h-[200px]
          Tablet Height: sm:h-[350px]
