@@ -79,8 +79,8 @@ export const Contact: React.FC = () => {
                    <div>
                       <h3 className="font-bold text-gray-900 text-lg mb-1">Hotline / Zalo</h3>
                       <p className="text-gray-500 text-sm mb-2">Hỗ trợ kỹ thuật & Tư vấn mua hàng</p>
-                      <a href="https://zalo.me/0374770023" target="_blank" rel="noreferrer" className="text-xl font-bold text-primary hover:underline block">0374.770.023</a>
-                      <a href="https://zalo.me/0374770023" target="_blank" rel="noreferrer" className="text-xs font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded-md inline-block mt-1 hover:bg-blue-100">Chat Zalo Ngay</a>
+                      <a href="https://zalo.me/g/bguamkuy0hcgjpvf9kyp" target="_blank" rel="noreferrer" className="text-xl font-bold text-primary hover:underline block">0374.770.023</a>
+                      <a href="https://zalo.me/g/bguamkuy0hcgjpvf9kyp" target="_blank" rel="noreferrer" className="text-xs font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded-md inline-block mt-1 hover:bg-blue-100">Chat Zalo Ngay</a>
                    </div>
                 </div>
 

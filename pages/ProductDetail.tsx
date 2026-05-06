@@ -113,7 +113,7 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({ addToCart }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const ZALO_PHONE = '0374770023';
+  const ZALO_GROUP_URL = 'https://zalo.me/g/bguamkuy0hcgjpvf9kyp';
 
   const getConsultationMessage = () => {
       if (!product) return 'Xin chào KhoAI, tôi cần tư vấn sản phẩm.';
@@ -124,7 +124,7 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({ addToCart }) => {
       return `Xin chào KhoAI, tôi muốn tư vấn sản phẩm: ${product.name}${packageName}${referencePrice}. Vui lòng báo giá mới nhất và hướng dẫn kích hoạt giúp tôi.`;
   };
 
-  const getZaloUrl = () => `https://zalo.me/${ZALO_PHONE}?text=${encodeURIComponent(getConsultationMessage())}`;
+  const getZaloUrl = () => ZALO_GROUP_URL;
 
   const openZaloConsultation = () => {
       window.open(getZaloUrl(), '_blank', 'noopener,noreferrer');

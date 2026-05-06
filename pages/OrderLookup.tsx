@@ -176,7 +176,7 @@ export const OrderLookup: React.FC = () => {
             <div className="mt-6 bg-white rounded-[2rem] p-6 shadow-sm border border-gray-100 text-center lg:hidden">
                <p className="text-sm text-gray-500 mb-3">Gặp khó khăn khi tra cứu?</p>
                <a 
-                 href="https://zalo.me/0374770023" 
+                 href="https://zalo.me/g/bguamkuy0hcgjpvf9kyp" 
                  target="_blank" 
                  rel="noreferrer" 
                  className="inline-flex items-center gap-1.5 text-primary font-bold text-sm hover:underline"

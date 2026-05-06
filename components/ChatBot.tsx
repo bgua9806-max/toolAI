@@ -310,12 +310,12 @@ export const ChatBot: React.FC = () => {
         {/* Input Area */}
         <div className="bg-white border-t border-gray-100 p-2 pb-4">
            {/* Quick Replies */}
-           <div className="flex gap-2 overflow-x-auto no-scrollbar pb-3 px-2 mb-1">
+            <div className="flex gap-1.5 overflow-x-auto overflow-y-hidden no-scrollbar pb-2 px-1.5 mb-1 max-w-full snap-x touch-pan-x [-webkit-overflow-scrolling:touch]">
                {QUICK_REPLIES.map((reply, idx) => (
                    <button 
                       key={idx}
                       onClick={() => handleSend(reply)}
-                      className="whitespace-nowrap px-3 py-1.5 bg-gray-50 hover:bg-primary/10 hover:text-primary hover:border-primary/20 border border-gray-200 rounded-full text-xs font-bold text-gray-600 transition-all active:scale-95"
+                      className="snap-start shrink-0 whitespace-nowrap max-w-[132px] truncate px-2.5 py-1.5 bg-gray-50 hover:bg-primary/10 hover:text-primary hover:border-primary/20 border border-gray-200 rounded-full text-[11px] sm:text-xs font-bold text-gray-600 transition-all active:scale-95 shadow-sm"
                    >
                       {reply}
                    </button>
@@ -328,7 +328,7 @@ export const ChatBot: React.FC = () => {
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 placeholder="Nhập tên phần mềm..." 
-                className="flex-1 bg-gray-100 text-gray-900 placeholder-gray-500 rounded-[1.5rem] pl-5 pr-12 py-3.5 text-base focus:outline-none focus:ring-2 focus:ring-primary/20 focus:bg-white transition-all font-medium"
+                className="flex-1 min-w-0 bg-gray-100 text-gray-900 placeholder-gray-500 rounded-[1.5rem] pl-5 pr-12 py-3.5 text-base focus:outline-none focus:ring-2 focus:ring-primary/20 focus:bg-white transition-all font-medium"
               />
               <button 
                 type="submit" 

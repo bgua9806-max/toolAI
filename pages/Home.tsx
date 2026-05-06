@@ -77,7 +77,7 @@ export const Home: React.FC<HomeProps> = ({ addToCart }) => {
         "logo": "https://placehold.co/512x512?text=A", // REPLACE THIS with your actual logo URL
         "sameAs": [
           "https://www.facebook.com/profile.php?id=61552104173388&locale=vi_VN",
-          "https://zalo.me/0374770023"
+          "https://zalo.me/g/bguamkuy0hcgjpvf9kyp"
         ]
       },
       {

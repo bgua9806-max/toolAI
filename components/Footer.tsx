@@ -23,7 +23,7 @@ export const Footer: React.FC = () => {
                 Bản quyền phần mềm & giải trí số uy tín. Tư vấn nhanh qua Zalo, hỗ trợ kích hoạt trực tiếp.
               </p>
               <div className="hidden lg:flex justify-center lg:justify-start gap-2.5 mt-4">
-                <a href="https://zalo.me/0374770023" target="_blank" rel="noreferrer" className="px-4 h-9 rounded-full bg-[#0068FF] flex items-center justify-center text-white font-extrabold text-xs shadow-lg shadow-blue-500/20 hover:bg-blue-600 active:scale-95 transition-all">Zalo tư vấn</a>
+                <a href="https://zalo.me/g/bguamkuy0hcgjpvf9kyp" target="_blank" rel="noreferrer" className="px-4 h-9 rounded-full bg-[#0068FF] flex items-center justify-center text-white font-extrabold text-xs shadow-lg shadow-blue-500/20 hover:bg-blue-600 active:scale-95 transition-all">Zalo tư vấn</a>
                 <a href="https://www.facebook.com/profile.php?id=61552104173388&locale=vi_VN" target="_blank" rel="noreferrer" className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center hover:bg-[#1877F2] active:scale-95 transition-colors text-white"><Facebook size={14} /></a>
                 <a href="https://instagram.com" target="_blank" rel="noreferrer" className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center hover:bg-primary active:scale-95 transition-colors text-white"><Instagram size={14} /></a>
               </div>
@@ -44,7 +44,7 @@ export const Footer: React.FC = () => {
                 <ul className="space-y-2 text-[12px] sm:text-[13px]">
                   <li><Link to="/contact" className="block py-1 hover:text-white transition-colors">Liên hệ</Link></li>
                   <li><Link to="/blog" className="block py-1 hover:text-white transition-colors">Hướng dẫn</Link></li>
-                  <li><a href="https://zalo.me/0374770023" target="_blank" rel="noreferrer" className="block py-1 hover:text-white transition-colors">Bảo hành</a></li>
+                  <li><a href="https://zalo.me/g/bguamkuy0hcgjpvf9kyp" target="_blank" rel="noreferrer" className="block py-1 hover:text-white transition-colors">Bảo hành</a></li>
                 </ul>
               </div>
             </div>
@@ -53,7 +53,7 @@ export const Footer: React.FC = () => {
             <div className="w-full rounded-2xl bg-white/[0.04] border border-white/10 p-4 lg:p-0 lg:bg-transparent lg:border-0">
               <h3 className="text-white font-extrabold mb-3 text-[10px] uppercase tracking-[0.18em]">Liên hệ nhanh</h3>
               <div className="grid gap-2 text-[12px] sm:text-[13px]">
-                <a href="https://zalo.me/0374770023" target="_blank" rel="noreferrer" className="flex items-center justify-center lg:justify-start gap-2.5 rounded-xl bg-black/20 lg:bg-transparent px-3 py-2.5 lg:p-0 hover:text-white transition-colors">
+                <a href="https://zalo.me/g/bguamkuy0hcgjpvf9kyp" target="_blank" rel="noreferrer" className="flex items-center justify-center lg:justify-start gap-2.5 rounded-xl bg-black/20 lg:bg-transparent px-3 py-2.5 lg:p-0 hover:text-white transition-colors">
                   <Phone size={15} className="text-primary" /> 0374.770.023 (Zalo)
                 </a>
                 <a href="mailto:support@aidayne.com" className="flex items-center justify-center lg:justify-start gap-2.5 rounded-xl bg-black/20 lg:bg-transparent px-3 py-2.5 lg:p-0 hover:text-white transition-colors">
