@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720">
+  <defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#020617"/><stop offset="0.55" stop-color="#0f766e"/><stop offset="1" stop-color="#14b8a6"/></linearGradient><filter id="shadow"><feDropShadow dx="0" dy="28" stdDeviation="28" flood-opacity="0.3"/></filter></defs>
+  <rect width="1200" height="720" rx="56" fill="url(#bg)"/>
+  <path d="M70 515 C260 365 420 610 610 440 S920 250 1140 390" stroke="#99f6e4" stroke-width="3" opacity="0.35" fill="none"/>
+  <g filter="url(#shadow)">
+    <circle cx="350" cy="350" r="165" fill="#ecfeff" opacity="0.95"/>
+    <path d="M350 195 C455 250 500 250 500 250 C488 405 428 475 350 520 C272 475 212 405 200 250 C200 250 245 250 350 195Z" fill="#0f766e"/>
+    <path d="M292 354 L334 396 L423 302" stroke="#fff" stroke-width="28" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  </g>
+  <text x="600" y="300" font-family="Inter,Arial,sans-serif" font-size="80" font-weight="900" fill="#fff">VPN Security</text>
+  <text x="604" y="372" font-family="Inter,Arial,sans-serif" font-size="38" font-weight="800" fill="#ccfbf1">ExpressVPN • NordVPN • Surfshark</text>
+  <text x="606" y="432" font-family="Inter,Arial,sans-serif" font-size="24" font-weight="700" fill="#a7f3d0">Protect your digital life</text>
+</svg>

@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720">
+  <defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff0033"/><stop offset="0.5" stop-color="#db2777"/><stop offset="1" stop-color="#f97316"/></linearGradient><filter id="shadow"><feDropShadow dx="0" dy="28" stdDeviation="28" flood-opacity="0.26"/></filter></defs>
+  <rect width="1200" height="720" rx="56" fill="url(#bg)"/>
+  <circle cx="920" cy="150" r="210" fill="#fff" opacity="0.16"/>
+  <circle cx="180" cy="650" r="260" fill="#000" opacity="0.14"/>
+  <g filter="url(#shadow)">
+    <rect x="148" y="190" width="460" height="290" rx="42" fill="#111827"/>
+    <polygon points="325,280 325,390 430,335" fill="#fff"/>
+    <rect x="195" y="512" width="365" height="22" rx="11" fill="#fff" opacity="0.82"/>
+    <rect x="195" y="548" width="230" height="16" rx="8" fill="#fff" opacity="0.45"/>
+  </g>
+  <text x="675" y="292" font-family="Inter,Arial,sans-serif" font-size="72" font-weight="900" fill="#fff">YouTube</text>
+  <text x="675" y="360" font-family="Inter,Arial,sans-serif" font-size="56" font-weight="900" fill="#fff">Premium</text>
+  <text x="675" y="430" font-family="Inter,Arial,sans-serif" font-size="25" font-weight="700" fill="#fee2e2">Ad-free, safer, official</text>
+</svg>

@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7c3aed"/><stop offset="0.5" stop-color="#ec4899"/><stop offset="1" stop-color="#fb923c"/></linearGradient>
+    <radialGradient id="shine" cx="30%" cy="20%" r="60%"><stop offset="0" stop-color="#fff" stop-opacity="0.45"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+    <filter id="shadow"><feDropShadow dx="0" dy="26" stdDeviation="24" flood-opacity="0.24"/></filter>
+  </defs>
+  <rect width="1200" height="720" rx="56" fill="url(#bg)"/>
+  <rect width="1200" height="720" rx="56" fill="url(#shine)"/>
+  <g filter="url(#shadow)">
+    <rect x="150" y="130" width="410" height="460" rx="38" fill="#fff" opacity="0.96"/>
+    <rect x="196" y="188" width="318" height="180" rx="24" fill="#fdf2f8"/>
+    <circle cx="275" cy="278" r="42" fill="#ec4899"/>
+    <rect x="340" y="232" width="120" height="22" rx="11" fill="#111827" opacity="0.85"/>
+    <rect x="340" y="274" width="142" height="16" rx="8" fill="#9ca3af"/>
+    <rect x="340" y="306" width="98" height="16" rx="8" fill="#d1d5db"/>
+    <rect x="196" y="410" width="140" height="110" rx="22" fill="#a78bfa"/>
+    <rect x="374" y="410" width="140" height="110" rx="22" fill="#f472b6"/>
+  </g>
+  <text x="635" y="295" font-family="Inter,Arial,sans-serif" font-size="78" font-weight="900" fill="#fff">Canva Pro</text>
+  <text x="638" y="368" font-family="Inter,Arial,sans-serif" font-size="42" font-weight="800" fill="#fff7ed">Design slides like a pro</text>
+  <text x="638" y="430" font-family="Inter,Arial,sans-serif" font-size="24" font-weight="700" fill="#ffe4e6">AIDAYNE.com Tutorial</text>
+</svg>

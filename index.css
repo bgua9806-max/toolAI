@@ -1,0 +1,87 @@
+/* Global UI hardening for AIDAYNE.com
+   Keeps the Tailwind CDN setup, but patches display issues that can surface
+   across pages and mobile browsers. */
+
+:root {
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+html {
+  width: 100%;
+  min-height: 100%;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  width: 100%;
+  min-width: 320px;
+  min-height: 100%;
+  overflow-x: hidden;
+}
+
+#root {
+  min-height: 100vh;
+  overflow-x: clip;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+img,
+svg,
+video,
+canvas {
+  max-width: 100%;
+}
+
+img {
+  height: auto;
+}
+
+button,
+a,
+[role="button"] {
+  -webkit-tap-highlight-color: transparent;
+}
+
+input,
+select,
+textarea,
+button {
+  font: inherit;
+}
+
+input,
+select,
+textarea {
+  font-size: 16px !important;
+}
+
+.safe-area-bottom {
+  padding-bottom: calc(1.5rem + var(--safe-bottom)) !important;
+}
+
+@media (max-width: 767px) {
+  body {
+    overscroll-behavior-y: auto;
+  }
+
+  button,
+  [role="button"],
+  .touch-target {
+    min-width: 44px;
+    min-height: 44px;
+  }
+}
+
+@media (hover: none) {
+  .hover-scale:hover {
+    transform: none;
+  }
+}
