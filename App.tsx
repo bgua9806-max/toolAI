@@ -30,6 +30,7 @@ import { AdminFlashSale } from './pages/admin/AdminFlashSale';
 import { AdminCustomers } from './pages/admin/AdminCustomers';
 import { AdminHero } from './pages/admin/AdminHero';
 import { AdminReviews } from './pages/admin/AdminReviews';
+import { AdminSettings } from './pages/admin/AdminSettings';
 
 const { BrowserRouter: Router, Routes, Route, Navigate } = ReactRouterDOM;
 
@@ -139,6 +140,7 @@ function AppContent() {
              <Route path="blog/edit/:id" element={<AdminBlogEditor />} /> 
              <Route path="customers" element={<AdminCustomers />} />
              <Route path="hero" element={<AdminHero />} />
+             <Route path="settings" element={<AdminSettings />} />
           </Route>
 
           {/* Public Routes */}

@@ -25,13 +25,15 @@ export const ProductsPage: React.FC<ProductsPageProps> = ({ addToCart }) => {
   const initialCategory = searchParams.get('category');
   const initialSort = searchParams.get('sort') || 'default';
   const initialSearch = searchParams.get('q') || '';
+  const isFlashSalePage = searchParams.get('flashSale') === 'true';
 
   // State
   const [products, setProducts] = useState<Product[]>([]);
+  const [flashSaleProductIds, setFlashSaleProductIds] = useState<Set<string>>(new Set());
   const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState<string>(initialCategory || 'all');
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 5000000]);
-  const [sortBy, setSortBy] = useState<string>(initialSort);
+  const [sortBy, setSortBy] = useState<string>(isFlashSalePage ? 'price-asc' : initialSort);
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState(initialSearch);
 
@@ -45,15 +47,28 @@ export const ProductsPage: React.FC<ProductsPageProps> = ({ addToCart }) => {
     const fetchProducts = async () => {
       setLoading(true);
       try {
-        const { data, error } = await supabase.from('products').select('*');
-        if (error) throw error;
+        const [productsRes, flashSalesRes] = await Promise.all([
+          supabase.from('products').select('*'),
+          supabase
+            .from('flash_sales')
+            .select('product_id, end_time')
+            .eq('is_active', true)
+        ]);
+
+        if (productsRes.error) throw productsRes.error;
         
-        if (data && data.length > 0) {
-            const enhancedData = data.map((p: Product) => normalizeProductImage(p));
+        if (productsRes.data && productsRes.data.length > 0) {
+            const enhancedData = productsRes.data.map((p: Product) => normalizeProductImage(p));
             setProducts(enhancedData);
         } else {
             setProducts(FALLBACK_PRODUCTS);
         }
+
+        const now = new Date();
+        const activeFlashIds = (flashSalesRes.data || [])
+          .filter((sale: any) => new Date(sale.end_time) >= now)
+          .map((sale: any) => sale.product_id);
+        setFlashSaleProductIds(new Set(activeFlashIds));
       } catch (err) {
         console.error(err);
         setProducts(FALLBACK_PRODUCTS);
@@ -74,7 +89,12 @@ export const ProductsPage: React.FC<ProductsPageProps> = ({ addToCart }) => {
   const filteredProducts = useMemo(() => {
     let result = products;
 
-    // 1. Filter by Category FIRST (Strict Scope)
+    // 1. Filter by Flash Sale when opening /products?flashSale=true
+    if (isFlashSalePage) {
+      result = result.filter(p => flashSaleProductIds.has(p.id));
+    }
+
+    // 2. Filter by Category FIRST (Strict Scope)
     if (selectedCategory !== 'all') {
       result = result.filter(p => p.category === selectedCategory);
     }
@@ -100,19 +120,24 @@ export const ProductsPage: React.FC<ProductsPageProps> = ({ addToCart }) => {
     result = result.filter(p => p.price >= priceRange[0] && p.price <= priceRange[1]);
 
     // 4. Sort
+    const byHotPriority = (a: Product, b: Product) => {
+      if (!!a.isHot !== !!b.isHot) return a.isHot ? -1 : 1;
+      return 0;
+    };
+
     switch (sortBy) {
       case 'price-asc':
-        return [...result].sort((a, b) => a.price - b.price);
+        return [...result].sort((a, b) => byHotPriority(a, b) || a.price - b.price);
       case 'price-desc':
-        return [...result].sort((a, b) => b.price - a.price);
+        return [...result].sort((a, b) => byHotPriority(a, b) || b.price - a.price);
       case 'name-asc':
-        return [...result].sort((a, b) => a.name.localeCompare(b.name));
+        return [...result].sort((a, b) => byHotPriority(a, b) || a.name.localeCompare(b.name));
       case 'newest':
-          return [...result].sort((a, b) => (b.isNew === a.isNew) ? 0 : b.isNew ? 1 : -1);
+          return [...result].sort((a, b) => byHotPriority(a, b) || ((b.isNew === a.isNew) ? 0 : b.isNew ? 1 : -1));
       default: // Popularity / Sold
-        return [...result].sort((a, b) => b.sold - a.sold);
+        return [...result].sort((a, b) => byHotPriority(a, b) || b.sold - a.sold);
     }
-  }, [selectedCategory, priceRange, sortBy, searchQuery, products]);
+  }, [selectedCategory, priceRange, sortBy, searchQuery, products, isFlashSalePage, flashSaleProductIds]);
 
   // Update URL when filters change
   const handleCategoryChange = (catId: string) => {
@@ -138,8 +163,8 @@ export const ProductsPage: React.FC<ProductsPageProps> = ({ addToCart }) => {
     <main className="min-h-screen bg-[#F5F5F7] pb-20">
       
       <SEO 
-        title={selectedCategory === 'all' ? "Tất cả sản phẩm - KhoAI Store" : `Mua ${currentCategoryName} bản quyền giá rẻ`}
-        description={`Danh sách các sản phẩm ${currentCategoryName} tốt nhất. Bảo hành trọn đời, giá rẻ hơn gốc đến 70%.`}
+        title={isFlashSalePage ? "Flash Sale - Sản phẩm đang giảm giá" : selectedCategory === 'all' ? "Tất cả sản phẩm - KhoAI Store" : `Mua ${currentCategoryName} bản quyền giá rẻ`}
+        description={isFlashSalePage ? "Danh sách sản phẩm đang Flash Sale tại KhoAI.vn. Săn deal giá sốc, số lượng có hạn." : `Danh sách các sản phẩm ${currentCategoryName} tốt nhất. Bảo hành trọn đời, giá rẻ hơn gốc đến 70%.`}
       />
 
       {/* Premium Dark Hero Banner */}
@@ -151,7 +176,15 @@ export const ProductsPage: React.FC<ProductsPageProps> = ({ addToCart }) => {
                 Cửa hàng bản quyền
             </span>
             <h1 className="text-3xl md:text-5xl lg:text-6xl font-black text-white mb-3 md:mb-6 tracking-tight leading-tight">
-                Khám Phá <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-emerald-400">Giải Pháp</span>
+                {isFlashSalePage ? (
+                  <>
+                    Flash Sale <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-red-400">Đang Diễn Ra</span>
+                  </>
+                ) : (
+                  <>
+                    Khám Phá <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-emerald-400">Giải Pháp</span>
+                  </>
+                )}
             </h1>
             <p className="text-gray-400 max-w-2xl mx-auto text-sm md:text-xl font-medium leading-relaxed">Hàng trăm phần mềm và tài khoản Premium với mức giá tiết kiệm đến 80%.</p>
         </div>
@@ -164,7 +197,7 @@ export const ProductsPage: React.FC<ProductsPageProps> = ({ addToCart }) => {
             <div className="flex items-center gap-2 md:gap-3 text-xs md:text-sm text-gray-500 font-medium overflow-x-auto no-scrollbar whitespace-nowrap">
                <span className="cursor-pointer hover:text-blue-600 transition-colors shrink-0" onClick={() => navigate('/')}>Trang chủ</span>
                <span className="text-gray-300 shrink-0">/</span>
-               <span className="font-bold text-gray-900 shrink-0">Tất cả sản phẩm</span>
+               <span className="font-bold text-gray-900 shrink-0">{isFlashSalePage ? 'Flash Sale' : 'Tất cả sản phẩm'}</span>
                <span className="bg-blue-50 text-blue-700 px-2 py-0.5 rounded-full text-[11px] md:text-xs font-black shrink-0">{filteredProducts.length} kết quả</span>
             </div>
 

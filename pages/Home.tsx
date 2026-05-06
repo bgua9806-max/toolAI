@@ -19,6 +19,14 @@ interface HomeProps {
   addToCart: (product: Product) => void;
 }
 
+const sortProductsByPriority = (items: Product[]) => {
+  return [...items].sort((a, b) => {
+    if (!!a.isHot !== !!b.isHot) return a.isHot ? -1 : 1;
+    if ((b.rating || 0) !== (a.rating || 0)) return (b.rating || 0) - (a.rating || 0);
+    return (b.sold || 0) - (a.sold || 0);
+  });
+};
+
 export const Home: React.FC<HomeProps> = ({ addToCart }) => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
@@ -35,13 +43,13 @@ export const Home: React.FC<HomeProps> = ({ addToCart }) => {
         
         if (data && data.length > 0) {
           const enhancedData = (data as any[]).map((p: Product) => normalizeProductImage(p));
-          setProducts(enhancedData);
+          setProducts(sortProductsByPriority(enhancedData));
         } else {
-          setProducts(FALLBACK_PRODUCTS);
+          setProducts(sortProductsByPriority(FALLBACK_PRODUCTS));
         }
       } catch (error) {
         console.error('Error fetching products:', error);
-        setProducts(FALLBACK_PRODUCTS);
+        setProducts(sortProductsByPriority(FALLBACK_PRODUCTS));
       } finally {
         setLoading(false);
       }
@@ -52,7 +60,9 @@ export const Home: React.FC<HomeProps> = ({ addToCart }) => {
   
   // Logic lọc sản phẩm
   const hotCandidates = products.filter(p => p.isHot || p.rating >= 4.9);
-  const hotProducts = Array.from(new Map<string, Product>(hotCandidates.map((item) => [item.id, item])).values()).slice(0, 10);
+  const hotProducts = sortProductsByPriority(
+    Array.from(new Map<string, Product>(hotCandidates.map((item) => [item.id, item])).values())
+  ).slice(0, 10);
   
   const newProducts = products.filter(p => p.isNew || (typeof p.id === 'string' && parseInt(p.id) > 8));
 

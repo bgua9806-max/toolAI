@@ -377,12 +377,12 @@ export const AdminProducts: React.FC = () => {
 
        {/* MODAL EDITOR - FIXED LAYOUT & IMPROVED UX */}
        {isModalOpen && (
-        <div className="fixed inset-0 z-[100] flex items-stretch sm:items-center justify-center p-0 sm:p-6">
-           {/* Backdrop */}
-           <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setIsModalOpen(false)}></div>
-           
-           {/* Modal Layout: Pure Flex Column with Fixed Height Constraints */}
-           <div className="bg-white rounded-none sm:rounded-[2rem] w-full sm:max-w-5xl h-full sm:h-[90vh] sm:max-h-[900px] flex flex-col relative z-10 shadow-2xl animate-fade-in-up overflow-hidden">
+         <div className="fixed inset-0 z-[9999] flex items-stretch sm:items-center justify-center p-0 sm:p-6 isolate">
+            {/* Backdrop */}
+            <div className="fixed inset-0 bg-black/65 backdrop-blur-sm" onClick={() => setIsModalOpen(false)}></div>
+            
+            {/* Modal Layout: Pure Flex Column with Fixed Height Constraints */}
+            <div className="bg-white rounded-none sm:rounded-[2rem] w-full sm:max-w-5xl h-[100dvh] sm:h-[90dvh] sm:max-h-[900px] flex flex-col relative z-[10000] shadow-2xl animate-fade-in-up overflow-hidden">
               
               {/* 1. Header (Fixed, no shrink) */}
               <div className="px-4 sm:px-8 py-4 sm:py-5 border-b border-gray-100 flex items-center justify-between bg-white shrink-0 z-20">

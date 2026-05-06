@@ -39,71 +39,73 @@ export const AdminDashboard: React.FC = () => {
   const [lastHeartbeat, setLastHeartbeat] = useState<string | null>(null);
 
   const fetchStats = async () => {
+    setLoading(true);
+
     try {
-      setLoading(true);
-      
-      // 1. Fetch Basic Counts (Parallel)
-      const [productsRes, customersRes, ordersRes] = await Promise.all([
-        supabase.from('products').select('*', { count: 'exact', head: true }),
-        supabase.from('customers').select('*', { count: 'exact', head: true }),
-        supabase.from('orders').select('*').order('created_at', { ascending: false }).limit(100) // Fetch last 100 orders for calc
+      // Run all dashboard queries in parallel so the admin screen can hydrate faster.
+      const [productsRes, customersRes, ordersRes, heartbeatRes] = await Promise.all([
+        supabase.from('products').select('id', { count: 'exact', head: true }),
+        supabase.from('customers').select('id', { count: 'exact', head: true }),
+        supabase
+          .from('orders')
+          .select('id, customer_name, created_at, status, total')
+          .order('created_at', { ascending: false })
+          .limit(50),
+        supabase
+          .from('keep_alive')
+          .select('created_at')
+          .order('created_at', { ascending: false })
+          .limit(1)
+          .then((res) => res)
+          .catch(() => ({ data: null }))
       ]);
 
-      // 2. Fetch Heartbeat
-      const { data: hb } = await supabase.from('keep_alive').select('created_at').order('created_at', { ascending: false }).limit(1);
-      if (hb && hb[0]) setLastHeartbeat(new Date(hb[0].created_at).toLocaleString('vi-VN'));
+      if (heartbeatRes.data?.[0]) {
+        setLastHeartbeat(new Date(heartbeatRes.data[0].created_at).toLocaleString('vi-VN'));
+      }
 
       const orders = ordersRes.data || [];
-      
-      // 3. Calculate Revenue (Only completed orders)
       const totalRevenue = orders
         .filter((o: any) => o.status === 'completed')
         .reduce((sum: number, o: any) => sum + (o.total || 0), 0);
 
-      // 4. Set Stats
       setStats({
         revenue: totalRevenue,
-        orders: orders.length, // Displaying fetched count, ideally should be total count from DB
+        orders: orders.length,
         products: productsRes.count || 0,
         customers: customersRes.count || 0
       });
 
-      // 5. Recent Orders
       setRecentOrders(orders.slice(0, 5));
 
-      // 6. Process Chart Data (Last 7 Days Revenue)
       const days = 7;
       const chart: typeof chartData = [];
       const now = new Date();
-      
+
       for (let i = days - 1; i >= 0; i--) {
-          const d = new Date(now);
-          d.setDate(d.getDate() - i);
-          const dateStr = d.toLocaleDateString('en-GB'); // DD/MM/YYYY
-          
-          // Sum revenue for this day
-          const dayRevenue = orders
-            .filter((o: any) => 
-                new Date(o.created_at).toLocaleDateString('en-GB') === dateStr && 
-                o.status === 'completed'
-            )
-            .reduce((sum: number, o: any) => sum + (o.total || 0), 0);
-            
-          chart.push({
-              date: dateStr.slice(0, 5), // DD/MM
-              value: dayRevenue,
-              height: '0%' // Will calculate below
-          });
+        const d = new Date(now);
+        d.setDate(d.getDate() - i);
+        const dateStr = d.toLocaleDateString('en-GB');
+
+        const dayRevenue = orders
+          .filter((o: any) =>
+            new Date(o.created_at).toLocaleDateString('en-GB') === dateStr &&
+            o.status === 'completed'
+          )
+          .reduce((sum: number, o: any) => sum + (o.total || 0), 0);
+
+        chart.push({
+          date: dateStr.slice(0, 5),
+          value: dayRevenue,
+          height: '0%'
+        });
       }
 
-      // Normalize heights
       const maxVal = Math.max(...chart.map(c => c.value)) || 1;
-      const finalChart = chart.map(c => ({
-          ...c,
-          height: `${Math.max(Math.round((c.value / maxVal) * 100), 5)}%` // Min 5% height
-      }));
-      setChartData(finalChart);
-
+      setChartData(chart.map(c => ({
+        ...c,
+        height: `${Math.max(Math.round((c.value / maxVal) * 100), 5)}%`
+      })));
     } catch (error) {
       console.error("Dashboard Error:", error);
     } finally {

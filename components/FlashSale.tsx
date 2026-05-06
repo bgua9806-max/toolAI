@@ -38,8 +38,7 @@ export const FlashSale: React.FC<FlashSaleProps> = ({ addToCart }) => {
           .from('flash_sales')
           .select('*')
           .eq('is_active', true)
-          .order('end_time', { ascending: true })
-          .limit(8);
+          .order('end_time', { ascending: true });
 
         if (salesData && !error && salesData.length > 0) {
              const now = new Date();
@@ -54,8 +53,9 @@ export const FlashSale: React.FC<FlashSaleProps> = ({ addToCart }) => {
 
              // 3. Merge dữ liệu thông minh (DB + Fallback)
              const mergedItems = salesData.map(sale => {
-                 // Bỏ qua nếu đã hết hạn
-                 if (new Date(sale.end_time) < now) return null;
+                  // Tự động ẩn slot đã quá thời gian sale.
+                  // Chỉ các sản phẩm active và còn hạn mới được hiển thị ngoài storefront.
+                  if (new Date(sale.end_time).getTime() <= now.getTime()) return null;
 
                  // Tìm sản phẩm trong DB
                  let dbProduct = dbProducts?.find(p => p.id === sale.product_id);
@@ -76,7 +76,22 @@ export const FlashSale: React.FC<FlashSaleProps> = ({ addToCart }) => {
                     finalProduct = fallbackProduct;
                  }
 
-                 if (!finalProduct) return null;
+                  if (!finalProduct) {
+                     console.warn(`Flash Sale product not found: ${sale.product_id}`);
+                     finalProduct = {
+                        id: sale.product_id,
+                        name: 'Sản phẩm Flash Sale',
+                        description: 'Sản phẩm đang được cấu hình trong Flash Sale.',
+                        price: 0,
+                        originalPrice: 0,
+                        discount: sale.discount_percent,
+                        image: 'https://via.placeholder.com/300?text=Flash+Sale',
+                        category: 'flash-sale',
+                        rating: 5,
+                        sold: sale.quantity_sold || 0,
+                        isActive: true
+                     } as Product;
+                  }
 
                  // Đảm bảo luôn có ảnh placeholder nếu cả 2 đều thiếu
                  if (!finalProduct.image) {
@@ -89,7 +104,7 @@ export const FlashSale: React.FC<FlashSaleProps> = ({ addToCart }) => {
                  };
              }).filter((item): item is FlashSaleItem => item !== null); // Lọc bỏ null
              
-             setItems(mergedItems.slice(0, 4)); // Chỉ lấy 4 item đầu tiên hợp lệ
+             setItems(mergedItems); // Hiển thị đầy đủ sản phẩm Flash Sale active và còn hạn
         } else {
              setItems([]);
         }
@@ -134,127 +149,126 @@ export const FlashSale: React.FC<FlashSaleProps> = ({ addToCart }) => {
   if (!loading && items.length === 0) return null;
 
   return (
-    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12 lg:mb-20 animate-fade-in-up">
-      <div className="bg-white rounded-[2rem] lg:rounded-[2.5rem] p-6 lg:p-8 shadow-soft border border-gray-100 overflow-hidden relative">
+    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8 lg:mb-20 animate-fade-in-up">
+      <div className="bg-gradient-to-br from-orange-50 via-white to-red-50 rounded-[1.5rem] lg:rounded-[2.5rem] p-4 lg:p-8 shadow-soft border border-orange-100/70 overflow-hidden relative">
         {/* Header with Timer */}
-        <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-6 lg:gap-8 mb-8 lg:mb-10 relative z-10">
-           <div className="flex flex-col gap-3">
-              <div className="flex items-center gap-2">
-                 <h2 className="text-3xl lg:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-red-600 uppercase italic tracking-tighter">
-                    Flash Sale
-                 </h2>
-                 <Zap className="text-yellow-400 fill-yellow-400 animate-bounce-slow" size={32} />
-              </div>
-              <p className="text-sm text-gray-500 font-medium">Săn deal giá sốc - Số lượng có hạn</p>
-           </div>
+        <div className="flex items-start justify-between gap-3 mb-4 lg:mb-10 relative z-10">
+            <div className="min-w-0 flex-1">
+               <div className="flex items-center gap-1.5">
+                  <h2 className="text-xl lg:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-red-600 uppercase italic tracking-tighter leading-none">
+                     Flash Sale
+                  </h2>
+                  <Zap className="text-yellow-400 fill-yellow-400 animate-bounce-slow shrink-0" size={20} />
+               </div>
+               <p className="text-[10px] lg:text-sm text-gray-500 font-semibold mt-1 truncate">Săn deal giá sốc - Số lượng có hạn</p>
+            </div>
            
            {!loading && items.length > 0 && (
-              <div className="flex items-start gap-2 sm:gap-3 select-none">
+              <div className="flex items-start gap-1 sm:gap-3 select-none shrink-0 pt-0.5">
                   {/* Hours */}
-                  <div className="flex flex-col items-center gap-1.5">
-                      <div className="w-12 h-12 sm:w-14 sm:h-14 bg-[#1D1D1F] text-white rounded-2xl flex items-center justify-center font-bold text-xl sm:text-2xl shadow-lg shadow-gray-200 border border-gray-100 backdrop-blur-md">
+                  <div className="flex flex-col items-center gap-0.5 sm:gap-1">
+                      <div className="w-8 h-8 sm:w-14 sm:h-14 bg-[#1D1D1F] text-white rounded-lg sm:rounded-2xl flex items-center justify-center font-black text-xs sm:text-2xl shadow-md sm:shadow-lg shadow-gray-200 border border-gray-100 backdrop-blur-md">
                           {formatTime(timeLeft.hours)}
                       </div>
-                      <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Giờ</span>
+                      <span className="text-[6px] sm:text-[10px] font-black text-gray-400 uppercase tracking-widest">Giờ</span>
                   </div>
                   
-                  <span className="text-gray-300 font-bold text-2xl mt-2">:</span>
+                  <span className="text-gray-300 font-black text-sm sm:text-2xl mt-1.5 sm:mt-2">:</span>
 
                   {/* Minutes */}
-                  <div className="flex flex-col items-center gap-1.5">
-                      <div className="w-12 h-12 sm:w-14 sm:h-14 bg-[#1D1D1F] text-white rounded-2xl flex items-center justify-center font-bold text-xl sm:text-2xl shadow-lg shadow-gray-200 border border-gray-100 backdrop-blur-md">
+                  <div className="flex flex-col items-center gap-0.5 sm:gap-1">
+                      <div className="w-8 h-8 sm:w-14 sm:h-14 bg-[#1D1D1F] text-white rounded-lg sm:rounded-2xl flex items-center justify-center font-black text-xs sm:text-2xl shadow-md sm:shadow-lg shadow-gray-200 border border-gray-100 backdrop-blur-md">
                           {formatTime(timeLeft.minutes)}
                       </div>
-                      <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Phút</span>
+                      <span className="text-[6px] sm:text-[10px] font-black text-gray-400 uppercase tracking-widest">Phút</span>
                   </div>
 
-                  <span className="text-gray-300 font-bold text-2xl mt-2">:</span>
+                  <span className="text-gray-300 font-black text-sm sm:text-2xl mt-1.5 sm:mt-2">:</span>
 
                   {/* Seconds - Highlighted */}
-                  <div className="flex flex-col items-center gap-1.5">
-                      <div className="w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-red-500 to-orange-600 text-white rounded-2xl flex items-center justify-center font-bold text-xl sm:text-2xl shadow-lg shadow-red-500/30 border border-white/20 relative overflow-hidden">
-                          {/* Inner Shine Effect */}
+                  <div className="flex flex-col items-center gap-0.5 sm:gap-1">
+                      <div className="w-8 h-8 sm:w-14 sm:h-14 bg-gradient-to-br from-red-500 to-orange-600 text-white rounded-lg sm:rounded-2xl flex items-center justify-center font-black text-xs sm:text-2xl shadow-md sm:shadow-lg shadow-red-500/30 border border-white/20 relative overflow-hidden">
                           <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-transparent"></div>
                           <span className="relative z-10">{formatTime(timeLeft.seconds)}</span>
                       </div>
-                      <span className="text-[10px] font-bold text-red-500 uppercase tracking-widest">Giây</span>
+                      <span className="text-[6px] sm:text-[10px] font-black text-red-500 uppercase tracking-widest">Giây</span>
                   </div>
               </div>
            )}
         </div>
 
         {/* Products Grid */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 relative z-10">
+        <div className="grid grid-cols-2 lg:[grid-template-columns:repeat(auto-fit,minmax(190px,1fr))] gap-3 lg:gap-6 relative z-10">
            {loading ? (
-               [1,2,3,4].map(i => <div key={i} className="h-[280px] lg:h-[340px] bg-gray-100 rounded-3xl animate-pulse"></div>)
+               [1,2,3,4].map(i => <div key={i} className="h-[220px] lg:h-[340px] bg-white/70 rounded-2xl lg:rounded-3xl animate-pulse"></div>)
            ) : items.map((item) => {
-             if (!item.product) return null;
-             
-             const originalPrice = item.product.price;
-             // Tính giá sau khi giảm theo % set trong bảng flash_sales
-             const salePrice = Math.floor(originalPrice * (1 - item.discount_percent / 100));
-             
-             // Tính phần trăm đã bán (để hiển thị thanh progress)
-             let soldPercentage = 0;
-             if (item.quantity_total > 0) {
-                soldPercentage = Math.round((item.quantity_sold / item.quantity_total) * 100);
-             }
-             if (soldPercentage > 100) soldPercentage = 100;
+              if (!item.product) return null;
+              
+              const originalPrice = item.product.price;
+              // Tính giá sau khi giảm theo % set trong bảng flash_sales
+              const salePrice = Math.floor(originalPrice * (1 - item.discount_percent / 100));
+              
+              // Tính phần trăm đã bán (để hiển thị thanh progress)
+              let soldPercentage = 0;
+              if (item.quantity_total > 0) {
+                 soldPercentage = Math.round((item.quantity_sold / item.quantity_total) * 100);
+              }
+              if (soldPercentage > 100) soldPercentage = 100;
 
-             return (
-                 <div key={item.id} className="group bg-gray-50 rounded-3xl p-3 lg:p-4 hover:bg-white hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-transparent hover:border-gray-100 flex flex-col h-full">
-                    <div className="relative aspect-square rounded-2xl overflow-hidden mb-3 lg:mb-4 bg-white shadow-inner">
-                       <img src={item.product.image} alt={item.product.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 mix-blend-multiply" />
-                       <div className="absolute top-2 left-2 bg-red-600 text-white text-[10px] lg:text-xs font-extrabold px-2 py-1 lg:px-2.5 lg:py-1.5 rounded-lg shadow-md shadow-red-600/30 flex items-center gap-1 z-10">
-                          <Zap size={10} fill="currentColor" /> -{item.discount_percent}%
-                       </div>
-                       {soldPercentage >= 90 && (
-                           <div className="absolute bottom-0 left-0 right-0 bg-red-600/90 text-white text-[10px] font-bold text-center py-1 backdrop-blur-sm">
-                               Sắp hết hàng
-                           </div>
-                       )}
-                    </div>
-                    
-                    <Link to={`/product/${item.product.slug || slugify(item.product.name)}`}>
-                        <h3 className="font-bold text-gray-900 text-xs lg:text-[15px] mb-2 line-clamp-2 h-[34px] lg:h-[42px] leading-snug group-hover:text-primary transition-colors" title={item.product.name}>
-                            {item.product.name}
-                        </h3>
-                    </Link>
-                    
-                    <div className="flex flex-col lg:flex-row lg:items-end gap-1 lg:gap-2 mb-2 lg:mb-3 mt-auto">
-                       <span className="text-base lg:text-xl font-extrabold text-red-600">
-                          {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(salePrice)}
-                       </span>
-                       <span className="text-[10px] lg:text-xs text-gray-400 line-through font-medium mb-0 lg:mb-1">
-                          {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(originalPrice)}
-                       </span>
-                    </div>
+              return (
+                  <div key={item.id} className="group bg-white/85 rounded-2xl lg:rounded-3xl p-2.5 lg:p-4 hover:bg-white hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-white/70 hover:border-orange-100 flex flex-col h-full">
+                     <div className="relative aspect-square rounded-xl lg:rounded-2xl overflow-hidden mb-2 lg:mb-4 bg-white shadow-inner">
+                        <img src={item.product.image} alt={item.product.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 mix-blend-multiply" />
+                        <div className="absolute top-1.5 left-1.5 bg-red-600 text-white text-[8px] lg:text-xs font-black px-1.5 py-0.5 lg:px-2.5 lg:py-1.5 rounded-md lg:rounded-lg shadow-md shadow-red-600/30 flex items-center gap-1 z-10">
+                           <Zap size={9} fill="currentColor" /> -{item.discount_percent}%
+                        </div>
+                        {soldPercentage >= 90 && (
+                            <div className="absolute bottom-0 left-0 right-0 bg-red-600/90 text-white text-[9px] lg:text-[10px] font-bold text-center py-0.5 lg:py-1 backdrop-blur-sm">
+                                Sắp hết
+                            </div>
+                        )}
+                     </div>
+                     
+                     <Link to={`/product/${item.product.slug || slugify(item.product.name)}`}>
+                         <h3 className="font-black text-gray-900 text-[10px] lg:text-[15px] mb-1.5 lg:mb-2 line-clamp-2 h-[27px] lg:h-[42px] leading-snug group-hover:text-primary transition-colors" title={item.product.name}>
+                             {item.product.name}
+                         </h3>
+                     </Link>
+                     
+                     <div className="flex flex-col lg:flex-row lg:items-end gap-0.5 lg:gap-2 mb-1.5 lg:mb-3 mt-auto">
+                        <span className="text-[13px] lg:text-xl font-black text-red-600 leading-none">
+                           {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(salePrice)}
+                        </span>
+                        <span className="text-[9px] lg:text-xs text-gray-400 line-through font-semibold mb-0 lg:mb-1 leading-none">
+                           {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(originalPrice)}
+                        </span>
+                     </div>
 
-                    {/* Scarcity Bar */}
-                    <div className="relative h-4 lg:h-5 bg-red-100/50 rounded-full overflow-hidden mb-3 lg:mb-4 border border-red-100">
-                       <div 
-                          className="absolute top-0 left-0 h-full bg-gradient-to-r from-orange-500 to-red-600 rounded-full transition-all duration-1000 ease-out shadow-[0_0_10px_rgba(239,68,68,0.5)]" 
-                          style={{ width: `${soldPercentage}%` }}
-                       ></div>
-                       <div className="absolute inset-0 flex items-center justify-center text-[9px] lg:text-[10px] font-extrabold text-red-600 uppercase drop-shadow-sm z-10 mix-blend-multiply">
-                          <span className="bg-white/40 px-2 rounded-full backdrop-blur-[1px]">
-                             {soldPercentage >= 90 ? 'Cháy hàng 🔥' : `Đã bán ${item.quantity_sold}`}
-                          </span>
-                       </div>
-                    </div>
+                     {/* Scarcity Bar */}
+                     <div className="relative h-3 lg:h-5 bg-red-100/70 rounded-full overflow-hidden mb-2.5 lg:mb-4 border border-red-100">
+                        <div 
+                           className="absolute top-0 left-0 h-full bg-gradient-to-r from-orange-500 to-red-600 rounded-full transition-all duration-1000 ease-out shadow-[0_0_10px_rgba(239,68,68,0.5)]" 
+                           style={{ width: `${soldPercentage}%` }}
+                        ></div>
+                        <div className="absolute inset-0 flex items-center justify-center text-[7px] lg:text-[10px] font-black text-red-700 uppercase drop-shadow-sm z-10 mix-blend-multiply">
+                           <span className="bg-white/40 px-1.5 lg:px-2 rounded-full backdrop-blur-[1px]">
+                              {soldPercentage >= 90 ? 'Đã bán' : `Đã bán ${item.quantity_sold}`}
+                           </span>
+                        </div>
+                     </div>
 
-                    <button 
-                       onClick={() => addToCart({ ...item.product!, price: salePrice, originalPrice: originalPrice })}
-                       className="w-full py-2 lg:py-3 bg-gray-900 text-white font-bold rounded-xl text-xs lg:text-sm hover:bg-primary transition-all shadow-lg shadow-gray-200 group-hover:shadow-red-500/30 flex items-center justify-center gap-2 active:scale-95"
-                    >
-                       Mua ngay
-                    </button>
-                 </div>
-             );
+                     <button 
+                        onClick={() => addToCart({ ...item.product!, price: salePrice, originalPrice: originalPrice })}
+                        className="w-full py-2 lg:py-3 bg-gray-950 text-white font-black rounded-xl text-[10px] lg:text-sm hover:bg-primary transition-all shadow-lg shadow-gray-200 group-hover:shadow-red-500/30 flex items-center justify-center gap-2 active:scale-95"
+                     >
+                        Mua ngay
+                     </button>
+                  </div>
+              );
            })}
         </div>
         
-        <Link to="/products?sort=price-asc" className="sm:hidden flex justify-center w-full mt-6 py-3 text-sm font-bold text-gray-600 bg-gray-50 rounded-xl border border-gray-100">
+        <Link to="/products?flashSale=true" className="sm:hidden flex justify-center w-full mt-4 py-2.5 text-xs font-black text-gray-700 bg-white/70 rounded-xl border border-white/70 shadow-sm">
             Xem tất cả Flash Sale
         </Link>
 
