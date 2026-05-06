@@ -27,7 +27,22 @@ const { Link, useLocation, Outlet } = ReactRouterDOM;
 export const AdminLayout: React.FC = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Mobile state
   const [isCollapsed, setIsCollapsed] = useState(false); // Desktop collapse state
+  const [adminCode, setAdminCode] = useState('');
+  const [codeError, setCodeError] = useState('');
+  const [isUnlocked, setIsUnlocked] = useState(() => sessionStorage.getItem('khoai_admin_unlocked') === 'true');
   const location = useLocation();
+
+  const handleUnlockAdmin = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (adminCode.trim() === '190504') {
+      sessionStorage.setItem('khoai_admin_unlocked', 'true');
+      setIsUnlocked(true);
+      setCodeError('');
+    } else {
+      setCodeError('Mã quản trị không đúng. Vui lòng thử lại.');
+      setAdminCode('');
+    }
+  };
 
   const MENU_ITEMS = [
     { path: '/admin/dashboard', icon: LayoutDashboard, label: 'Tổng quan' },
@@ -41,6 +56,49 @@ export const AdminLayout: React.FC = () => {
     { path: '/admin/hero', icon: MonitorPlay, label: 'Banner' },
     { path: '/admin/settings', icon: Settings, label: 'Cài đặt' },
   ];
+
+  if (!isUnlocked) {
+    return (
+      <div className="min-h-screen bg-[radial-gradient(circle_at_top_left,#2563eb_0%,transparent_28%),linear-gradient(135deg,#020617,#111827_55%,#1e1b4b)] flex items-center justify-center p-4 font-sans text-gray-900">
+        <div className="w-full max-w-md rounded-[2rem] bg-white/95 backdrop-blur-2xl border border-white/20 shadow-2xl overflow-hidden animate-fade-in-up">
+          <div className="p-8 text-center border-b border-gray-100">
+            <div className="mx-auto w-16 h-16 rounded-2xl bg-gradient-to-tr from-primary to-blue-400 text-white flex items-center justify-center shadow-xl shadow-blue-500/30 mb-5">
+              <Shield size={30} />
+            </div>
+            <p className="text-[11px] font-black uppercase tracking-[0.28em] text-primary mb-2">Admin Secure Gate</p>
+            <h1 className="text-2xl font-black text-gray-950 tracking-tight">Xác thực quản trị viên</h1>
+            <p className="text-sm text-gray-500 mt-2 leading-relaxed">Vui lòng nhập mã bảo vệ để truy cập khu vực quản trị KhoAI.</p>
+          </div>
+
+          <form onSubmit={handleUnlockAdmin} className="p-6 space-y-4">
+            <div>
+              <label htmlFor="admin-access-code" className="block text-xs font-black uppercase tracking-wider text-gray-500 mb-2">Mã truy cập</label>
+              <input
+                id="admin-access-code"
+                type="password"
+                inputMode="numeric"
+                autoComplete="one-time-code"
+                autoFocus
+                value={adminCode}
+                onChange={(e) => {
+                  setAdminCode(e.target.value);
+                  if (codeError) setCodeError('');
+                }}
+                placeholder="Nhập mã quản trị"
+                className="w-full rounded-2xl border border-gray-200 bg-gray-50 px-5 py-4 text-center text-2xl font-black tracking-[0.35em] text-gray-950 outline-none transition-all focus:border-primary focus:bg-white focus:ring-4 focus:ring-primary/10"
+              />
+              {codeError && <p className="mt-2 text-center text-xs font-bold text-red-500">{codeError}</p>}
+            </div>
+
+            <button type="submit" className="w-full rounded-2xl bg-gray-950 py-4 text-sm font-black uppercase tracking-wider text-white shadow-xl shadow-gray-900/20 transition-all hover:-translate-y-0.5 hover:bg-primary active:scale-[0.98]">
+              Mở khóa quản trị
+            </button>
+            <Link to="/" className="block text-center text-xs font-bold text-gray-400 hover:text-primary transition-colors">Quay lại trang chủ</Link>
+          </form>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-[#F5F5F7] flex text-gray-900 font-sans overflow-hidden">
@@ -131,7 +189,7 @@ export const AdminLayout: React.FC = () => {
                     <p className="text-sm font-bold text-gray-900 truncate">Administrator</p>
                     <div className="flex items-center justify-between mt-0.5">
                         <p className="text-[10px] text-gray-500 truncate">admin@aidayne.com</p>
-                        <Link to="/login" className="text-gray-400 hover:text-red-500 transition-colors" title="Đăng xuất">
+                        <Link to="/login" onClick={() => sessionStorage.removeItem('khoai_admin_unlocked')} className="text-gray-400 hover:text-red-500 transition-colors" title="Đăng xuất">
                             <LogOut size={14} />
                         </Link>
                     </div>

@@ -80,7 +80,7 @@ export const Hero: React.FC = () => {
     
     const interval = setInterval(() => {
       nextSlide();
-    }, 5000); // 5 seconds per slide
+    }, 4000); // 4 seconds per slide
 
     return () => clearInterval(interval);
   }, [currentSlide, isPaused, slides.length, nextSlide]);
