@@ -322,7 +322,7 @@ export const BlogPost: React.FC<BlogPostProps> = ({ addToCart }) => {
           MOBILE LAYOUT ( < 1024px )
           Premium Reading Experience + Product Integration
       ================================================================== */}
-      <div className="lg:hidden pb-32">
+      <div className="lg:hidden pb-20">
          
          {/* 1. Progress Bar (Fixed Top) */}
          <div className="fixed top-0 left-0 h-1 z-[60] w-full bg-gray-100">
@@ -390,8 +390,9 @@ export const BlogPost: React.FC<BlogPostProps> = ({ addToCart }) => {
          </article>
 
          {/* 5. Recommended Products Section */}
-         <div className="mt-16 pt-10 pb-10 bg-[#F5F5F7] rounded-t-[2.5rem] relative z-10 shadow-[0_-10px_40px_-15px_rgba(0,0,0,0.1)]">
-             <div className="px-6 mb-6 flex items-center gap-2">
+         {recommendedProducts.length > 0 && (
+         <div className="mt-8 pt-6 pb-0 bg-[#F5F5F7] rounded-t-[2rem] relative z-10 shadow-[0_-10px_40px_-15px_rgba(0,0,0,0.1)]">
+             <div className="px-4 mb-5 flex items-center gap-2">
                  <div className="w-8 h-8 rounded-full bg-yellow-400 flex items-center justify-center text-white shadow-md">
                     <Zap size={16} fill="currentColor" />
                  </div>
@@ -399,10 +400,10 @@ export const BlogPost: React.FC<BlogPostProps> = ({ addToCart }) => {
              </div>
              
              {/* Horizontal Scroll Products */}
-             <div className="flex overflow-x-auto gap-3 px-6 pb-8 snap-x snap-mandatory no-scrollbar">
+             <div className="flex overflow-x-auto gap-2 px-4 pb-3 snap-x snap-mandatory no-scrollbar">
                  {recommendedProducts.map((prod) => (
-                      <div key={prod.id} className="snap-center flex-shrink-0 w-[150px] bg-white rounded-[1.25rem] p-2 shadow-[0_4px_12px_-4px_rgba(0,0,0,0.05)] border border-gray-100 flex flex-col">
-                          <div className="aspect-square rounded-xl bg-gray-50 mb-2 overflow-hidden relative">
+                      <div key={prod.id} className="snap-start flex-shrink-0 w-[calc((100vw-48px)/3)] max-w-[128px] bg-white rounded-[1rem] p-1.5 shadow-[0_4px_12px_-4px_rgba(0,0,0,0.05)] border border-gray-100 flex flex-col">
+                          <div className="aspect-square rounded-lg bg-gray-50 mb-1.5 overflow-hidden relative">
                               <img 
                                  src={prod.image} 
                                  className="w-full h-full object-cover mix-blend-multiply" 
@@ -410,26 +411,27 @@ export const BlogPost: React.FC<BlogPostProps> = ({ addToCart }) => {
                                  onError={handleImageError}
                               />
                               {prod.discount > 0 && (
-                                  <span className="absolute top-1 left-1 bg-gradient-to-r from-red-500 to-orange-500 text-white text-[9px] font-black px-1.5 py-0.5 rounded-md shadow-sm">-{prod.discount}%</span>
+                                  <span className="absolute top-1 left-1 bg-gradient-to-r from-red-500 to-orange-500 text-white text-[8px] font-black px-1 py-0.5 rounded shadow-sm">-{prod.discount}%</span>
                               )}
                           </div>
-                          <h4 className="font-bold text-gray-900 text-[10px] leading-[1.3] line-clamp-2 h-7 mb-1.5">{prod.name}</h4>
+                          <h4 className="font-bold text-gray-900 text-[9px] leading-[1.25] line-clamp-2 h-6 mb-1">{prod.name}</h4>
                           <div className="mt-auto">
-                              <div className="font-extrabold text-[#0068FF] text-[11px] leading-none mb-2">
+                              <div className="font-extrabold text-[#0068FF] text-[9px] leading-none mb-1.5 whitespace-nowrap">
                                  {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND', maximumFractionDigits: 0 }).format(prod.price || 0)}
                               </div>
                               <button 
                                  onClick={() => addToCart(prod)}
-                                 className="w-full h-6 rounded-md bg-gray-950 text-white flex items-center justify-center active:scale-95 transition-transform hover:bg-[#0068FF]"
+                                 className="w-full h-6 !min-h-0 rounded-md bg-gray-950 text-white flex items-center justify-center text-[10px] font-bold active:scale-95 transition-transform hover:bg-[#0068FF]"
                                  aria-label={`Mua ${prod.name}`}
                               >
-                                 <ShoppingCart size={12} />
+                                 Mua ngay
                               </button>
                           </div>
                       </div>
                  ))}
              </div>
          </div>
+          )}
 
          {/* 6. Sticky Bottom Action Bar */}
          <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 w-full px-6 max-w-sm">
@@ -540,3 +542,4 @@ export const BlogPost: React.FC<BlogPostProps> = ({ addToCart }) => {
     </main>
   );
 };
+
