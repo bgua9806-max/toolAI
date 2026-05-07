@@ -1,77 +1,106 @@
-
 import React from 'react';
-import { Facebook, Instagram, Mail, Phone } from 'lucide-react';
+import { Facebook, Instagram, Mail, Phone, ArrowRight } from 'lucide-react';
 import * as ReactRouterDOM from 'react-router-dom';
 
 const { Link } = ReactRouterDOM;
 
 export const Footer: React.FC = () => {
   return (
-    <footer className="relative overflow-hidden bg-[#0B0D12] text-gray-400 pt-7 lg:pt-10 pb-24 lg:pb-10 text-sm border-t border-white/10">
-      <div className="absolute -top-20 left-1/2 h-44 w-44 -translate-x-1/2 rounded-full bg-primary/20 blur-3xl pointer-events-none"></div>
-      <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8 relative z-10">
-        <div className="rounded-[2rem] lg:rounded-none border border-white/10 lg:border-0 bg-white/[0.03] lg:bg-transparent p-5 sm:p-0 shadow-2xl shadow-black/20 lg:shadow-none">
-          {/* Brand */}
-          <div className="flex flex-col items-center text-center lg:items-start lg:text-left lg:grid lg:grid-cols-[1.2fr_1fr_1fr] gap-6 lg:gap-10">
-            <div className="w-full flex flex-col items-center lg:items-start">
-              <Link to="/" className="inline-flex items-center gap-2 mb-2">
-                <img
-                  src="/brand/muatoolai-logo-white.png"
-                  alt="MuaToolAI.com"
-                  className="h-16 lg:h-[4.5rem] w-auto max-w-[280px] lg:max-w-[340px] object-contain drop-shadow-[0_10px_28px_rgba(255,255,255,0.14)]"
-                />
-              </Link>
-              <p className="text-gray-400/90 leading-relaxed text-[12px] sm:text-[13px] max-w-xs sm:max-w-sm">
-                Bản quyền phần mềm & giải trí số uy tín. Tư vấn nhanh qua Zalo, hỗ trợ kích hoạt trực tiếp.
-              </p>
-              <div className="hidden lg:flex justify-center lg:justify-start gap-2.5 mt-4">
-                <a href="https://zalo.me/g/bguamkuy0hcgjpvf9kyp" target="_blank" rel="noreferrer" className="px-4 h-9 rounded-full bg-[#0068FF] flex items-center justify-center text-white font-extrabold text-xs shadow-lg shadow-blue-500/20 hover:bg-blue-600 active:scale-95 transition-all">Zalo tư vấn</a>
-                <a href="https://www.facebook.com/profile.php?id=61552104173388&locale=vi_VN" target="_blank" rel="noreferrer" className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center hover:bg-[#1877F2] active:scale-95 transition-colors text-white"><Facebook size={14} /></a>
-                <a href="https://instagram.com" target="_blank" rel="noreferrer" className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center hover:bg-primary active:scale-95 transition-colors text-white"><Instagram size={14} /></a>
-              </div>
-            </div>
-
-            {/* Quick Links */}
-            <div className="hidden lg:contents">
-              <div className="rounded-2xl bg-white/[0.04] border border-white/10 p-4 lg:p-0 lg:bg-transparent lg:border-0">
-                <h3 className="text-white font-extrabold mb-3 text-[10px] uppercase tracking-[0.18em]">Liên kết</h3>
-                <ul className="space-y-2 text-[12px] sm:text-[13px]">
-                  <li><Link to="/products" className="block py-1 hover:text-white transition-colors">Sản phẩm</Link></li>
-                  <li><Link to="/blog" className="block py-1 hover:text-white transition-colors">Tin tức</Link></li>
-                  {/* <li><Link to="/order-lookup" className="block py-1 hover:text-white transition-colors">Tra cứu đơn</Link></li> */}
-                </ul>
-              </div>
-              <div className="rounded-2xl bg-white/[0.04] border border-white/10 p-4 lg:p-0 lg:bg-transparent lg:border-0">
-                <h3 className="text-white font-extrabold mb-3 text-[10px] uppercase tracking-[0.18em]">Hỗ trợ</h3>
-                <ul className="space-y-2 text-[12px] sm:text-[13px]">
-                  <li><Link to="/contact" className="block py-1 hover:text-white transition-colors">Liên hệ</Link></li>
-                  <li><Link to="/blog" className="block py-1 hover:text-white transition-colors">Hướng dẫn</Link></li>
-                  <li><a href="https://zalo.me/g/bguamkuy0hcgjpvf9kyp" target="_blank" rel="noreferrer" className="block py-1 hover:text-white transition-colors">Bảo hành</a></li>
-                </ul>
-              </div>
-            </div>
-
-            {/* Contact */}
-            <div className="w-full rounded-2xl bg-white/[0.04] border border-white/10 p-4 lg:p-0 lg:bg-transparent lg:border-0">
-              <h3 className="text-white font-extrabold mb-3 text-[10px] uppercase tracking-[0.18em]">Liên hệ nhanh</h3>
-              <div className="grid gap-2 text-[12px] sm:text-[13px]">
-                <a href="https://zalo.me/g/bguamkuy0hcgjpvf9kyp" target="_blank" rel="noreferrer" className="flex items-center justify-center lg:justify-start gap-2.5 rounded-xl bg-black/20 lg:bg-transparent px-3 py-2.5 lg:p-0 hover:text-white transition-colors">
-                  <Phone size={15} className="text-primary" /> 0906291941 (Zalo)
-                </a>
-                <a href="mailto:support@aidayne.com" className="flex items-center justify-center lg:justify-start gap-2.5 rounded-xl bg-black/20 lg:bg-transparent px-3 py-2.5 lg:p-0 hover:text-white transition-colors">
-                  <Mail size={15} className="text-primary" /> support@aidayne.com
-                </a>
-              </div>
+    <footer className="relative overflow-hidden bg-[#030712] text-gray-400 pt-16 lg:pt-24 pb-24 lg:pb-12 text-sm border-t border-white/5 mt-auto">
+      {/* Glow Effects */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-primary/10 blur-[120px] rounded-full pointer-events-none"></div>
+      
+      <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr_1.5fr] gap-12 lg:gap-8">
+          
+          {/* Brand Column */}
+          <div className="flex flex-col items-start">
+            <Link to="/" className="inline-block mb-6 group">
+              <img
+                src="/brand/muatoolai-logo-white.png"
+                alt="MuaToolAI.com"
+                className="h-14 w-auto max-w-[240px] object-contain transition-transform duration-300 group-hover:scale-105"
+              />
+            </Link>
+            <p className="text-gray-400 leading-relaxed text-[14px] mb-8 max-w-sm">
+              Nền tảng cung cấp bản quyền phần mềm & công cụ AI hàng đầu. Tối ưu hiệu suất làm việc, hỗ trợ kích hoạt trực tiếp, bảo hành trọn đời.
+            </p>
+            <div className="flex items-center gap-3">
+              <a href="https://zalo.me/g/bguamkuy0hcgjpvf9kyp" target="_blank" rel="noreferrer" 
+                 className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#0068FF]/10 text-[#0068FF] hover:bg-[#0068FF] hover:text-white font-bold text-xs transition-all duration-300 border border-[#0068FF]/20 hover:border-transparent">
+                Zalo Tư Vấn <ArrowRight size={14} />
+              </a>
+              <a href="https://www.facebook.com/profile.php?id=61552104173388&locale=vi_VN" target="_blank" rel="noreferrer" 
+                 className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-[#1877F2] hover:border-[#1877F2] transition-all duration-300 text-white">
+                <Facebook size={16} />
+              </a>
+              <a href="https://instagram.com" target="_blank" rel="noreferrer" 
+                 className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-gradient-to-tr hover:from-[#F58529] hover:to-[#DD2A7B] hover:border-transparent transition-all duration-300 text-white">
+                <Instagram size={16} />
+              </a>
             </div>
           </div>
 
-          <div className="hidden lg:flex border-t border-white/10 mt-5 lg:mt-8 pt-4 lg:pt-5 flex-col items-center lg:flex-row lg:justify-between gap-3">
-            <div className="flex flex-wrap justify-center items-center gap-2 text-[9px] sm:text-[10px] text-gray-500 uppercase tracking-widest font-bold">
-              <span className="rounded-full bg-white/[0.06] px-2.5 py-1">Visa</span>
-              <span className="rounded-full bg-white/[0.06] px-2.5 py-1">Momo</span>
-              <span className="rounded-full bg-white/[0.06] px-2.5 py-1">ZaloPay</span>
+          {/* Links Column */}
+          <div>
+            <h3 className="text-white font-bold mb-6 text-[11px] uppercase tracking-[0.2em]">Khám Phá</h3>
+            <ul className="space-y-4">
+              <li><Link to="/" className="text-gray-400 hover:text-white transition-colors text-[14px] flex items-center gap-2 group"><span className="w-1 h-1 rounded-full bg-primary/50 group-hover:scale-150 transition-transform"></span>Trang chủ</Link></li>
+              <li><Link to="/products" className="text-gray-400 hover:text-white transition-colors text-[14px] flex items-center gap-2 group"><span className="w-1 h-1 rounded-full bg-primary/50 group-hover:scale-150 transition-transform"></span>Cửa hàng</Link></li>
+              <li><Link to="/blog" className="text-gray-400 hover:text-white transition-colors text-[14px] flex items-center gap-2 group"><span className="w-1 h-1 rounded-full bg-primary/50 group-hover:scale-150 transition-transform"></span>Tin tức AI</Link></li>
+              <li><Link to="/contact" className="text-gray-400 hover:text-white transition-colors text-[14px] flex items-center gap-2 group"><span className="w-1 h-1 rounded-full bg-primary/50 group-hover:scale-150 transition-transform"></span>Liên hệ</Link></li>
+            </ul>
+          </div>
+
+          {/* Support Column */}
+          <div>
+            <h3 className="text-white font-bold mb-6 text-[11px] uppercase tracking-[0.2em]">Hỗ Trợ</h3>
+            <ul className="space-y-4">
+              <li><Link to="/blog" className="text-gray-400 hover:text-white transition-colors text-[14px] flex items-center gap-2 group"><span className="w-1 h-1 rounded-full bg-gray-600 group-hover:bg-primary transition-colors"></span>Hướng dẫn mua hàng</Link></li>
+              <li><Link to="/blog" className="text-gray-400 hover:text-white transition-colors text-[14px] flex items-center gap-2 group"><span className="w-1 h-1 rounded-full bg-gray-600 group-hover:bg-primary transition-colors"></span>Chính sách bảo hành</Link></li>
+              <li><a href="https://zalo.me/g/bguamkuy0hcgjpvf9kyp" target="_blank" rel="noreferrer" className="text-gray-400 hover:text-white transition-colors text-[14px] flex items-center gap-2 group"><span className="w-1 h-1 rounded-full bg-gray-600 group-hover:bg-primary transition-colors"></span>Cộng đồng Zalo</a></li>
+            </ul>
+          </div>
+
+          {/* Contact Column */}
+          <div className="p-6 rounded-2xl bg-white/[0.02] border border-white/5 backdrop-blur-sm h-fit hover:bg-white/[0.03] transition-colors duration-300">
+            <h3 className="text-white font-bold mb-6 text-[11px] uppercase tracking-[0.2em]">Liên Hệ Trực Tiếp</h3>
+            <div className="space-y-5">
+              <a href="https://zalo.me/g/bguamkuy0hcgjpvf9kyp" target="_blank" rel="noreferrer" className="flex items-start gap-4 group">
+                <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0 group-hover:bg-primary transition-colors duration-300">
+                  <Phone size={18} className="text-primary group-hover:text-white transition-colors" />
+                </div>
+                <div>
+                  <p className="text-xs text-gray-500 mb-1 font-medium">Hotline / Zalo</p>
+                  <p className="text-sm text-gray-200 font-bold group-hover:text-white transition-colors">0906.291.941</p>
+                </div>
+              </a>
+              <a href="mailto:support@aidayne.com" className="flex items-start gap-4 group">
+                <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center shrink-0 group-hover:bg-white/10 transition-colors duration-300">
+                  <Mail size={18} className="text-gray-400 group-hover:text-white transition-colors" />
+                </div>
+                <div>
+                  <p className="text-xs text-gray-500 mb-1 font-medium">Email Hỗ Trợ</p>
+                  <p className="text-sm text-gray-200 font-bold group-hover:text-white transition-colors">support@aidayne.com</p>
+                </div>
+              </a>
             </div>
-            <p className="text-[10px] sm:text-[11px] text-gray-600 text-center">© 2024 MuaToolAI.com. All rights reserved.</p>
+          </div>
+
+        </div>
+
+        {/* Footer Bottom */}
+        <div className="mt-16 pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-6">
+          <p className="text-gray-500 text-[13px] font-medium">
+            © {new Date().getFullYear()} MuaToolAI.com. All rights reserved.
+          </p>
+          
+          {/* Payment Methods */}
+          <div className="flex items-center gap-2">
+            <div className="px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-xs font-bold text-gray-400 tracking-wider">VISA</div>
+            <div className="px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-xs font-bold text-gray-400 tracking-wider">MOMO</div>
+            <div className="px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-xs font-bold text-gray-400 tracking-wider">ZALOPAY</div>
+            <div className="px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-xs font-bold text-gray-400 tracking-wider">BANK</div>
           </div>
         </div>
       </div>
