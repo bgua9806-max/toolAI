@@ -73,32 +73,35 @@ export const PromoCarousel: React.FC = () => {
   const goNext = () => setCurrent((prev) => (prev + 1) % banners.length);
 
   return (
-    <section className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 mb-12 lg:mb-20">
-      <div className="relative rounded-[2rem] lg:rounded-[2.5rem] overflow-hidden shadow-xl shadow-red-500/20 group aspect-[3/1] min-h-[150px] lg:min-h-[360px]">
+    <section className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 mb-8 sm:mb-12 lg:mb-20">
+      <div className="relative rounded-[1.5rem] sm:rounded-[2rem] lg:rounded-[2.5rem] overflow-hidden shadow-lg shadow-gray-200/50 group aspect-[2.5/1] sm:aspect-[3/1] w-full">
         <div
           className="absolute inset-0 flex transition-transform duration-700 ease-[cubic-bezier(0.25,1,0.5,1)]"
           style={{ transform: `translateX(-${current * 100}%)` }}
         >
-          {banners.map((banner) => (
-            <Link
-              key={banner.id}
-              to={banner.ctaLink || '/products'}
-              className="min-w-full relative overflow-hidden bg-gray-900 text-white"
-            >
-              <img src={banner.image} alt={banner.title || 'Khuyến mãi'} className="absolute inset-0 w-full h-full object-cover" />
-              
-              {(banner.title || banner.subtitle || banner.ctaText) && (
-                 <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/30 to-transparent"></div>
-              )}
+          {banners.map((banner) => {
+            const hasContent = !!(banner.title || banner.subtitle || banner.ctaText);
+            
+            return (
+              <Link
+                key={banner.id}
+                to={banner.ctaLink || '/products'}
+                className="min-w-full relative overflow-hidden bg-gray-900 text-white block"
+              >
+                <img src={banner.image} alt={banner.title || 'Khuyến mãi'} className="absolute inset-0 w-full h-full object-cover" />
+                
+                {hasContent && (
+                   <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/30 to-transparent"></div>
+                )}
 
-              <div className="relative z-10 h-full p-5 md:p-16 flex flex-col justify-center">
-                 {(banner.title || banner.subtitle || banner.ctaText) && (
-                    <div className="flex-1 max-w-xl text-left">
-                      {banner.badge && (
-                        <span className="inline-block bg-white/20 backdrop-blur-md px-3 py-1 lg:px-4 lg:py-1.5 rounded-full text-[9px] lg:text-xs font-bold mb-2 lg:mb-6 border border-white/20 uppercase tracking-wide">
-                          {banner.badge}
-                        </span>
-                      )}
+                <div className="relative z-10 h-full p-4 sm:p-5 md:p-16 flex flex-col justify-center">
+                   {hasContent && (
+                      <div className="flex-1 max-w-[85%] sm:max-w-xl text-left">
+                        {banner.badge && banner.badge !== 'Khuyến mãi' && (
+                          <span className="inline-block bg-white/20 backdrop-blur-md px-2 py-1 lg:px-4 lg:py-1.5 rounded-full text-[9px] lg:text-xs font-bold mb-1.5 lg:mb-6 border border-white/20 uppercase tracking-wide">
+                            {banner.badge}
+                          </span>
+                        )}
                       {banner.title && (
                         <h3 className="text-lg md:text-5xl font-extrabold mb-1.5 lg:mb-6 leading-tight line-clamp-2 drop-shadow-lg">
                           {banner.title}
@@ -118,7 +121,8 @@ export const PromoCarousel: React.FC = () => {
                  )}
               </div>
             </Link>
-          ))}
+            );
+          })}
         </div>
 
         {banners.length > 1 && (

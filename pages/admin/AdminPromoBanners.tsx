@@ -78,7 +78,7 @@ export const AdminPromoBanners: React.FC = () => {
     const payload = {
       title: formData.title || '',
       subtitle: formData.subtitle || '',
-      badge: formData.badge || 'Khuyến mãi',
+      badge: formData.badge || '',
       image: formData.image,
       coverImage: formData.coverImage || '',
       ctaText: formData.ctaText || '',
