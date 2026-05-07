@@ -54,6 +54,7 @@ export const AdminLayout: React.FC = () => {
     { path: '/admin/flash-sale', icon: Zap, label: 'Flash Sale' },
     { path: '/admin/promotions', icon: TicketPercent, label: 'Khuyến mãi' },
     { path: '/admin/hero', icon: MonitorPlay, label: 'Banner' },
+    { path: '/admin/promo-banners', icon: TicketPercent, label: 'Banner KM' },
     { path: '/admin/settings', icon: Settings, label: 'Cài đặt' },
   ];
 
@@ -124,9 +125,10 @@ export const AdminLayout: React.FC = () => {
         {/* Header Logo & Toggle */}
         <div className={`h-16 lg:h-20 flex items-center border-b border-gray-100 shrink-0 transition-all ${isCollapsed ? 'justify-center px-0' : 'justify-between px-5 lg:px-6'}`}>
              {!isCollapsed && (
-                 <span className="font-extrabold text-xl lg:text-2xl tracking-tighter text-gray-900 animate-fade-in">
-                    MuaToolAI.com<span className="text-primary">.Admin</span>
-                 </span>
+                 <div className="flex items-center gap-2 animate-fade-in min-w-0">
+                    <img src="/brand/muatoolai-logo.png" alt="MuaToolAI.com" className="h-6 lg:h-7 object-contain" />
+                    <span className="text-[10px] font-black text-primary bg-primary/10 px-2 py-1 rounded-md uppercase tracking-widest shrink-0">Admin</span>
+                 </div>
              )}
              {isCollapsed && (
                  <span className="font-extrabold text-2xl text-primary animate-fade-in">A.</span>

@@ -13,6 +13,7 @@ export const AdminBlogEditor: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [uploadingImage, setUploadingImage] = useState(false);
 
   // Form State
   const [post, setPost] = useState<Partial<BlogPost>>({
@@ -62,6 +63,34 @@ export const AdminBlogEditor: React.FC = () => {
 
   const handleChange = (field: keyof BlogPost, value: string) => {
     setPost(prev => ({ ...prev, [field]: value }));
+  };
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+      if (!e.target.files || e.target.files.length === 0) return;
+      const file = e.target.files[0];
+      
+      setUploadingImage(true);
+      try {
+          const fileExt = file.name.split('.').pop();
+          const fileName = `blog_${Math.random().toString(36).substring(2, 15)}_${Date.now()}.${fileExt}`;
+          const filePath = `blog/${fileName}`;
+
+          const { error: uploadError } = await supabase.storage
+              .from('media')
+              .upload(filePath, file);
+
+          if (uploadError) {
+              throw uploadError;
+          }
+
+          const { data } = supabase.storage.from('media').getPublicUrl(filePath);
+          
+          handleChange('image', data.publicUrl);
+      } catch (error: any) {
+          alert('Lỗi upload ảnh: ' + (error.message || 'Kiểm tra lại quyền Storage Supabase'));
+      } finally {
+          setUploadingImage(false);
+      }
   };
 
   const handleSave = async () => {
@@ -138,10 +167,10 @@ export const AdminBlogEditor: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-white text-gray-900 font-sans flex flex-col overflow-hidden">
+    <div className="h-[calc(100vh-130px)] lg:h-[calc(100vh-150px)] bg-white text-gray-900 font-sans flex flex-col overflow-hidden rounded-[2rem] border border-gray-100 shadow-sm">
       
       {/* 1. TOP BAR (Sticky) */}
-      <div className="sticky top-0 z-50 bg-white/90 backdrop-blur-xl border-b border-gray-100 px-3 sm:px-6 py-3 sm:py-4 flex items-center justify-between gap-2 transition-all">
+      <div className="shrink-0 bg-white border-b border-gray-100 px-3 sm:px-6 py-3 sm:py-4 flex items-center justify-between gap-2 transition-all">
         <div className="flex items-center gap-2 sm:gap-4 min-w-0">
           <button 
             onClick={() => navigate('/admin/blog')}
@@ -198,7 +227,7 @@ export const AdminBlogEditor: React.FC = () => {
                 placeholder="Tiêu đề bài viết..." 
                 value={post.title}
                 onChange={(e) => handleChange('title', e.target.value)}
-                className="w-full text-3xl sm:text-5xl font-extrabold text-gray-900 placeholder-gray-200 border-none focus:ring-0 p-0 bg-transparent leading-tight mb-6 sm:mb-8"
+                className="w-full text-3xl sm:text-5xl font-extrabold text-gray-900 placeholder-gray-200 border-none focus:ring-0 p-0 bg-transparent leading-tight mb-6 sm:mb-8 outline-none"
               />
 
               {/* Tiptap Editor */}
@@ -209,10 +238,10 @@ export const AdminBlogEditor: React.FC = () => {
            </div>
         </div>
 
-        {/* 3. SETTINGS SIDEBAR (Right, Fixed) */}
+        {/* 3. SETTINGS SIDEBAR (Right, Absolute) */}
         <div 
           className={`
-             fixed top-[61px] sm:top-[73px] bottom-0 right-0 w-full sm:w-[400px] bg-white border-l border-gray-100 shadow-2xl sm:shadow-none transform transition-transform duration-300 ease-in-out z-40 overflow-y-auto
+             absolute top-0 bottom-0 right-0 w-full sm:w-[400px] bg-white border-l border-gray-100 shadow-2xl sm:shadow-none transform transition-transform duration-300 ease-in-out z-40 overflow-y-auto custom-scrollbar
             ${isSettingsOpen ? 'translate-x-0' : 'translate-x-full'}
           `}
         >
@@ -301,8 +330,8 @@ export const AdminBlogEditor: React.FC = () => {
                  </div>
 
                  <div>
-                    <label className="block text-sm font-bold text-gray-700 mb-2">Ảnh đại diện (URL)</label>
-                    <div className="relative group">
+                    <label className="block text-sm font-bold text-gray-700 mb-2">Ảnh đại diện *</label>
+                    <div className="relative mb-2">
                        <ImageIcon className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-primary" size={18} />
                        <input 
                          type="text" 
@@ -311,6 +340,13 @@ export const AdminBlogEditor: React.FC = () => {
                          placeholder="https://..."
                          className="w-full pl-11 pr-4 py-3 bg-gray-50 border-none rounded-xl focus:bg-white focus:ring-2 focus:ring-primary/20 transition-all font-medium text-sm"
                        />
+                    </div>
+                    <div className="relative">
+                       <input type="file" accept="image/*" onChange={handleImageUpload} disabled={uploadingImage} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer disabled:cursor-not-allowed z-10" />
+                       <div className={`flex items-center justify-center gap-2 w-full px-4 py-3 rounded-xl border-2 border-dashed border-gray-200 bg-gray-50 text-gray-500 font-medium text-sm ${uploadingImage ? 'opacity-50' : 'hover:border-primary hover:text-primary transition-colors'}`}>
+                         <ImageIcon size={18} />
+                         {uploadingImage ? 'Đang tải lên...' : 'Bấm tải ảnh từ máy tính (1200x750px)'}
+                       </div>
                     </div>
                     {post.image && (
                         <div className="mt-3 rounded-xl overflow-hidden border border-gray-100 shadow-sm aspect-video">

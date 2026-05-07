@@ -61,6 +61,21 @@ export interface HeroSlide {
   textColor?: 'white' | 'black'; // Tùy chọn màu chữ để hợp với nền ảnh
 }
 
+export interface PromotionBanner {
+  id: string;
+  title?: string;
+  subtitle?: string;
+  badge?: string;
+  image: string;
+  coverImage?: string;
+  ctaText?: string;
+  ctaLink: string;
+  order: number;
+  isActive: boolean;
+  textColor?: 'white' | 'black';
+  background?: string;
+}
+
 export interface Category {
   id: string;
   name: string;

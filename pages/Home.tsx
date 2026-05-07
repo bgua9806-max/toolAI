@@ -5,6 +5,7 @@ import { CategoryBar } from '../components/CategoryBar';
 import { ProductCard } from '../components/ProductCard';
 import { MobileProductCard } from '../components/mobile/MobileProductCard';
 import { FlashSale } from '../components/FlashSale';
+import { PromoCarousel } from '../components/PromoCarousel';
 import { PRODUCTS as FALLBACK_PRODUCTS } from '../constants';
 import { Product } from '../types';
 import { normalizeProductImage } from '../lib/imageFallbacks';
@@ -147,40 +148,8 @@ export const Home: React.FC<HomeProps> = ({ addToCart }) => {
         </div>
       </section>
 
-      {/* Promo Banner */}
-      <section className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 mb-12 lg:mb-20">
-        <div className="relative rounded-[2rem] lg:rounded-[2.5rem] overflow-hidden bg-gradient-to-r from-red-600 to-orange-600 text-white shadow-xl shadow-red-500/20">
-           <div className="absolute top-0 right-0 -mr-20 -mt-20 w-80 h-80 bg-white/10 rounded-full blur-3xl pointer-events-none"></div>
-           <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-80 h-80 bg-black/10 rounded-full blur-3xl pointer-events-none"></div>
-           
-           <div className="relative z-10 p-6 md:p-16 flex flex-row items-center justify-between gap-4 md:gap-10">
-             <div className="flex-1 max-w-xl text-left">
-               <span className="inline-block bg-white/20 backdrop-blur-md px-3 py-1 lg:px-4 lg:py-1.5 rounded-full text-[10px] lg:text-xs font-bold mb-3 lg:mb-6 border border-white/20 uppercase tracking-wide">
-                  Tháng Vàng Ưu Đãi
-               </span>
-               <h3 className="text-xl md:text-5xl font-extrabold mb-2 lg:mb-6 leading-tight">
-                  Adobe Creative <br className="hidden md:block"/> Cloud
-               </h3>
-               <p className="text-red-100 mb-4 lg:mb-8 text-xs md:text-lg font-medium max-w-[200px] md:max-w-full">
-                  Giảm tới <span className="text-white font-bold text-lg md:text-2xl">70%</span> trọn bộ bản quyền.
-               </p>
-               <Link to="/products?category=design" className="inline-flex items-center gap-1 bg-white text-red-600 px-4 py-2 lg:px-10 lg:py-4 rounded-full font-bold text-xs lg:text-base hover:bg-gray-50 transition-colors shadow-lg hover:scale-105 transform duration-200">
-                  Khám phá <span className="hidden sm:inline">ngay</span>
-               </Link>
-             </div>
-             <div className="relative flex-shrink-0">
-               <img 
-                  src="https://img.icons8.com/color/480/000000/adobe-creative-cloud--v1.png" 
-                  alt="Adobe" 
-                  className="w-24 h-24 md:w-72 md:h-72 object-contain relative z-10 drop-shadow-2xl animate-pulse-slow" 
-                  onError={(e) => {
-                      (e.target as HTMLImageElement).src = 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Adobe_Creative_Cloud_rainbow_icon.svg/1024px-Adobe_Creative_Cloud_rainbow_icon.svg.png';
-                  }}
-               />
-             </div>
-           </div>
-        </div>
-      </section>
+      {/* Promo Banner Carousel */}
+      <PromoCarousel />
 
       {/* New Arrivals Section */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

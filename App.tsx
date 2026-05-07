@@ -29,6 +29,7 @@ import { AdminPromotions } from './pages/admin/AdminPromotions';
 import { AdminFlashSale } from './pages/admin/AdminFlashSale';
 import { AdminCustomers } from './pages/admin/AdminCustomers';
 import { AdminHero } from './pages/admin/AdminHero';
+import { AdminPromoBanners } from './pages/admin/AdminPromoBanners';
 import { AdminReviews } from './pages/admin/AdminReviews';
 import { AdminSettings } from './pages/admin/AdminSettings';
 
@@ -139,7 +140,7 @@ function AppContent() {
              <Route path="blog/new" element={<AdminBlogEditor />} /> 
              <Route path="blog/edit/:id" element={<AdminBlogEditor />} /> 
              <Route path="customers" element={<AdminCustomers />} />
-             <Route path="hero" element={<AdminHero />} />
+             <Route path="hero" element={<AdminHero />} />`r`n              <Route path="promo-banners" element={<AdminPromoBanners />} />
              <Route path="settings" element={<AdminSettings />} />
           </Route>
 
@@ -191,3 +192,4 @@ function App() {
 }
 
 export default App;
+
