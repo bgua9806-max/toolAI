@@ -330,7 +330,7 @@ export const BlogPost: React.FC<BlogPostProps> = ({ addToCart }) => {
          </div>
 
          {/* 3. Immersive Header Image */}
-         <div className="relative w-full aspect-[3/4]">
+         <div className="relative w-full aspect-video overflow-hidden bg-gray-100">
             <img 
                 src={post.image} 
                 alt={post.title} 
