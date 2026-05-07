@@ -109,9 +109,14 @@ export const Hero: React.FC = () => {
         >
           {slides.map((slide) => (
             <div key={slide.id} className="min-w-full h-full relative">
+               <Link
+                 to={slide.ctaLink || '/products'}
+                 className="absolute inset-0 z-10 md:hidden"
+                 aria-label={slide.ctaText || slide.title || 'Xem banner'}
+               />
                <img 
                  src={slide.image} 
-                 alt={slide.title} 
+                 alt={slide.title || 'Banner'} 
                  className="absolute inset-0 w-full h-full object-cover"
                  onError={(e) => { (e.target as HTMLImageElement).src = getHeroImageFallback(slide); }}
                />
@@ -137,7 +142,7 @@ export const Hero: React.FC = () => {
                   {slide.ctaText && (
                     <Link 
                        to={slide.ctaLink} 
-                       className={`inline-flex items-center gap-1.5 px-4 py-2 md:px-8 md:py-3.5 rounded-full font-bold text-xs md:text-sm hover:scale-105 transition-all transform duration-700 delay-300 ${
+                       className={`hidden md:inline-flex items-center gap-1.5 px-4 py-2 md:px-8 md:py-3.5 rounded-full font-bold text-xs md:text-sm hover:scale-105 transition-all transform duration-700 delay-300 ${
                            slide.textColor === 'black' 
                            ? 'bg-gray-900 text-white hover:bg-black' 
                            : 'bg-white text-gray-900 hover:bg-gray-100'

@@ -25,6 +25,7 @@ export const AdminHero: React.FC = () => {
   };
 
   const [formData, setFormData] = useState<HeroSlide>(initialFormState);
+  const [productSearch, setProductSearch] = useState('');
   
   // Trạng thái Upload Ảnh
   const [uploadingImage, setUploadingImage] = useState(false);
@@ -67,12 +68,14 @@ export const AdminHero: React.FC = () => {
       ...initialFormState,
       order: nextOrder
     });
+    setProductSearch('');
     setIsModalOpen(true);
   };
 
   const handleEdit = (slide: HeroSlide) => {
     setIsEditing(true);
     setFormData(slide);
+    setProductSearch('');
     setIsModalOpen(true);
   };
 
@@ -141,15 +144,17 @@ export const AdminHero: React.FC = () => {
       }
   };
 
-  const handleProductSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const productId = e.target.value;
-    if (productId) {
-        setFormData(prev => ({
-            ...prev,
-            ctaLink: `/product/${productId}`
-        }));
-    }
+  const handleProductSelect = (product: Product) => {
+    setFormData(prev => ({
+      ...prev,
+      ctaLink: `/product/${product.id}`
+    }));
+    setProductSearch(product.name);
   };
+
+  const filteredProducts = products
+    .filter(product => product.name.toLowerCase().includes(productSearch.trim().toLowerCase()))
+    .slice(0, 8);
 
   const handleMove = async (index: number, direction: 'up' | 'down') => {
       const newSlides = [...slides];
@@ -293,22 +298,32 @@ export const AdminHero: React.FC = () => {
 
                  {/* Product Selector for Link */}
                  <div className="p-4 bg-blue-50/50 rounded-xl border border-blue-100">
-                    <label className="block text-sm font-bold text-gray-700 mb-2">Chọn sản phẩm liên kết (Tự động điền link)</label>
+                    <label className="block text-sm font-bold text-gray-700 mb-2">Tìm sản phẩm liên kết (Tự động điền link)</label>
                     <div className="relative">
                         <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
-                        <select 
-                            onChange={handleProductSelect}
-                            className="w-full pl-11 pr-8 py-3 bg-white border border-gray-200 rounded-xl font-medium focus:ring-2 focus:ring-primary/20 outline-none appearance-none cursor-pointer"
-                            defaultValue=""
-                        >
-                            <option value="">-- Chọn sản phẩm --</option>
-                            {products.map(p => (
-                                <option key={p.id} value={p.id}>{p.name}</option>
-                            ))}
-                        </select>
-                        <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none">
-                            <ArrowDown size={14} className="text-gray-400" />
-                        </div>
+                        <input
+                            type="text"
+                            value={productSearch}
+                            onChange={(e) => setProductSearch(e.target.value)}
+                            placeholder="Nhập tên sản phẩm cần tìm..."
+                            className="w-full pl-11 pr-4 py-3 bg-white border border-gray-200 rounded-xl font-medium focus:ring-2 focus:ring-primary/20 outline-none"
+                        />
+                    </div>
+                    <div className="mt-3 max-h-48 overflow-y-auto rounded-xl border border-blue-100 bg-white shadow-sm">
+                        {filteredProducts.length > 0 ? filteredProducts.map(product => (
+                            <button
+                                key={product.id}
+                                type="button"
+                                onClick={() => handleProductSelect(product)}
+                                className="w-full text-left px-4 py-3 text-sm font-semibold text-gray-700 hover:bg-blue-50 hover:text-primary transition-colors border-b border-gray-50 last:border-b-0"
+                            >
+                                {product.name}
+                            </button>
+                        )) : (
+                            <div className="px-4 py-3 text-sm text-gray-400">
+                                {productSearch ? 'Không tìm thấy sản phẩm phù hợp.' : 'Nhập tên sản phẩm để tìm nhanh.'}
+                            </div>
+                        )}
                     </div>
                  </div>
 
