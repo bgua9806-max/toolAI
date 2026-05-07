@@ -15,9 +15,11 @@ export const Footer: React.FC = () => {
           <div className="flex flex-col items-center text-center lg:items-start lg:text-left lg:grid lg:grid-cols-[1.2fr_1fr_1fr] gap-6 lg:gap-10">
             <div className="w-full flex flex-col items-center lg:items-start">
               <Link to="/" className="inline-flex items-center gap-2 mb-2">
-                <span className="font-extrabold text-2xl text-white tracking-tighter">
-                  KhoAI<span className="text-primary">.vn</span>
-                </span>
+                <img
+                  src="/brand/muatoolai-logo-white.png"
+                  alt="MuaToolAI.com"
+                  className="h-16 lg:h-[4.5rem] w-auto max-w-[280px] lg:max-w-[340px] object-contain drop-shadow-[0_10px_28px_rgba(255,255,255,0.14)]"
+                />
               </Link>
               <p className="text-gray-400/90 leading-relaxed text-[12px] sm:text-[13px] max-w-xs sm:max-w-sm">
                 Bản quyền phần mềm & giải trí số uy tín. Tư vấn nhanh qua Zalo, hỗ trợ kích hoạt trực tiếp.
@@ -54,7 +56,7 @@ export const Footer: React.FC = () => {
               <h3 className="text-white font-extrabold mb-3 text-[10px] uppercase tracking-[0.18em]">Liên hệ nhanh</h3>
               <div className="grid gap-2 text-[12px] sm:text-[13px]">
                 <a href="https://zalo.me/g/bguamkuy0hcgjpvf9kyp" target="_blank" rel="noreferrer" className="flex items-center justify-center lg:justify-start gap-2.5 rounded-xl bg-black/20 lg:bg-transparent px-3 py-2.5 lg:p-0 hover:text-white transition-colors">
-                  <Phone size={15} className="text-primary" /> 0374.770.023 (Zalo)
+                  <Phone size={15} className="text-primary" /> 0906291941 (Zalo)
                 </a>
                 <a href="mailto:support@aidayne.com" className="flex items-center justify-center lg:justify-start gap-2.5 rounded-xl bg-black/20 lg:bg-transparent px-3 py-2.5 lg:p-0 hover:text-white transition-colors">
                   <Mail size={15} className="text-primary" /> support@aidayne.com
@@ -69,7 +71,7 @@ export const Footer: React.FC = () => {
               <span className="rounded-full bg-white/[0.06] px-2.5 py-1">Momo</span>
               <span className="rounded-full bg-white/[0.06] px-2.5 py-1">ZaloPay</span>
             </div>
-            <p className="text-[10px] sm:text-[11px] text-gray-600 text-center">© 2024 KhoAI.vn. All rights reserved.</p>
+            <p className="text-[10px] sm:text-[11px] text-gray-600 text-center">© 2024 MuaToolAI.com. All rights reserved.</p>
           </div>
         </div>
       </div>

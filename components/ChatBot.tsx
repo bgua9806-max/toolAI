@@ -33,7 +33,7 @@ export const ChatBot: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
-      text: 'Xin chào! 👋 Tôi là trợ lý AI của KhoAI. Bạn cần tìm phần mềm hay tài khoản gì hôm nay?',
+      text: 'Xin chào! 👋 Tôi là trợ lý AI của MuaToolAI.com. Bạn cần tìm phần mềm hay tài khoản gì hôm nay?',
       sender: 'bot',
       timestamp: new Date()
     }
@@ -100,7 +100,7 @@ export const ChatBot: React.FC = () => {
     if (lowerInput.includes('hot') || lowerInput.includes('bán chạy')) {
         const hotProducts = allProducts.filter(p => p.isHot).slice(0, 3);
         return {
-            response: "Đây là những sản phẩm đang bán chạy nhất tại KhoAI 🔥:",
+            response: "Đây là những sản phẩm đang bán chạy nhất tại MuaToolAI.com 🔥:",
             products: hotProducts
         };
     }
@@ -231,7 +231,7 @@ export const ChatBot: React.FC = () => {
                 <div className="absolute bottom-0 right-0 w-3.5 h-3.5 bg-green-500 border-2 border-white rounded-full"></div>
               </div>
               <div>
-                 <h3 className="font-extrabold text-gray-900 text-base">KhoAI AI</h3>
+                 <h3 className="font-extrabold text-gray-900 text-base">MuaToolAI.com AI</h3>
                  <p className="text-xs text-gray-500 font-medium flex items-center gap-1">
                     <Sparkles size={10} className="text-primary" /> Trợ lý ảo thông minh
                  </p>

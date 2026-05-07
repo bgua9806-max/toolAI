@@ -116,12 +116,12 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({ addToCart }) => {
   const ZALO_GROUP_URL = 'https://zalo.me/g/bguamkuy0hcgjpvf9kyp';
 
   const getConsultationMessage = () => {
-      if (!product) return 'Xin chào KhoAI, tôi cần tư vấn sản phẩm.';
+      if (!product) return 'Xin chào MuaToolAI.com, tôi cần tư vấn sản phẩm.';
       const packageName = selectedVariant ? ` - Gói: ${selectedVariant.name}` : '';
       const referencePrice = Number.isFinite(Number(currentPrice))
           ? ` - Giá tham khảo đang hiển thị: ${new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND', maximumFractionDigits: 0 }).format(currentPrice)}`
           : '';
-      return `Xin chào KhoAI, tôi muốn tư vấn sản phẩm: ${product.name}${packageName}${referencePrice}. Vui lòng báo giá mới nhất và hướng dẫn kích hoạt giúp tôi.`;
+      return `Xin chào MuaToolAI.com, tôi muốn tư vấn sản phẩm: ${product.name}${packageName}${referencePrice}. Vui lòng báo giá mới nhất và hướng dẫn kích hoạt giúp tôi.`;
   };
 
   const getZaloUrl = () => ZALO_GROUP_URL;
@@ -181,7 +181,7 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({ addToCart }) => {
     "softwareVersion": product.version || "Latest",
     "brand": {
       "@type": "Brand",
-      "name": product.developer || "KhoAI"
+      "name": product.developer || "MuaToolAI.com"
     },
     "sku": product.id,
     "offers": {

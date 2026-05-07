@@ -163,8 +163,8 @@ export const ProductsPage: React.FC<ProductsPageProps> = ({ addToCart }) => {
     <main className="min-h-screen bg-[#F5F5F7] pb-20">
       
       <SEO 
-        title={isFlashSalePage ? "Flash Sale - Sản phẩm đang giảm giá" : selectedCategory === 'all' ? "Tất cả sản phẩm - KhoAI Store" : `Mua ${currentCategoryName} bản quyền giá rẻ`}
-        description={isFlashSalePage ? "Danh sách sản phẩm đang Flash Sale tại KhoAI.vn. Săn deal giá sốc, số lượng có hạn." : `Danh sách các sản phẩm ${currentCategoryName} tốt nhất. Bảo hành trọn đời, giá rẻ hơn gốc đến 70%.`}
+        title={isFlashSalePage ? "Flash Sale - Sản phẩm đang giảm giá" : selectedCategory === 'all' ? "Tất cả sản phẩm - MuaToolAI.com Store" : `Mua ${currentCategoryName} bản quyền giá rẻ`}
+        description={isFlashSalePage ? "Danh sách sản phẩm đang Flash Sale tại MuaToolAI.com. Săn deal giá sốc, số lượng có hạn." : `Danh sách các sản phẩm ${currentCategoryName} tốt nhất. Bảo hành trọn đời, giá rẻ hơn gốc đến 70%.`}
       />
 
       {/* Premium Dark Hero Banner */}

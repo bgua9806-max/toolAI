@@ -160,7 +160,7 @@ export const Login: React.FC = () => {
               {mode === 'login' ? 'Đăng nhập' : 'Tạo tài khoản'}
             </h2>
             <p className="text-gray-500 text-sm lg:text-base">
-              {mode === 'login' ? 'Chào mừng bạn quay trở lại với KhoAI!' : 'Điền thông tin bên dưới để bắt đầu trải nghiệm.'}
+              {mode === 'login' ? 'Chào mừng bạn quay trở lại với MuaToolAI.com!' : 'Điền thông tin bên dưới để bắt đầu trải nghiệm.'}
             </p>
           </div>
 

@@ -67,7 +67,7 @@ export const AdminLayout: React.FC = () => {
             </div>
             <p className="text-[11px] font-black uppercase tracking-[0.28em] text-primary mb-2">Admin Secure Gate</p>
             <h1 className="text-2xl font-black text-gray-950 tracking-tight">Xác thực quản trị viên</h1>
-            <p className="text-sm text-gray-500 mt-2 leading-relaxed">Vui lòng nhập mã bảo vệ để truy cập khu vực quản trị KhoAI.</p>
+            <p className="text-sm text-gray-500 mt-2 leading-relaxed">Vui lòng nhập mã bảo vệ để truy cập khu vực quản trị MuaToolAI.com.</p>
           </div>
 
           <form onSubmit={handleUnlockAdmin} className="p-6 space-y-4">
@@ -125,7 +125,7 @@ export const AdminLayout: React.FC = () => {
         <div className={`h-16 lg:h-20 flex items-center border-b border-gray-100 shrink-0 transition-all ${isCollapsed ? 'justify-center px-0' : 'justify-between px-5 lg:px-6'}`}>
              {!isCollapsed && (
                  <span className="font-extrabold text-xl lg:text-2xl tracking-tighter text-gray-900 animate-fade-in">
-                    KhoAI<span className="text-primary">.Admin</span>
+                    MuaToolAI.com<span className="text-primary">.Admin</span>
                  </span>
              )}
              {isCollapsed && (

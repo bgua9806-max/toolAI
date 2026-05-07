@@ -40,7 +40,7 @@ export const Contact: React.FC = () => {
     },
     {
       question: "Chính sách bảo hành như thế nào?",
-      answer: "KhoAI cam kết bảo hành trọn đời cho thời gian sử dụng gói dịch vụ. Nếu có lỗi phát sinh (mất premium, lỗi key...), chúng tôi sẽ đổi mới 1-1 ngay lập tức hoặc hoàn tiền theo thời gian chưa sử dụng."
+      answer: "MuaToolAI.com cam kết bảo hành trọn đời cho thời gian sử dụng gói dịch vụ. Nếu có lỗi phát sinh (mất premium, lỗi key...), chúng tôi sẽ đổi mới 1-1 ngay lập tức hoặc hoàn tiền theo thời gian chưa sử dụng."
     },
     {
       question: "Tôi có thể đăng nhập tài khoản trên nhiều thiết bị không?",
@@ -61,7 +61,7 @@ export const Contact: React.FC = () => {
           Liên hệ & Hỗ trợ
         </h1>
         <p className="text-gray-500 text-lg max-w-2xl mx-auto">
-          Đội ngũ KhoAI luôn sẵn sàng lắng nghe và giải đáp mọi thắc mắc của bạn 24/7.
+          Đội ngũ MuaToolAI.com luôn sẵn sàng lắng nghe và giải đáp mọi thắc mắc của bạn 24/7.
         </p>
       </div>
 
@@ -79,7 +79,7 @@ export const Contact: React.FC = () => {
                    <div>
                       <h3 className="font-bold text-gray-900 text-lg mb-1">Hotline / Zalo</h3>
                       <p className="text-gray-500 text-sm mb-2">Hỗ trợ kỹ thuật & Tư vấn mua hàng</p>
-                      <a href="https://zalo.me/g/bguamkuy0hcgjpvf9kyp" target="_blank" rel="noreferrer" className="text-xl font-bold text-primary hover:underline block">0374.770.023</a>
+                      <a href="https://zalo.me/g/bguamkuy0hcgjpvf9kyp" target="_blank" rel="noreferrer" className="text-xl font-bold text-primary hover:underline block">0906291941</a>
                       <a href="https://zalo.me/g/bguamkuy0hcgjpvf9kyp" target="_blank" rel="noreferrer" className="text-xs font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded-md inline-block mt-1 hover:bg-blue-100">Chat Zalo Ngay</a>
                    </div>
                 </div>

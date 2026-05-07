@@ -58,7 +58,7 @@ export const AdminSettings: React.FC = () => {
               <Shield size={12} /> Admin Control
             </div>
             <h1 className="text-2xl sm:text-3xl font-black tracking-tight">Cài đặt hệ thống</h1>
-            <p className="text-sm text-gray-400 mt-2 max-w-2xl">Quản lý thông tin cửa hàng, bảo mật, thông báo và các tích hợp vận hành của KhoAI.vn.</p>
+            <p className="text-sm text-gray-400 mt-2 max-w-2xl">Quản lý thông tin cửa hàng, bảo mật, thông báo và các tích hợp vận hành của MuaToolAI.com.</p>
           </div>
           <button className="h-11 px-5 rounded-xl bg-white text-gray-950 font-black text-sm flex items-center justify-center gap-2 hover:bg-blue-50 transition-colors shrink-0">
             <Save size={16} /> Lưu thay đổi
@@ -69,11 +69,11 @@ export const AdminSettings: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 sm:gap-6">
         <SettingCard icon={Store} title="Thông tin cửa hàng" description="Các thông tin hiển thị công khai trên website và hóa đơn.">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <Field label="Tên cửa hàng" value="KhoAI.vn" />
-            <Field label="Tên miền" value="khoai.vn" />
+            <Field label="Tên cửa hàng" value="MuaToolAI.com" />
+            <Field label="Tên miền" value="MuaToolAI.com" />
           </div>
           <Field label="Email hỗ trợ" value="support@aidayne.com" />
-          <Field label="Số Zalo" value="0374.770.023" />
+          <Field label="Số Zalo" value="0906291941" />
         </SettingCard>
 
         <SettingCard icon={UserCog} title="Tài khoản quản trị" description="Thiết lập thông tin đăng nhập và quyền truy cập admin.">
@@ -95,7 +95,7 @@ export const AdminSettings: React.FC = () => {
         </SettingCard>
 
         <SettingCard icon={Globe} title="SEO & thương hiệu" description="Cấu hình nhận diện mặc định cho website.">
-          <Field label="Tiêu đề mặc định" value="KhoAI.vn - Kho công cụ AI Premium" />
+          <Field label="Tiêu đề mặc định" value="MuaToolAI.com - Kho công cụ AI Premium" />
           <Field label="Meta description" value="Tài khoản AI, phần mềm premium và giải pháp số giá tốt." />
         </SettingCard>
 
