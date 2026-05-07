@@ -55,7 +55,7 @@ export const MobileProductCard: React.FC<MobileProductCardProps> = ({ product })
             href="https://zalo.me/g/bguamkuy0hcgjpvf9kyp"
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full h-7 rounded-lg bg-gray-950 text-white flex items-center justify-center text-[10px] font-bold active:scale-95 transition-transform hover:bg-[#0068FF]"
+            className="w-full h-6 rounded-md bg-gray-950 text-white flex items-center justify-center text-[10px] font-bold active:scale-95 transition-transform hover:bg-[#0068FF]"
           >
             Mua ngay
           </a>

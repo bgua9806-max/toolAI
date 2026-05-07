@@ -263,7 +263,7 @@ export const FlashSale: React.FC<FlashSaleProps> = ({ addToCart }) => {
 
                            <button 
                               onClick={() => addToCart({ ...item.product!, price: salePrice, originalPrice: originalPrice })}
-                              className="w-full h-7 lg:h-auto lg:py-3 rounded-lg lg:rounded-xl bg-gray-950 text-white flex items-center justify-center text-[10px] lg:text-sm font-bold lg:font-black active:scale-95 transition-all hover:bg-[#0068FF] lg:hover:bg-primary shadow-none lg:shadow-lg lg:shadow-gray-200 group-hover:shadow-red-500/30"
+                              className="w-full h-6 lg:h-auto lg:py-3 rounded-md lg:rounded-xl bg-gray-950 text-white flex items-center justify-center text-[10px] lg:text-sm font-bold lg:font-black active:scale-95 transition-all hover:bg-[#0068FF] lg:hover:bg-primary shadow-none lg:shadow-lg lg:shadow-gray-200 group-hover:shadow-red-500/30"
                            >
                               Mua ngay
                            </button>
