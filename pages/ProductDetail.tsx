@@ -345,6 +345,7 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({ addToCart }) => {
                       </div>
                       <div className="mt-2 text-xs text-gray-500">
                           Giá tham khảo: <span className="font-bold text-primary">{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND', maximumFractionDigits: 0 }).format(currentPrice)}</span>
+                          {product.pricingUnit && <span className="font-bold text-gray-500 ml-1">{product.pricingUnit}</span>}
                           {discountPercent > 0 && <span className="ml-1 text-gray-400 line-through">{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND', maximumFractionDigits: 0 }).format(currentOriginalPrice)}</span>}
                       </div>
                   </div>
@@ -559,6 +560,7 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({ addToCart }) => {
                       <span className="text-[10px] text-gray-500 font-bold">Báo giá qua Zalo</span>
                       <span className="text-sm font-black text-gray-900 leading-none">
                           Giá tham khảo: {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND', maximumFractionDigits: 0 }).format(currentPrice)}
+                          {product.pricingUnit && <span className="text-xs font-bold text-gray-500 ml-1">{product.pricingUnit}</span>}
                       </span>
                   </div>
                   <div className="flex-1 flex gap-2 justify-end">
@@ -615,6 +617,7 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({ addToCart }) => {
                                   <div className="text-4xl font-black tracking-tight">Liên hệ Zalo</div>
                                   <div className="mt-2 text-sm text-gray-500">
                                       Giá tham khảo: <span className="font-extrabold text-blue-600">{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND', maximumFractionDigits: 0 }).format(currentPrice)}</span>
+                                      {product.pricingUnit && <span className="font-bold text-gray-500 ml-1">{product.pricingUnit}</span>}
                                       {discountPercent > 0 && <span className="ml-2 text-gray-400 line-through font-medium">{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND', maximumFractionDigits: 0 }).format(currentOriginalPrice)}</span>}
                                   </div>
                               </div>

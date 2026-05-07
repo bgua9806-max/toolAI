@@ -27,6 +27,7 @@ export interface Product {
   price: number;
   originalPrice: number;
   discount: number;
+  pricingUnit?: string; // Đơn vị tính (VD: / Tháng, / Năm)
   image: string; // Ảnh đại diện chính
   category: string;
   rating: number;

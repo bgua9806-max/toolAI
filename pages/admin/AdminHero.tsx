@@ -25,6 +25,9 @@ export const AdminHero: React.FC = () => {
   };
 
   const [formData, setFormData] = useState<HeroSlide>(initialFormState);
+  
+  // Trạng thái Upload Ảnh
+  const [uploadingImage, setUploadingImage] = useState(false);
 
   const fetchData = async () => {
     setLoading(true);
@@ -108,6 +111,34 @@ export const AdminHero: React.FC = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const value = e.target.type === 'number' ? Number(e.target.value) : e.target.value;
     setFormData({ ...formData, [e.target.name]: value });
+  };
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+      if (!e.target.files || e.target.files.length === 0) return;
+      const file = e.target.files[0];
+      
+      setUploadingImage(true);
+      try {
+          const fileExt = file.name.split('.').pop();
+          const fileName = `banner_${Math.random().toString(36).substring(2, 15)}_${Date.now()}.${fileExt}`;
+          const filePath = `banners/${fileName}`;
+
+          const { error: uploadError } = await supabase.storage
+              .from('media')
+              .upload(filePath, file);
+
+          if (uploadError) {
+              throw uploadError;
+          }
+
+          const { data } = supabase.storage.from('media').getPublicUrl(filePath);
+          
+          setFormData({ ...formData, image: data.publicUrl });
+      } catch (error: any) {
+          alert('Lỗi upload ảnh: ' + (error.message || 'Kiểm tra lại quyền Storage Supabase'));
+      } finally {
+          setUploadingImage(false);
+      }
   };
 
   const handleProductSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -238,10 +269,25 @@ export const AdminHero: React.FC = () => {
                  </div>
 
                  <div>
-                    <label className="block text-sm font-bold text-gray-700 mb-2">Link Ảnh nền (URL)</label>
-                    <div className="relative">
-                        <ImageIcon className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
-                        <input type="text" name="image" required value={formData.image} onChange={handleChange} className="w-full pl-11 pr-4 py-3 bg-white border border-gray-200 rounded-xl font-medium focus:ring-2 focus:ring-primary/20 outline-none" />
+                    <label className="block text-sm font-bold text-gray-700 mb-2">Ảnh nền (Tải lên hoặc dán Link URL)</label>
+                    <div className="flex flex-col gap-3">
+                        <div className="relative">
+                            <ImageIcon className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+                            <input type="text" name="image" required value={formData.image} onChange={handleChange} placeholder="Dán URL ảnh hoặc tải lên..." className="w-full pl-11 pr-4 py-3 bg-white border border-gray-200 rounded-xl font-medium focus:ring-2 focus:ring-primary/20 outline-none" />
+                        </div>
+                        <div className="relative">
+                            <input type="file" accept="image/*" onChange={handleImageUpload} disabled={uploadingImage} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer disabled:cursor-not-allowed z-10" />
+                            <div className={`flex items-center justify-center gap-2 w-full px-4 py-3 rounded-xl border-2 border-dashed border-gray-300 bg-gray-50 text-gray-500 font-medium ${uploadingImage ? 'opacity-50' : 'hover:border-primary hover:text-primary hover:bg-blue-50 transition-colors'}`}>
+                                <ImageIcon size={20} />
+                                {uploadingImage ? 'Đang tải lên...' : 'Bấm vào đây để tải ảnh nền từ máy tính lên'}
+                            </div>
+                        </div>
+                        {formData.image && (
+                            <div className="mt-2 h-32 rounded-xl border border-gray-200 bg-gray-100 overflow-hidden relative">
+                                <img src={formData.image} alt="Preview" className="w-full h-full object-cover" />
+                                <div className="absolute top-2 left-2 bg-black/50 text-white text-[10px] font-bold px-2 py-1 rounded backdrop-blur-sm">Preview</div>
+                            </div>
+                        )}
                     </div>
                  </div>
 

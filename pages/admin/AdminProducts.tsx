@@ -4,6 +4,7 @@ import { Plus, Search, Filter, Edit, Trash2, X, Save, Image as ImageIcon, Layers
 import { CATEGORIES } from '../../constants';
 import { Product, Variant } from '../../types';
 import { supabase } from '../../lib/supabase';
+import { slugify } from '../../lib/utils';
 
 export const AdminProducts: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -23,6 +24,7 @@ export const AdminProducts: React.FC = () => {
     price: 0,
     originalPrice: 0,
     discount: 0,
+    pricingUnit: '',
     image: '',
     category: 'entertainment',
     rating: 5,
@@ -40,6 +42,9 @@ export const AdminProducts: React.FC = () => {
   };
 
   const [formData, setFormData] = useState<Product>(initialFormState);
+  
+  // Image Upload State
+  const [uploadingImage, setUploadingImage] = useState(false);
   
   // Temporary state for text area inputs
   const [featuresInput, setFeaturesInput] = useState('');
@@ -207,6 +212,34 @@ export const AdminProducts: React.FC = () => {
       }
   };
 
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+      if (!e.target.files || e.target.files.length === 0) return;
+      const file = e.target.files[0];
+      
+      setUploadingImage(true);
+      try {
+          const fileExt = file.name.split('.').pop();
+          const fileName = `${Math.random().toString(36).substring(2, 15)}_${Date.now()}.${fileExt}`;
+          const filePath = `products/${fileName}`;
+
+          const { error: uploadError } = await supabase.storage
+              .from('media')
+              .upload(filePath, file);
+
+          if (uploadError) {
+              throw uploadError;
+          }
+
+          const { data } = supabase.storage.from('media').getPublicUrl(filePath);
+          
+          setFormData({ ...formData, image: data.publicUrl });
+      } catch (error: any) {
+          alert('Lỗi upload ảnh: ' + (error.message || 'Kiểm tra lại quyền Storage Supabase'));
+      } finally {
+          setUploadingImage(false);
+      }
+  };
+
   // Variants Logic
   const addVariant = () => {
       const newVar: Variant = { id: Math.random().toString(), name: 'Gói mới', price: 0, originalPrice: 0, stock: 10, sku: '' };
@@ -221,10 +254,13 @@ export const AdminProducts: React.FC = () => {
       setTempVariants(tempVariants.filter(v => v.id !== id));
   };
 
-  const filteredProducts = products.filter(p => 
-    p.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
-    p.category.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredProducts = products.filter(p => {
+    if (!searchTerm || searchTerm.trim() === '') return true;
+    const cleanQuery = slugify(searchTerm.trim());
+    const queryTokens = cleanQuery.split('-').filter(t => t.length > 0);
+    const productContent = slugify(`${p.name} ${p.description || ''} ${p.category || ''} ${(p.features || []).join(' ')}`);
+    return queryTokens.every(token => productContent.includes(token));
+  });
 
   // Calculate total stock for a product
   const getTotalStock = (p: Product) => {
@@ -415,8 +451,11 @@ export const AdminProducts: React.FC = () => {
                               </div>
                               
                               <div>
-                                 <label className="block text-sm font-bold text-gray-700 mb-2">Giá hiển thị (VND)</label>
-                                 <input type="number" name="price" required min="0" value={formData.price} onChange={handleChange} className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl font-medium focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
+                                 <label className="block text-sm font-bold text-gray-700 mb-2">Giá hiển thị (VND) & Đơn vị</label>
+                                 <div className="flex gap-2">
+                                     <input type="number" name="price" required min="0" value={formData.price} onChange={handleChange} className="w-2/3 px-4 py-3 bg-white border border-gray-200 rounded-xl font-medium focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
+                                     <input type="text" name="pricingUnit" value={formData.pricingUnit || ''} onChange={handleChange} placeholder="VD: / 1 Năm" className="w-1/3 px-4 py-3 bg-white border border-gray-200 rounded-xl font-medium focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
+                                 </div>
                               </div>
                               <div>
                                  <label className="block text-sm font-bold text-gray-700 mb-2">Giá gốc (VND)</label>
@@ -561,14 +600,23 @@ export const AdminProducts: React.FC = () => {
                     {/* TAB: MEDIA */}
                     {activeTab === 'media' && (
                        <div className="space-y-6 animate-fade-in">
-                          <div>
-                             <label className="block text-sm font-bold text-gray-700 mb-2">Link Ảnh đại diện</label>
-                             <div className="flex gap-4">
-                                <input type="text" name="image" required value={formData.image || ''} onChange={handleChange} className="flex-1 px-4 py-3 bg-white border border-gray-200 rounded-xl font-medium focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
-                                {formData.image && <img src={formData.image} alt="Preview" className="w-16 h-16 rounded-lg object-cover bg-gray-200" />}
-                             </div>
-                             <p className="text-xs text-gray-500 mt-2">Dán đường dẫn ảnh (URL) vào ô trên. Hỗ trợ JPG, PNG, WebP.</p>
-                          </div>
+                           <div>
+                              <label className="block text-sm font-bold text-gray-700 mb-2">Ảnh đại diện</label>
+                              <div className="flex flex-col gap-3">
+                                 <div className="flex gap-4">
+                                    <input type="text" name="image" required value={formData.image || ''} onChange={handleChange} placeholder="Dán URL ảnh hoặc tải lên bên dưới..." className="flex-1 px-4 py-3 bg-white border border-gray-200 rounded-xl font-medium focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
+                                    {formData.image && <img src={formData.image} alt="Preview" className="w-16 h-16 rounded-xl object-cover bg-gray-200 border border-gray-200 shrink-0" />}
+                                 </div>
+                                 <div className="relative">
+                                     <input type="file" accept="image/*" onChange={handleImageUpload} disabled={uploadingImage} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer disabled:cursor-not-allowed z-10" />
+                                     <div className={`flex items-center justify-center gap-2 w-full px-4 py-3 rounded-xl border-2 border-dashed border-gray-300 bg-gray-50 text-gray-500 font-medium ${uploadingImage ? 'opacity-50' : 'hover:border-primary hover:text-primary hover:bg-blue-50 transition-colors'}`}>
+                                         <ImageIcon size={20} />
+                                         {uploadingImage ? 'Đang tải lên...' : 'Bấm vào đây để tải ảnh từ máy tính lên'}
+                                     </div>
+                                 </div>
+                              </div>
+                              <p className="text-xs text-gray-500 mt-2">Hỗ trợ định dạng JPG, PNG, WebP.</p>
+                           </div>
                           <div>
                              <label className="block text-sm font-bold text-gray-700 mb-2">Hướng dẫn kích hoạt (Markdown)</label>
                              <textarea 

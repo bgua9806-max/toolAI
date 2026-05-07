@@ -110,6 +110,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }
                     <div className="flex flex-col">
                         <span className="text-gray-900 font-extrabold text-base">
                             {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(product.price)}
+                            {product.pricingUnit && <span className="text-[11px] font-bold text-gray-500 ml-1">{product.pricingUnit}</span>}
                         </span>
                         {product.originalPrice > product.price && (
                             <span className="text-gray-400 text-[11px] line-through font-medium">

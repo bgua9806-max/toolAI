@@ -109,7 +109,7 @@ export const ProductsPage: React.FC<ProductsPageProps> = ({ addToCart }) => {
 
         result = result.filter(p => {
             // Combine fields to search within
-            const productContent = slugify(`${p.name} ${p.description} ${p.category}`);
+            const productContent = slugify(`${p.name} ${p.description || ''} ${p.category || ''} ${(p.features || []).join(' ')}`);
             
             // Check if every token in the query appears in the product content
             return queryTokens.every(token => productContent.includes(token));

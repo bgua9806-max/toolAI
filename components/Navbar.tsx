@@ -111,10 +111,11 @@ export const Navbar: React.FC<NavbarProps> = ({ cartCount, onOpenCart, isSearchO
     return fallback?.image || 'https://placehold.co/160x160?text=MuaToolAI.com';
   };
 
-  const formatProductPrice = (price: unknown) => {
+  const formatProductPrice = (price: unknown, unit?: string) => {
     const amount = Number(price);
     if (!Number.isFinite(amount)) return 'Liên hệ';
-    return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND', maximumFractionDigits: 0 }).format(amount);
+    const formatted = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND', maximumFractionDigits: 0 }).format(amount);
+    return unit ? `${formatted} ${unit}` : formatted;
   };
 
   // Search Logic
@@ -125,13 +126,12 @@ export const Navbar: React.FC<NavbarProps> = ({ cartCount, onOpenCart, isSearchO
 
     const cleanQuery = slugify(query.trim());
     if (cleanQuery.length > 0) {
+      const queryTokens = cleanQuery.split('-').filter(t => t.length > 0);
       const filtered = searchSource
         .filter(product => product && product.name)
         .filter(product => {
-          const pName = slugify(product.name || '');
-          const pCat = slugify(product.category || '');
-          const pDesc = slugify(product.description || '');
-          return pName.includes(cleanQuery) || pCat.includes(cleanQuery) || pDesc.includes(cleanQuery);
+          const productContent = slugify(`${product.name} ${product.description || ''} ${product.category || ''} ${(product.features || []).join(' ')}`);
+          return queryTokens.every(token => productContent.includes(token));
         })
         .slice(0, 6);
       setSuggestions(filtered);
@@ -544,7 +544,7 @@ export const Navbar: React.FC<NavbarProps> = ({ cartCount, onOpenCart, isSearchO
                                        <div className={`text-xs truncate ${idx === selectedIndex ? 'text-white/80' : 'text-gray-500'}`}>{p.category || 'Sản phẩm số'}</div>
                                     </div>
                                     <div className={`shrink-0 text-right font-bold text-xs sm:text-sm whitespace-nowrap ${idx === selectedIndex ? 'text-white' : 'text-primary'}`}>
-                                       {formatProductPrice(p.price)}
+                                       {formatProductPrice(p.price, p.pricingUnit)}
                                     </div>
                                     {idx === selectedIndex && <CornerDownLeft size={16} className="hidden sm:block text-white/70 shrink-0" />}
                                  </button>

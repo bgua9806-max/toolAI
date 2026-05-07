@@ -42,6 +42,7 @@ export const MobileProductCard: React.FC<MobileProductCardProps> = ({ product })
           <div className="flex flex-col mb-2">
              <span className="font-extrabold text-[#0068FF] text-[11px] sm:text-xs leading-none">
                {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND', maximumFractionDigits: 0 }).format(product.price)}
+               {product.pricingUnit && <span className="text-[9px] font-bold text-gray-500 ml-1">{product.pricingUnit}</span>}
              </span>
              {product.originalPrice > product.price && (
                <span className="text-[9px] text-gray-400 line-through mt-0.5">
