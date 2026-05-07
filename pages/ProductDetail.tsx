@@ -214,6 +214,14 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({ addToCart }) => {
     { title: 'Kích hoạt', desc: 'Nhận tài khoản/key và hướng dẫn sử dụng.' }
   ];
 
+  const renderMarkdown = (text?: string) => {
+      if (!text) return null;
+      let html = text.replace(/\\n/g, '<br/>').replace(/\n/g, '<br/>');
+      html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+      html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
+      return <div dangerouslySetInnerHTML={{ __html: html }} />;
+  };
+
   return (
     <div className="min-h-screen bg-[#F5F5F7] font-sans selection:bg-primary selection:text-white">
       <SEO 
@@ -463,7 +471,7 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({ addToCart }) => {
                   
                   <div className="text-sm text-gray-700 leading-relaxed">
                       {product.activationGuide ? (
-                          <div className="markdown-body whitespace-pre-line">{product.activationGuide}</div>
+                          <div className="markdown-body">{renderMarkdown(product.activationGuide)}</div>
                       ) : (
                           <div className="text-center text-gray-400 py-2 italic text-xs">
                               Hệ thống sẽ gửi hướng dẫn chi tiết qua email.
@@ -727,8 +735,8 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({ addToCart }) => {
                               <MessageCircle size={24} className="text-emerald-600" />
                               <span className="text-emerald-900 font-medium">Nhắn Zalo để được báo giá mới nhất, xác nhận tồn kho và nhận hướng dẫn kích hoạt phù hợp với sản phẩm.</span>
                           </div>
-                          <div className="prose prose-lg text-gray-600 whitespace-pre-line">
-                              {product.activationGuide || "Đang cập nhật nội dung..."}
+                          <div className="prose prose-lg text-gray-600">
+                              {product.activationGuide ? renderMarkdown(product.activationGuide) : "Đang cập nhật nội dung..."}
                           </div>
                       </div>
 
