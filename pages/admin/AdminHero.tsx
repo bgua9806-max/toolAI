@@ -259,13 +259,13 @@ export const AdminHero: React.FC = () => {
               
               <form onSubmit={handleSave} className="p-8 space-y-5 bg-gray-50/50 overflow-y-auto">
                  <div>
-                    <label className="block text-sm font-bold text-gray-700 mb-2">Tiêu đề lớn</label>
-                    <input type="text" name="title" required value={formData.title} onChange={handleChange} className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl font-bold focus:ring-2 focus:ring-primary/20 outline-none" />
+                    <label className="block text-sm font-bold text-gray-700 mb-2">Tiêu đề lớn <span className="font-medium text-gray-400">(không bắt buộc)</span></label>
+                    <input type="text" name="title" value={formData.title} onChange={handleChange} className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl font-bold focus:ring-2 focus:ring-primary/20 outline-none" />
                  </div>
                  
                  <div>
-                    <label className="block text-sm font-bold text-gray-700 mb-2">Mô tả phụ (Subtitle)</label>
-                    <textarea name="subtitle" rows={2} required value={formData.subtitle} onChange={handleChange} className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl font-medium resize-none focus:ring-2 focus:ring-primary/20 outline-none" />
+                    <label className="block text-sm font-bold text-gray-700 mb-2">Mô tả phụ (Subtitle) <span className="font-medium text-gray-400">(không bắt buộc)</span></label>
+                    <textarea name="subtitle" rows={2} value={formData.subtitle} onChange={handleChange} className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl font-medium resize-none focus:ring-2 focus:ring-primary/20 outline-none" />
                  </div>
 
                  <div>

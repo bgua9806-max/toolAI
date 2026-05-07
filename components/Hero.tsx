@@ -86,7 +86,7 @@ export const Hero: React.FC = () => {
   }, [currentSlide, isPaused, slides.length, nextSlide]);
 
   if (loading) {
-    return <div className="pt-32 sm:pt-28 lg:pt-32 pb-8 lg:pb-12 px-4 max-w-[1440px] mx-auto h-[200px] sm:h-[350px] md:h-[480px] bg-gray-100 rounded-[2rem] lg:rounded-[2.5rem] animate-pulse"></div>;
+    return <div className="pt-32 sm:pt-28 lg:pt-32 pb-8 lg:pb-12 px-4 max-w-[1440px] mx-auto aspect-[3/1] md:h-[480px] md:aspect-auto bg-gray-100 rounded-[2rem] lg:rounded-[2.5rem] animate-pulse"></div>;
   }
 
   if (slides.length === 0) return null;
@@ -94,12 +94,11 @@ export const Hero: React.FC = () => {
   return (
     <div className="pt-32 sm:pt-28 lg:pt-32 pb-6 lg:pb-12 px-3 sm:px-6 lg:px-8 max-w-[1440px] mx-auto">
       {/* 
-         Mobile Height: h-[200px]
-         Tablet Height: sm:h-[350px]
-         Desktop Height: md:h-[480px] (Reduced for better aesthetics)
+         Mobile/Tablet Ratio: aspect-[3/1]
+         Desktop Height: md:h-[480px] with max-width 1440px = 3:1
       */}
       <div 
-        className="relative h-[200px] sm:h-[350px] md:h-[480px] w-full rounded-[1.5rem] lg:rounded-[2.5rem] overflow-hidden shadow-soft group"
+        className="relative aspect-[3/1] md:h-[480px] md:aspect-auto w-full rounded-[1.5rem] lg:rounded-[2.5rem] overflow-hidden shadow-soft group"
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
       >
