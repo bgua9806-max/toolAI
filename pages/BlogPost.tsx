@@ -322,7 +322,7 @@ export const BlogPost: React.FC<BlogPostProps> = ({ addToCart }) => {
           MOBILE LAYOUT ( < 1024px )
           Premium Reading Experience + Product Integration
       ================================================================== */}
-      <div className="lg:hidden pb-20">
+      <div className="lg:hidden pt-[72px] pb-20">
          
          {/* 1. Progress Bar (Fixed Top) */}
          <div className="fixed top-0 left-0 h-1 z-[60] w-full bg-gray-100">
@@ -436,16 +436,16 @@ export const BlogPost: React.FC<BlogPostProps> = ({ addToCart }) => {
          {/* 6. Sticky Bottom Action Bar */}
          <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 w-full px-6 max-w-sm">
              <div className="bg-white/90 backdrop-blur-xl border border-gray-200/50 shadow-2xl rounded-full px-6 py-3.5 flex items-center justify-between">
-                <button onClick={() => {navigator.clipboard.writeText(window.location.href); alert('Đã sao chép link!')}} className="flex flex-col items-center gap-1 text-gray-500 hover:text-black">
-                    <Share2 size={20} />
+                <button onClick={() => {navigator.clipboard.writeText(window.location.href); alert('Đã sao chép link!')}} className="p-2 text-gray-500 hover:text-black">
+                    <Share2 size={22} />
                 </button>
                 <div className="w-px h-6 bg-gray-200"></div>
-                <Link to="/" className="flex flex-col items-center gap-1 text-blue-600 hover:text-blue-700 bg-blue-50 p-2 rounded-full">
+                <Link to="/" className="p-2 text-blue-600 hover:text-blue-700 bg-blue-50 rounded-full">
                     <Home size={22} strokeWidth={2.5} />
                 </Link>
                 <div className="w-px h-6 bg-gray-200"></div>
-                <button onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})} className="flex flex-col items-center gap-1 text-gray-500 hover:text-black">
-                    <ArrowUp size={20} />
+                <button onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})} className="p-2 text-gray-500 hover:text-black">
+                    <ArrowUp size={22} />
                 </button>
              </div>
          </div>
