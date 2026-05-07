@@ -399,33 +399,34 @@ export const BlogPost: React.FC<BlogPostProps> = ({ addToCart }) => {
              </div>
              
              {/* Horizontal Scroll Products */}
-             <div className="flex overflow-x-auto gap-4 px-6 pb-8 snap-x snap-mandatory no-scrollbar">
+             <div className="flex overflow-x-auto gap-3 px-6 pb-8 snap-x snap-mandatory no-scrollbar">
                  {recommendedProducts.map((prod) => (
-                     <div key={prod.id} className="snap-center flex-shrink-0 w-[200px] bg-white rounded-3xl p-3 shadow-sm border border-gray-100 flex flex-col">
-                         <div className="aspect-square rounded-2xl bg-gray-50 mb-3 overflow-hidden relative">
-                             <img 
-                                src={prod.image} 
-                                className="w-full h-full object-cover" 
-                                alt={prod.name} 
-                                onError={handleImageError}
-                             />
-                             {prod.discount > 0 && (
-                                 <span className="absolute top-2 left-2 bg-red-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-md">-{prod.discount}%</span>
-                             )}
-                         </div>
-                         <h4 className="font-bold text-gray-900 text-sm line-clamp-2 mb-1 leading-tight h-9">{prod.name}</h4>
-                         <div className="mt-auto pt-2 border-t border-gray-50 flex items-center justify-between">
-                             <span className="font-extrabold text-blue-600 text-sm">
-                                {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND', maximumFractionDigits: 0 }).format(prod.price || 0)}
-                             </span>
-                             <button 
-                                onClick={() => addToCart(prod)}
-                                className="w-7 h-7 rounded-full bg-gray-900 text-white flex items-center justify-center active:scale-90 transition-transform"
-                             >
-                                <ShoppingCart size={12} />
-                             </button>
-                         </div>
-                     </div>
+                      <div key={prod.id} className="snap-center flex-shrink-0 w-[150px] bg-white rounded-[1.25rem] p-2 shadow-[0_4px_12px_-4px_rgba(0,0,0,0.05)] border border-gray-100 flex flex-col">
+                          <div className="aspect-square rounded-xl bg-gray-50 mb-2 overflow-hidden relative">
+                              <img 
+                                 src={prod.image} 
+                                 className="w-full h-full object-cover mix-blend-multiply" 
+                                 alt={prod.name} 
+                                 onError={handleImageError}
+                              />
+                              {prod.discount > 0 && (
+                                  <span className="absolute top-1 left-1 bg-gradient-to-r from-red-500 to-orange-500 text-white text-[9px] font-black px-1.5 py-0.5 rounded-md shadow-sm">-{prod.discount}%</span>
+                              )}
+                          </div>
+                          <h4 className="font-bold text-gray-900 text-[10px] leading-[1.3] line-clamp-2 h-7 mb-1.5">{prod.name}</h4>
+                          <div className="mt-auto">
+                              <div className="font-extrabold text-[#0068FF] text-[11px] leading-none mb-2">
+                                 {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND', maximumFractionDigits: 0 }).format(prod.price || 0)}
+                              </div>
+                              <button 
+                                 onClick={() => addToCart(prod)}
+                                 className="w-full h-6 rounded-md bg-gray-950 text-white flex items-center justify-center active:scale-95 transition-transform hover:bg-[#0068FF]"
+                                 aria-label={`Mua ${prod.name}`}
+                              >
+                                 <ShoppingCart size={12} />
+                              </button>
+                          </div>
+                      </div>
                  ))}
              </div>
          </div>
