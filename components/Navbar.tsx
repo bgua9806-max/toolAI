@@ -216,36 +216,36 @@ export const Navbar: React.FC<NavbarProps> = ({ cartCount, onOpenCart, isSearchO
         ${isProductPage ? 'hidden lg:block' : ''}
         `}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
           <div 
             className={`
-              flex items-center justify-between gap-4 rounded-2xl transition-all duration-500 border
+              flex items-center justify-between gap-2 sm:gap-4 rounded-2xl transition-all duration-500 border
               ${scrolled 
-                ? 'bg-white/85 backdrop-blur-xl border-gray-200/60 shadow-lg shadow-gray-200/20 py-2.5 px-4 lg:px-6' 
-                : 'bg-white/60 backdrop-blur-md border-white/40 shadow-sm py-3 px-5 lg:py-4 lg:px-8'
+                ? 'bg-white/85 backdrop-blur-xl border-gray-200/60 shadow-lg shadow-gray-200/20 py-2.5 px-3 sm:px-4 lg:px-6' 
+                : 'bg-white/60 backdrop-blur-md border-white/40 shadow-sm py-2.5 px-3 sm:py-3 sm:px-5 lg:py-4 lg:px-8'
               }
             `}
           >
             
             {/* Logo Area */}
-            <div className="flex-shrink-0 flex items-center gap-2 lg:gap-6">
+            <div className="flex-shrink-0 flex items-center gap-1 sm:gap-2 lg:gap-6 min-w-0">
               
               {/* Mobile Menu Trigger */}
               <button 
                 type="button"
                 aria-label="Mở menu điều hướng"
                 onClick={() => setIsMobileMenuOpen(true)}
-                className="lg:hidden min-w-11 min-h-11 p-2 -ml-2 text-gray-600 hover:bg-gray-100 rounded-full active:scale-95 transition-all flex items-center justify-center"
+                className="lg:hidden w-10 h-10 sm:min-w-11 sm:min-h-11 p-1 -ml-1 sm:-ml-2 text-gray-600 hover:bg-gray-100 rounded-full active:scale-95 transition-all flex items-center justify-center shrink-0"
               >
-                <Menu size={24} />
+                <Menu size={24} className="w-5 h-5 sm:w-6 sm:h-6" />
               </button>
 
-              <div className="flex items-center gap-3">
-                <Link to="/" className="flex items-center group" aria-label="Về trang chủ MuaToolAI.com">
+              <div className="flex items-center gap-3 min-w-0">
+                <Link to="/" className="flex items-center group shrink-0 min-w-0" aria-label="Về trang chủ MuaToolAI.com">
                   <img
                     src="/brand/muatoolai-logo.png"
                     alt="MuaToolAI.com"
-                    className="h-12 lg:h-14 w-auto max-w-[240px] lg:max-w-[280px] object-contain transition-transform duration-300 group-hover:scale-[1.03]"
+                    className="h-8 sm:h-12 lg:h-14 w-auto max-w-[150px] sm:max-w-[240px] lg:max-w-[280px] object-contain transition-transform duration-300 group-hover:scale-[1.03]"
                   />
                 </Link>
               </div>
@@ -350,25 +350,25 @@ export const Navbar: React.FC<NavbarProps> = ({ cartCount, onOpenCart, isSearchO
               </button>
 
               {/* MOBILE ACTIONS: Search & Cart (Added) */}
-              <div className="flex items-center gap-1 lg:hidden">
+              <div className="flex items-center lg:hidden shrink-0">
                   <button 
                     type="button"
                     aria-label="Mở tìm kiếm"
                     onClick={() => setIsSearchOpen(true)}
-                    className="min-w-11 min-h-11 p-2 text-gray-600 hover:bg-gray-100 rounded-full active:scale-90 transition-all flex items-center justify-center"
+                    className="w-9 h-9 sm:w-10 sm:h-10 text-gray-600 hover:bg-gray-100 rounded-full active:scale-90 transition-all flex items-center justify-center shrink-0"
                   >
-                     <Search size={22} />
+                     <Search size={20} className="sm:w-[22px] sm:h-[22px]" />
                   </button>
                   
                   <button 
                     type="button"
                     aria-label="Mở giỏ hàng"
                     onClick={onOpenCart}
-                    className="relative min-w-11 min-h-11 p-2 text-gray-800 hover:text-primary rounded-full transition-all active:scale-90 flex items-center justify-center"
+                    className="relative w-9 h-9 sm:w-10 sm:h-10 text-gray-800 hover:text-primary rounded-full transition-all active:scale-90 flex items-center justify-center shrink-0"
                   >
-                    <ShoppingBag size={22} />
+                    <ShoppingBag size={20} className="sm:w-[22px] sm:h-[22px]" />
                     {cartCount > 0 && (
-                      <span className="absolute top-1 right-1 inline-flex items-center justify-center w-3.5 h-3.5 text-[8px] font-bold text-white bg-red-500 rounded-full ring-2 ring-white">
+                      <span className="absolute top-0 right-0 sm:top-1 sm:right-1 inline-flex items-center justify-center w-3.5 h-3.5 text-[8px] font-bold text-white bg-red-500 rounded-full ring-2 ring-white">
                         {cartCount}
                       </span>
                     )}
