@@ -38,7 +38,7 @@ export const Footer: React.FC = () => {
                 <ul className="space-y-2 text-[12px] sm:text-[13px]">
                   <li><Link to="/products" className="block py-1 hover:text-white transition-colors">Sản phẩm</Link></li>
                   <li><Link to="/blog" className="block py-1 hover:text-white transition-colors">Tin tức</Link></li>
-                  <li><Link to="/order-lookup" className="block py-1 hover:text-white transition-colors">Tra cứu đơn</Link></li>
+                  {/* <li><Link to="/order-lookup" className="block py-1 hover:text-white transition-colors">Tra cứu đơn</Link></li> */}
                 </ul>
               </div>
               <div className="rounded-2xl bg-white/[0.04] border border-white/10 p-4 lg:p-0 lg:bg-transparent lg:border-0">

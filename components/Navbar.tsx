@@ -198,7 +198,7 @@ export const Navbar: React.FC<NavbarProps> = ({ cartCount, onOpenCart, isSearchO
       { path: '/', label: 'Trang chủ', icon: Home },
       { path: '/products', label: 'Cửa hàng', icon: LayoutGrid },
       { path: '/blog', label: 'Tin tức & Blog', icon: BookOpen }, // Blog is here
-      { path: '/order-lookup', label: 'Tra cứu đơn hàng', icon: PackageCheck },
+      // { path: '/order-lookup', label: 'Tra cứu đơn hàng', icon: PackageCheck },
       { path: '/contact', label: 'Liên hệ hỗ trợ', icon: Phone },
   ];
 
@@ -272,12 +272,12 @@ export const Navbar: React.FC<NavbarProps> = ({ cartCount, onOpenCart, isSearchO
                  >
                    Liên hệ
                  </Link>
-                 <Link 
+                 {/* <Link 
                    to="/order-lookup" 
                    className={`text-[13px] font-bold px-4 py-2 rounded-full transition-all ${isActive('/order-lookup') ? 'bg-black text-white shadow-md' : 'text-gray-600 hover:text-black hover:bg-gray-50'}`}
                  >
                    Tra cứu đơn
-                 </Link>
+                 </Link> */}
               </div>
             </div>
 
@@ -303,9 +303,9 @@ export const Navbar: React.FC<NavbarProps> = ({ cartCount, onOpenCart, isSearchO
             <div className="flex items-center gap-1 sm:gap-2">
               
               {/* Desktop Actions */}
-              <Link to="/admin" className="hidden lg:flex items-center p-2.5 text-gray-500 hover:text-black hover:bg-gray-100 rounded-full transition-all" title="Admin">
+              {/* <Link to="/admin" className="hidden lg:flex items-center p-2.5 text-gray-500 hover:text-black hover:bg-gray-100 rounded-full transition-all" title="Admin">
                   <LayoutDashboard size={20} strokeWidth={1.5} />
-              </Link>
+              </Link> */}
               
               <div className="h-5 w-px bg-gray-200 hidden lg:block mx-1"></div>
 
@@ -451,14 +451,14 @@ export const Navbar: React.FC<NavbarProps> = ({ cartCount, onOpenCart, isSearchO
                })}
                
                {/* Admin Link (Mobile) */}
-               <Link 
+               {/* <Link 
                   to="/admin"
                   onClick={() => setIsMobileMenuOpen(false)}
                   className="flex items-center gap-4 p-4 rounded-2xl text-gray-700 hover:bg-gray-50 transition-all mt-4 border-t border-gray-100"
                >
                   <LayoutDashboard size={22} />
                   <span className="font-medium">Quản trị viên</span>
-               </Link>
+               </Link> */}
             </div>
 
             {/* Footer */}

@@ -8,7 +8,7 @@ import { ProductsPage } from './pages/Products';
 import { ProductDetail } from './pages/ProductDetail';
 import { Blog } from './pages/Blog';
 import { BlogPost } from './pages/BlogPost';
-import { OrderLookup } from './pages/OrderLookup';
+// import { OrderLookup } from './pages/OrderLookup';
 import { Login } from './pages/Login';
 import { Contact } from './pages/Contact';
 import { Checkout } from './pages/Checkout';
@@ -161,7 +161,7 @@ function AppContent() {
                   <Route path="/checkout" element={<Checkout cart={cart} clearCart={clearCart} />} />
                   <Route path="/blog" element={<Blog />} />
                   <Route path="/blog/:id" element={<BlogPost addToCart={addToCart} />} />
-                  <Route path="/order-lookup" element={<OrderLookup />} />
+                  {/* <Route path="/order-lookup" element={<OrderLookup />} /> */}
                   <Route path="/contact" element={<Contact />} />
                 </Routes>
               </div>
