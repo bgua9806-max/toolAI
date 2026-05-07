@@ -74,7 +74,7 @@ export const PromoCarousel: React.FC = () => {
 
   return (
     <section className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 mb-8 sm:mb-12 lg:mb-20">
-      <div className="relative rounded-[1.5rem] sm:rounded-[2rem] lg:rounded-[2.5rem] overflow-hidden shadow-lg shadow-gray-200/50 group aspect-[2.5/1] sm:aspect-[3/1] w-full">
+      <div className="relative rounded-[1.5rem] sm:rounded-[2rem] lg:rounded-[2.5rem] overflow-hidden shadow-lg shadow-gray-200/50 group aspect-[3/1] w-full">
         <div
           className="absolute inset-0 flex transition-transform duration-700 ease-[cubic-bezier(0.25,1,0.5,1)]"
           style={{ transform: `translateX(-${current * 100}%)` }}

@@ -18,9 +18,9 @@ export const MobileProductCard: React.FC<MobileProductCardProps> = ({ product })
     <div className="group relative flex flex-col w-full bg-white rounded-[1.25rem] p-2 shadow-[0_4px_12px_-4px_rgba(0,0,0,0.05)] border border-gray-100">
       <Link to={productLink} className="block active:scale-95 transition-transform duration-200">
         <div className="relative aspect-square rounded-xl overflow-hidden bg-gray-50 mb-2">
-          <img 
-            src={product.image || 'https://placehold.co/300'} 
-            alt={product.name} 
+          <img
+            src={product.image || 'https://placehold.co/300'}
+            alt={product.name}
             className="w-full h-full object-cover mix-blend-multiply"
           />
           {product.discount > 0 && (
@@ -40,18 +40,18 @@ export const MobileProductCard: React.FC<MobileProductCardProps> = ({ product })
 
         <div className="mt-auto">
           <div className="flex flex-col mb-2">
-             <span className="font-extrabold text-[#0068FF] text-[11px] sm:text-xs leading-none">
-               {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND', maximumFractionDigits: 0 }).format(product.price)}
-               {product.pricingUnit && <span className="text-[9px] font-bold text-gray-500 ml-1">{product.pricingUnit}</span>}
-             </span>
-             {product.originalPrice > product.price && (
-               <span className="text-[9px] text-gray-400 line-through mt-0.5">
-                 {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND', maximumFractionDigits: 0 }).format(product.originalPrice)}
-               </span>
-             )}
+            <span className="font-extrabold text-[#0068FF] text-[11px] sm:text-xs leading-none">
+              {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND', maximumFractionDigits: 0 }).format(product.price)}
+              {product.pricingUnit && <span className="text-[9px] font-bold text-gray-500 ml-1">{product.pricingUnit}</span>}
+            </span>
+            {product.originalPrice > product.price && (
+              <span className="text-[9px] text-gray-400 line-through mt-0.5">
+                {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND', maximumFractionDigits: 0 }).format(product.originalPrice)}
+              </span>
+            )}
           </div>
-          
-          <a 
+
+          <a
             href="https://zalo.me/g/bguamkuy0hcgjpvf9kyp"
             target="_blank"
             rel="noopener noreferrer"
