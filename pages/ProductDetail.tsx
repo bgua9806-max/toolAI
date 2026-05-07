@@ -359,7 +359,7 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({ addToCart }) => {
                               <h3 className="text-xs font-extrabold text-gray-400 uppercase tracking-widest">Chọn gói dịch vụ</h3>
                               <p className="text-xs text-gray-500 mt-1">Gói đang chọn sẽ được tự động đưa vào tin nhắn Zalo.</p>
                           </div>
-                          <span className="text-[10px] font-black text-blue-600 bg-blue-50 px-2 py-1 rounded-full">{product.variants.length} gói</span>
+                          <span className="text-[10px] font-black text-blue-600 bg-blue-50 px-2 py-1 rounded-full whitespace-nowrap shrink-0">{product.variants.length} gói</span>
                       </div>
                       <div className="grid grid-cols-1 gap-3">
                           {product.variants.map((v, idx) => {
@@ -649,7 +649,7 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({ addToCart }) => {
                                       <label className="block text-sm font-black text-gray-400 uppercase tracking-widest">Chọn gói dịch vụ</label>
                                       <p className="text-sm text-gray-500 mt-1">Gói đang chọn sẽ tự điền vào tin nhắn Zalo.</p>
                                   </div>
-                                  <span className="text-xs font-black text-blue-600 bg-blue-50 px-3 py-1.5 rounded-full">{product.variants.length} lựa chọn</span>
+                                  <span className="text-xs font-black text-blue-600 bg-blue-50 px-3 py-1.5 rounded-full whitespace-nowrap shrink-0">{product.variants.length} lựa chọn</span>
                               </div>
                               <div className="space-y-3">
                                   {product.variants.map((v, idx) => {
