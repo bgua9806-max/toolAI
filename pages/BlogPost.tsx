@@ -322,7 +322,7 @@ export const BlogPost: React.FC<BlogPostProps> = ({ addToCart }) => {
           MOBILE LAYOUT ( < 1024px )
           Premium Reading Experience + Product Integration
       ================================================================== */}
-      <div className="lg:hidden pt-[72px] pb-20">
+      <div className="lg:hidden pt-[88px] pb-20">
          
          {/* 1. Progress Bar (Fixed Top) */}
          <div className="fixed top-0 left-0 h-1 z-[60] w-full bg-gray-100">
