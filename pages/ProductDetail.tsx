@@ -573,7 +573,7 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({ addToCart }) => {
                       </button>
                       <button 
                           onClick={openZaloConsultation}
-                          className="flex-1 bg-[#0068FF] text-white font-bold rounded-xl text-base shadow-lg shadow-blue-500/25 active:scale-95 transition-transform flex items-center justify-center gap-2"
+                          className="flex-1 bg-[#0068FF] text-white font-bold rounded-xl text-base shadow-lg shadow-blue-500/25 active:scale-95 transition-transform flex items-center justify-center gap-2 whitespace-nowrap px-2"
                       >
                           <MessageCircle size={20} /> Nhắn Zalo
                       </button>
