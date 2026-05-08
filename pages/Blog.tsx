@@ -7,6 +7,15 @@ import { supabase } from '../lib/supabase';
 import { BLOG_POSTS as FALLBACK_POSTS } from '../constants';
 import { slugify } from '../lib/utils';
 
+const getBlogFallbackImage = (post?: Partial<BlogPost>) => {
+  const text = `${post?.title || ''} ${post?.category || ''}`.toLowerCase();
+  if (text.includes('canva') || text.includes('design') || text.includes('elsa') || text.includes('duolingo')) return '/blog/canva-pro.svg';
+  if (text.includes('youtube')) return '/blog/youtube-premium.svg';
+  if (text.includes('vpn') || text.includes('bảo mật') || text.includes('bao mat')) return '/blog/vpn-security.svg';
+  if (text.includes('office') || text.includes('microsoft') || text.includes('copilot')) return '/blog/microsoft-copilot.svg';
+  return '/blog/ai-comparison.svg';
+};
+
 const { Link } = ReactRouterDOM;
 
 const CATEGORIES = [
@@ -163,7 +172,12 @@ export const Blog: React.FC = () => {
                             className="snap-center flex-shrink-0 w-[240px] group"
                         >
                             <div className="aspect-video rounded-2xl overflow-hidden mb-3 relative shadow-sm border border-gray-100">
-                                <img src={post.image} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                                <img
+                                    src={post.image}
+                                    alt={post.title}
+                                    onError={(e) => { e.currentTarget.src = getBlogFallbackImage(post); }}
+                                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                />
                                 <div className="absolute top-2 left-2 bg-white/90 backdrop-blur px-2 py-0.5 rounded text-[9px] font-extrabold uppercase tracking-wide">
                                     {post.category}
                                 </div>
@@ -203,7 +217,12 @@ export const Blog: React.FC = () => {
                                 </div>
                             </div>
                             <div className="w-28 aspect-video rounded-xl overflow-hidden bg-gray-100 flex-shrink-0 shadow-sm border border-gray-100">
-                                <img src={post.image} className="w-full h-full object-cover" />
+                                <img
+                                    src={post.image}
+                                    alt={post.title}
+                                    onError={(e) => { e.currentTarget.src = getBlogFallbackImage(post); }}
+                                    className="w-full h-full object-cover"
+                                />
                             </div>
                         </Link>
                     ))}
@@ -246,7 +265,7 @@ export const Blog: React.FC = () => {
                         <img 
                             src={featuredPost.image} 
                             alt={featuredPost.title}
-                            onError={(e) => { e.currentTarget.src = '/blog/vpn-security.svg'; }}
+                            onError={(e) => { e.currentTarget.src = getBlogFallbackImage(featuredPost); }}
                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" 
                         />
                     </div>
@@ -280,7 +299,7 @@ export const Blog: React.FC = () => {
                         <img 
                             src={post.image} 
                             alt={post.title}
-                            onError={(e) => { e.currentTarget.src = '/blog/ai-comparison.svg'; }}
+                            onError={(e) => { e.currentTarget.src = getBlogFallbackImage(post); }}
                             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" 
                         />
                         <div className="absolute top-4 left-4 bg-white/90 backdrop-blur px-3 py-1 rounded-lg text-xs font-bold shadow-sm">

@@ -277,15 +277,188 @@ export const BLOG_POSTS: BlogPost[] = [
     relatedProductId: '10'
   },
   {
-    id: '5',
-    title: 'Review Microsoft 365 Copilot: Trợ lý AI đắc lực cho dân văn phòng',
-    excerpt: 'Cách AI tích hợp trong Word, Excel, PowerPoint thay đổi cách chúng ta làm việc mãi mãi.',
-    content: `Microsoft đã chính thức đưa AI vào bộ ứng dụng văn phòng quen thuộc của họ với cái tên Microsoft 365 Copilot. Đây không chỉ là một bản cập nhật nhỏ, mà là một cuộc cách mạng thực sự.\n\nCopilot trong Word\nBạn bí ý tưởng khi viết báo cáo? Chỉ cần gõ một câu lệnh, Copilot sẽ soạn thảo bản nháp đầu tiên cho bạn, tóm tắt các văn bản dài, hoặc viết lại đoạn văn theo giọng điệu chuyên nghiệp hơn.\n\nCopilot trong Excel\nQuên đi những công thức hàm phức tạp. Giờ đây, bạn có thể hỏi Excel bằng tiếng Việt: "Hãy phân tích xu hướng doanh thu quý này và vẽ biểu đồ so sánh với năm ngoái". Copilot sẽ làm tất cả cho bạn trong tích tắc.\n\nCopilot trong PowerPoint\nBiến một file Word dài dằng dặc thành một bài thuyết trình Slide đẹp mắt chỉ với 1 cú click? Đó chính xác là những gì Copilot làm được. Nó giúp bạn tiết kiệm hàng giờ đồng hồ căn chỉnh bố cục và tìm ảnh minh họa.`,
+    id: '6',
+    title: 'Cách chọn gói ChatGPT Plus phù hợp cho học tập, content và coding',
+    excerpt: 'Hướng dẫn thực tế giúp bạn tận dụng ChatGPT Plus đúng nhu cầu, tránh mua xong chỉ dùng để hỏi vài câu đơn giản.',
+    content: `ChatGPT Plus không chỉ là một chatbot trả lời câu hỏi. Nếu biết dùng đúng cách, đây có thể là trợ lý học tập, trợ lý viết nội dung và trợ lý lập trình cực kỳ mạnh.
+
+1. Dùng cho học tập
+Bạn có thể yêu cầu ChatGPT giải thích một khái niệm khó theo nhiều cấp độ: cho học sinh lớp 9, cho sinh viên đại học hoặc cho người đi làm. Cách này giúp bạn hiểu bản chất thay vì chỉ học thuộc.
+
+2. Dùng cho content marketing
+Với người làm nội dung, ChatGPT Plus hỗ trợ dựng outline bài viết, viết tiêu đề, phân tích chân dung khách hàng và biến một ý tưởng thô thành nhiều định dạng như bài blog, caption, email hoặc kịch bản video ngắn.
+
+3. Dùng cho coding
+Lập trình viên có thể dùng ChatGPT để đọc lỗi, refactor code, viết test case và giải thích luồng xử lý. Tuy nhiên, hãy luôn kiểm tra lại trước khi đưa vào production.
+
+4. Mẹo để dùng hiệu quả hơn
+Thay vì hỏi chung chung, hãy đưa bối cảnh rõ ràng: mục tiêu, đối tượng, giọng văn, định dạng đầu ra và ví dụ mẫu. Prompt càng cụ thể, kết quả càng sát nhu cầu.
+
+Kết luận: ChatGPT Plus đáng tiền nếu bạn xem nó như một công cụ làm việc hằng ngày, không phải chỉ là nơi hỏi đáp ngẫu nhiên.`,
+    author: 'Admin MuaToolAI.com',
+    date: '18/03/2024',
+    image: '/blog/ai-comparison.svg',
+    category: 'Công nghệ AI',
+    readTime: '6 phút',
+    relatedProductId: '3'
+  },
+  {
+    id: '7',
+    title: 'Canva Pro có gì hơn Canva miễn phí? 9 tính năng đáng tiền nhất',
+    excerpt: 'Nếu bạn làm bài thuyết trình, banner bán hàng hoặc nội dung mạng xã hội, đây là các tính năng Canva Pro nên biết.',
+    content: `Canva miễn phí đã đủ tốt cho nhu cầu cơ bản, nhưng Canva Pro mới là phiên bản giúp bạn làm việc nhanh và chuyên nghiệp hơn rõ rệt.
+
+1. Background Remover
+Xóa nền ảnh chỉ với một cú nhấp, rất hữu ích khi làm thumbnail, poster bán hàng hoặc ảnh sản phẩm.
+
+2. Magic Resize
+Một thiết kế có thể đổi sang nhiều kích thước: Facebook Post, Story, TikTok Cover, YouTube Thumbnail mà không cần làm lại từ đầu.
+
+3. Brand Kit
+Lưu logo, màu thương hiệu và font chữ để toàn bộ thiết kế luôn đồng bộ. Đây là tính năng cực quan trọng cho shop online và doanh nghiệp nhỏ.
+
+4. Kho template, ảnh và icon Pro
+Bạn được truy cập nhiều tài nguyên đẹp hơn, ít đụng hàng hơn và tiết kiệm thời gian tìm kiếm.
+
+5. Lên lịch đăng bài
+Canva Pro hỗ trợ lập lịch đăng nội dung lên một số nền tảng mạng xã hội, phù hợp cho người quản lý nhiều kênh.
+
+Kết luận: Nếu bạn thiết kế thường xuyên, Canva Pro giúp tiết kiệm rất nhiều thời gian và làm hình ảnh thương hiệu trông chuyên nghiệp hơn.`,
+    author: 'Lan Design',
+    date: '19/03/2024',
+    image: '/blog/canva-pro.svg',
+    category: 'Design',
+    readTime: '5 phút',
+    relatedProductId: '6'
+  },
+  {
+    id: '8',
+    title: 'Checklist bảo mật tài khoản số: 12 việc nên làm ngay hôm nay',
+    excerpt: 'Một hướng dẫn ngắn gọn để bảo vệ email, tài khoản mạng xã hội, ví điện tử và dữ liệu cá nhân.',
+    content: `Rất nhiều người chỉ bắt đầu quan tâm đến bảo mật sau khi tài khoản đã bị mất. Thực tế, chỉ cần làm đúng một vài bước cơ bản, bạn đã giảm được phần lớn rủi ro.
+
+1. Bật xác thực hai lớp
+Hãy bật 2FA cho email, Facebook, Google, tài khoản ngân hàng và các nền tảng làm việc quan trọng.
+
+2. Không dùng chung một mật khẩu
+Nếu một website bị lộ dữ liệu, hacker có thể thử chính mật khẩu đó trên email hoặc mạng xã hội của bạn.
+
+3. Dùng trình quản lý mật khẩu
+Password manager giúp tạo mật khẩu mạnh và lưu an toàn hơn so với ghi chú trong điện thoại.
+
+4. Kiểm tra thiết bị đăng nhập
+Định kỳ xem lại danh sách thiết bị đang đăng nhập tài khoản Google, Facebook, Apple ID để đăng xuất thiết bị lạ.
+
+5. Cẩn thận với Wi-Fi công cộng
+Nếu thường làm việc ở quán cà phê hoặc sân bay, hãy dùng VPN uy tín để mã hóa kết nối.
+
+Kết luận: Bảo mật không cần phức tạp. Điều quan trọng là duy trì thói quen đúng và kiểm tra định kỳ.`,
+    author: 'Tuan Security',
+    date: '20/03/2024',
+    image: '/blog/vpn-security.svg',
+    category: 'Bảo mật',
+    readTime: '7 phút',
+    relatedProductId: '10'
+  },
+  {
+    id: '9',
+    title: 'Microsoft Office 365: Vì sao dân văn phòng nên dùng bản quyền?',
+    excerpt: 'So sánh lợi ích của Microsoft 365 bản quyền với các bản crack thường gặp trên mạng.',
+    content: `Office là bộ công cụ quen thuộc với hầu hết dân văn phòng. Tuy nhiên, nhiều người vẫn dùng bản crack vì nghĩ chỉ cần Word, Excel, PowerPoint là đủ.
+
+1. An toàn dữ liệu hơn
+Các bản crack thường đi kèm file kích hoạt không rõ nguồn gốc. Đây là rủi ro lớn nếu máy tính có tài liệu công việc, hợp đồng hoặc dữ liệu khách hàng.
+
+2. Có OneDrive lưu trữ
+Microsoft 365 đi kèm dung lượng lưu trữ đám mây, giúp đồng bộ tài liệu giữa máy tính, điện thoại và trình duyệt.
+
+3. Cộng tác thời gian thực
+Bạn có thể cùng đồng nghiệp chỉnh sửa một file Word hoặc Excel mà không cần gửi qua gửi lại nhiều phiên bản.
+
+4. Luôn được cập nhật
+Bản quyền giúp bạn nhận cập nhật bảo mật và tính năng mới, tránh lỗi tương thích khi mở file từ khách hàng hoặc đối tác.
+
+Kết luận: Với chi phí hợp lý, Microsoft 365 bản quyền là khoản đầu tư đáng giá cho sự ổn định và an toàn khi làm việc.`,
     author: 'Office Master',
-    date: '05/03/2024',
+    date: '21/03/2024',
     image: '/blog/microsoft-copilot.svg',
     category: 'Tin tức',
     readTime: '5 phút',
     relatedProductId: '8'
+  },
+  {
+    id: '10',
+    title: 'YouTube Premium có đáng mua không nếu bạn xem YouTube mỗi ngày?',
+    excerpt: 'Phân tích lợi ích thực tế: không quảng cáo, nghe nhạc tắt màn hình, tải video offline và YouTube Music.',
+    content: `Nếu bạn xem YouTube mỗi ngày, YouTube Premium có thể là một trong những gói dịch vụ đáng tiền nhất.
+
+1. Không quảng cáo trên mọi thiết bị
+Điểm khác biệt lớn nhất là trải nghiệm liền mạch trên điện thoại, máy tính bảng, TV thông minh và trình duyệt.
+
+2. Nghe nhạc tắt màn hình
+Với người hay nghe podcast, nhạc hoặc bài giảng, tính năng phát nền cực kỳ tiện lợi.
+
+3. Tải video offline
+Bạn có thể tải video để xem khi đi đường, lúc mạng yếu hoặc khi không muốn tốn dữ liệu di động.
+
+4. YouTube Music Premium
+Ngoài YouTube không quảng cáo, bạn còn có thêm nền tảng nghe nhạc riêng với kho bài hát lớn.
+
+Kết luận: Nếu YouTube là ứng dụng bạn mở hằng ngày, Premium không chỉ tiết kiệm thời gian mà còn nâng cấp trải nghiệm rõ rệt.`,
+    author: 'Admin MuaToolAI.com',
+    date: '22/03/2024',
+    image: '/blog/youtube-premium.svg',
+    category: 'Review',
+    readTime: '4 phút',
+    relatedProductId: '2'
+  },
+  {
+    id: '11',
+    title: 'Midjourney dùng để làm gì? Ứng dụng thực tế cho bán hàng và sáng tạo nội dung',
+    excerpt: 'Không chỉ tạo ảnh đẹp, Midjourney có thể hỗ trợ làm moodboard, concept sản phẩm, banner và hình minh họa.',
+    content: `Midjourney là một trong những công cụ tạo ảnh AI nổi bật nhất hiện nay. Điểm mạnh của nó nằm ở khả năng tạo hình ảnh có tính nghệ thuật cao, ánh sáng đẹp và bố cục ấn tượng.
+
+1. Làm concept sản phẩm
+Bạn có thể mô tả phong cách, chất liệu, màu sắc và bối cảnh để tạo ý tưởng hình ảnh trước khi chụp thật.
+
+2. Làm banner quảng cáo
+Midjourney giúp tạo background, hình minh họa và mood visual cho landing page, bài quảng cáo hoặc poster.
+
+3. Làm nội dung mạng xã hội
+Những hình ảnh độc đáo giúp bài đăng nổi bật hơn so với việc dùng ảnh stock quá phổ biến.
+
+4. Hỗ trợ designer brainstorm
+Designer có thể dùng Midjourney để tạo moodboard, khám phá nhiều hướng thị giác trước khi chốt concept cuối cùng.
+
+Kết luận: Midjourney phù hợp với người làm marketing, thiết kế, thương mại điện tử và sáng tạo nội dung cần hình ảnh đẹp nhanh chóng.`,
+    author: 'Minh Techie',
+    date: '23/03/2024',
+    image: '/blog/ai-comparison.svg',
+    category: 'Công nghệ AI',
+    readTime: '6 phút',
+    relatedProductId: '12'
+  },
+  {
+    id: '12',
+    title: 'Học tiếng Anh bằng ELSA Speak và Duolingo: Nên chọn app nào?',
+    excerpt: 'ELSA mạnh về phát âm, Duolingo mạnh về thói quen học mỗi ngày. Bài viết giúp bạn chọn đúng theo mục tiêu.',
+    content: `Ứng dụng học ngoại ngữ ngày càng thông minh hơn, nhưng mỗi app lại phù hợp với một mục tiêu khác nhau.
+
+ELSA Speak phù hợp với ai?
+ELSA tập trung vào phát âm. App dùng AI để phân tích giọng nói, chỉ ra âm sai và gợi ý cách sửa. Nếu bạn muốn nói tiếng Anh rõ hơn, tự tin phỏng vấn hoặc thuyết trình, ELSA là lựa chọn rất tốt.
+
+Duolingo phù hợp với ai?
+Duolingo giống một trò chơi học ngoại ngữ. Bài học ngắn, có streak hằng ngày, phù hợp với người mới bắt đầu hoặc muốn duy trì thói quen học đều.
+
+Nên dùng app nào?
+Nếu mục tiêu chính là phát âm và giao tiếp: chọn ELSA Speak. Nếu mục tiêu là học từ vựng, ngữ pháp cơ bản và tạo thói quen: chọn Duolingo. Tốt nhất là kết hợp cả hai nếu bạn có thời gian.
+
+Kết luận: Không có app tốt nhất cho tất cả mọi người. Hãy chọn công cụ phù hợp với mục tiêu học của bạn.`,
+    author: 'Edu Lab',
+    date: '24/03/2024',
+    image: '/blog/canva-pro.svg',
+    category: 'Thủ thuật',
+    readTime: '5 phút',
+    relatedProductId: '9'
   }
 ];

@@ -63,7 +63,7 @@ export const Home: React.FC<HomeProps> = ({ addToCart }) => {
   const hotCandidates = products.filter(p => p.isHot || p.rating >= 4.9);
   const hotProducts = sortProductsByPriority(
     Array.from(new Map<string, Product>(hotCandidates.map((item) => [item.id, item])).values())
-  ).slice(0, 10);
+  ).slice(0, 15);
   
   const newProducts = products.filter(p => p.isNew || (typeof p.id === 'string' && parseInt(p.id) > 8));
 
@@ -126,7 +126,7 @@ export const Home: React.FC<HomeProps> = ({ addToCart }) => {
         {/* DESKTOP GRID */}
         {loading ? (
              <div className="hidden lg:grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 lg:gap-6">
-               {[1,2,3,4,5].map(i => (
+               {[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15].map(i => (
                  <div key={i} className="h-[350px] bg-gray-200 rounded-3xl animate-pulse"></div>
                ))}
              </div>
@@ -141,8 +141,8 @@ export const Home: React.FC<HomeProps> = ({ addToCart }) => {
         {/* MOBILE GRID 3x3 */}
         <div className="lg:hidden grid grid-cols-3 gap-2 sm:gap-3 pb-4">
             {loading ? (
-                [1,2,3,4,5,6,7,8,9].map(i => <div key={i} className="w-full aspect-[1/1.5] bg-gray-200 rounded-[1.25rem] animate-pulse"></div>)
-            ) : hotProducts.slice(0, 9).map((product) => (
+                [1,2,3,4,5,6,7,8,9,10,11,12].map(i => <div key={i} className="w-full aspect-[1/1.5] bg-gray-200 rounded-[1.25rem] animate-pulse"></div>)
+            ) : hotProducts.slice(0, 12).map((product) => (
                 <MobileProductCard key={`mob-hot-${product.id}`} product={product} />
             ))}
         </div>

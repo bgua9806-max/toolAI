@@ -10,6 +10,15 @@ import { supabase } from '../lib/supabase';
 import { slugify } from '../lib/utils';
 import { SEO } from '../components/SEO';
 
+const getBlogFallbackImage = (post?: Partial<BlogPostType>) => {
+  const text = `${post?.title || ''} ${post?.category || ''}`.toLowerCase();
+  if (text.includes('canva') || text.includes('design') || text.includes('elsa') || text.includes('duolingo')) return '/blog/canva-pro.svg';
+  if (text.includes('youtube')) return '/blog/youtube-premium.svg';
+  if (text.includes('vpn') || text.includes('bảo mật') || text.includes('bao mat')) return '/blog/vpn-security.svg';
+  if (text.includes('office') || text.includes('microsoft') || text.includes('copilot')) return '/blog/microsoft-copilot.svg';
+  return '/blog/ai-comparison.svg';
+};
+
 const { useParams, Link, useNavigate } = ReactRouterDOM;
 
 const decodeBlogEntities = (value: string) => {
@@ -335,7 +344,7 @@ export const BlogPost: React.FC<BlogPostProps> = ({ addToCart }) => {
                 src={post.image} 
                 alt={post.title} 
                 className="w-full h-full object-cover"
-                onError={(e) => { (e.target as HTMLImageElement).src = 'https://placehold.co/1200x600?text=No+Cover' }}
+                onError={(e) => { e.currentTarget.src = getBlogFallbackImage(post); }}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent opacity-100 h-40 bottom-0 top-auto"></div>
          </div>
@@ -481,7 +490,7 @@ export const BlogPost: React.FC<BlogPostProps> = ({ addToCart }) => {
                     <img 
                         src={post.image} 
                         className="w-full h-full object-cover" 
-                        onError={(e) => { (e.target as HTMLImageElement).src = 'https://placehold.co/1200x600?text=No+Cover' }}
+                        onError={(e) => { e.currentTarget.src = getBlogFallbackImage(post); }}
                     />
                 </div>
 

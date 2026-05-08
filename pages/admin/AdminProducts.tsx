@@ -1,5 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { Plus, Search, Filter, Edit, Trash2, X, Save, Image as ImageIcon, Layers, FileText, Monitor, ShieldCheck, List, DollarSign, Package, AlertCircle, CheckSquare, Square, Eye, EyeOff } from 'lucide-react';
 import { CATEGORIES } from '../../constants';
 import { Product, Variant } from '../../types';
@@ -412,13 +413,13 @@ export const AdminProducts: React.FC = () => {
       </div>
 
        {/* MODAL EDITOR - FIXED LAYOUT & IMPROVED UX */}
-       {isModalOpen && (
+       {isModalOpen && createPortal(
          <div className="fixed inset-0 z-[9999] flex items-stretch sm:items-center justify-center p-0 sm:p-6 isolate">
             {/* Backdrop */}
             <div className="fixed inset-0 bg-black/65 backdrop-blur-sm" onClick={() => setIsModalOpen(false)}></div>
             
             {/* Modal Layout: Pure Flex Column with Fixed Height Constraints */}
-            <div className="bg-white rounded-none sm:rounded-[2rem] w-full sm:max-w-5xl h-[100dvh] sm:h-[90dvh] sm:max-h-[900px] flex flex-col relative z-[10000] shadow-2xl animate-fade-in-up overflow-hidden">
+            <div className="bg-white rounded-none sm:rounded-[2rem] w-full sm:max-w-5xl h-[100dvh] sm:h-[calc(100dvh-3rem)] sm:max-h-[900px] flex flex-col relative z-[10000] shadow-2xl animate-fade-in-up overflow-hidden">
               
               {/* 1. Header (Fixed, no shrink) */}
               <div className="px-4 sm:px-8 py-4 sm:py-5 border-b border-gray-100 flex items-center justify-between bg-white shrink-0 z-20">
@@ -438,8 +439,8 @@ export const AdminProducts: React.FC = () => {
               </div>
 
               {/* 3. Form Content (Scrollable Area, flex-1, min-h-0) */}
-              <div className="p-4 sm:p-8 overflow-y-auto bg-gray-50/50 flex-1 min-h-0 relative">
-                 <form id="productForm" onSubmit={handleSave} className="space-y-6 pb-4">
+              <div className="p-4 sm:p-8 overflow-y-auto bg-gray-50/50 flex-1 min-h-0 relative overscroll-contain">
+                 <form id="productForm" onSubmit={handleSave} className="space-y-6 pb-28 sm:pb-8">
                     
                     {/* TAB: GENERAL */}
                     {activeTab === 'general' && (
@@ -640,7 +641,8 @@ export const AdminProducts: React.FC = () => {
                  <button form="productForm" type="submit" className="px-6 py-3 bg-primary text-white rounded-xl font-bold shadow-lg shadow-red-500/20 hover:bg-primary-hover flex items-center gap-2"><Save size={18} /> Lưu sản phẩm</button>
               </div>
            </div>
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );
