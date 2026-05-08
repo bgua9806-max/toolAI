@@ -190,7 +190,7 @@ export const AdminLayout: React.FC = () => {
                   <div className="flex-1 min-w-0 animate-fade-in">
                     <p className="text-sm font-bold text-gray-900 truncate">Administrator</p>
                     <div className="flex items-center justify-between mt-0.5">
-                        <p className="text-[10px] text-gray-500 truncate">admin@aidayne.com</p>
+                        <p className="text-[10px] text-gray-500 truncate">admin@MuaToolAI.com</p>
                         <Link to="/login" onClick={() => sessionStorage.removeItem('khoai_admin_unlocked')} className="text-gray-400 hover:text-red-500 transition-colors" title="Đăng xuất">
                             <LogOut size={14} />
                         </Link>

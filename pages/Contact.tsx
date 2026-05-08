@@ -104,7 +104,7 @@ export const Contact: React.FC = () => {
                    <div>
                       <h3 className="font-bold text-gray-900 text-lg mb-1">Email hỗ trợ</h3>
                       <p className="text-gray-500 text-sm mb-2">Giải quyết khiếu nại & Hợp tác</p>
-                      <a href="mailto:support@aidayne.com" className="text-lg font-bold text-gray-800 hover:text-primary transition-colors">support@aidayne.com</a>
+                      <a href="mailto:support@MuaToolAI.com" className="text-lg font-bold text-gray-800 hover:text-primary transition-colors">support@MuaToolAI.com</a>
                    </div>
                 </div>
 

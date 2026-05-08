@@ -75,13 +75,13 @@ export const Footer: React.FC = () => {
                   <p className="text-sm text-gray-200 font-bold group-hover:text-white transition-colors">0906.291.941</p>
                 </div>
               </a>
-              <a href="mailto:support@aidayne.com" className="flex items-start gap-4 group">
+              <a href="mailto:support@MuaToolAI.com" className="flex items-start gap-4 group">
                 <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center shrink-0 group-hover:bg-white/10 transition-colors duration-300">
                   <Mail size={18} className="text-gray-400 group-hover:text-white transition-colors" />
                 </div>
                 <div>
                   <p className="text-xs text-gray-500 mb-1 font-medium">Email Hỗ Trợ</p>
-                  <p className="text-sm text-gray-200 font-bold group-hover:text-white transition-colors">support@aidayne.com</p>
+                  <p className="text-sm text-gray-200 font-bold group-hover:text-white transition-colors">support@MuaToolAI.com</p>
                 </div>
               </a>
             </div>

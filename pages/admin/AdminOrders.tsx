@@ -166,7 +166,7 @@ export const AdminOrders: React.FC = () => {
 
             <div class="footer">
                Cảm ơn bạn đã mua sắm tại MuaToolAI.com!<br/>
-               Mọi thắc mắc xin liên hệ support@aidayne.com hoặc hotline 0906291941
+               Mọi thắc mắc xin liên hệ support@MuaToolAI.com hoặc hotline 0906291941
             </div>
             
             <script>

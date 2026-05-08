@@ -72,12 +72,12 @@ export const AdminSettings: React.FC = () => {
             <Field label="Tên cửa hàng" value="MuaToolAI.com" />
             <Field label="Tên miền" value="MuaToolAI.com" />
           </div>
-          <Field label="Email hỗ trợ" value="support@aidayne.com" />
+          <Field label="Email hỗ trợ" value="support@MuaToolAI.com" />
           <Field label="Số Zalo" value="0906291941" />
         </SettingCard>
 
         <SettingCard icon={UserCog} title="Tài khoản quản trị" description="Thiết lập thông tin đăng nhập và quyền truy cập admin.">
-          <Field label="Email admin" value="admin@aidayne.com" />
+          <Field label="Email admin" value="admin@MuaToolAI.com" />
           <Field label="Vai trò" value="Administrator" />
           <ToggleRow title="Bảo vệ đăng nhập" description="Yêu cầu xác thực trước khi vào khu vực admin." enabled />
         </SettingCard>
