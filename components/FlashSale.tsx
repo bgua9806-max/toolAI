@@ -77,20 +77,8 @@ export const FlashSale: React.FC<FlashSaleProps> = ({ addToCart }) => {
                   }
 
                   if (!finalProduct) {
-                     console.warn(`Flash Sale product not found: ${sale.product_id}`);
-                     finalProduct = {
-                        id: sale.product_id,
-                        name: 'Sản phẩm Flash Sale',
-                        description: 'Sản phẩm đang được cấu hình trong Flash Sale.',
-                        price: 0,
-                        originalPrice: 0,
-                        discount: sale.discount_percent,
-                        image: 'https://via.placeholder.com/300?text=Flash+Sale',
-                        category: 'flash-sale',
-                        rating: 5,
-                        sold: sale.quantity_sold || 0,
-                        isActive: true
-                     } as Product;
+                     console.warn(`Flash Sale product not found: ${sale.product_id}. Skipping.`);
+                     return null; // Bỏ qua sản phẩm không tìm thấy trong DB hoặc Fallback
                   }
 
                   // Đảm bảo luôn có ảnh placeholder nếu cả 2 đều thiếu
