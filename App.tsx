@@ -12,6 +12,7 @@ import { BlogPost } from './pages/BlogPost';
 import { Login } from './pages/Login';
 import { Contact } from './pages/Contact';
 import { Checkout } from './pages/Checkout';
+import { Maintenance } from './pages/Maintenance';
 import { CartDrawer } from './components/CartDrawer';
 import { ChatBot } from './components/ChatBot';
 import { Product, CartItem } from './types';
@@ -119,11 +120,12 @@ function AppContent() {
   };
 
   const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
+  const isMaintenanceMode = true; // Bật/tắt chế độ bảo trì tạm dừng website
 
   return (
     <Router>
       <div className="flex flex-col min-h-screen">
-        <ChatBot /> 
+        {!isMaintenanceMode && <ChatBot />} 
         <Routes>
           <Route path="/login" element={<Login />} />
           
@@ -140,44 +142,51 @@ function AppContent() {
              <Route path="blog/new" element={<AdminBlogEditor />} /> 
              <Route path="blog/edit/:id" element={<AdminBlogEditor />} /> 
              <Route path="customers" element={<AdminCustomers />} />
-             <Route path="hero" element={<AdminHero />} />`r`n              <Route path="promo-banners" element={<AdminPromoBanners />} />
+             <Route path="hero" element={<AdminHero />} />
+             <Route path="promo-banners" element={<AdminPromoBanners />} />
              <Route path="settings" element={<AdminSettings />} />
           </Route>
 
           {/* Public Routes */}
-          <Route path="*" element={
-            <>
-              <Navbar 
-                cartCount={cartCount} 
-                onOpenCart={() => setIsCartOpen(true)}
-                isSearchOpen={isSearchOpen}
-                setIsSearchOpen={setIsSearchOpen}
-              />
-              {/* Removed pb-24 since BottomNav is gone */}
-              <div className="">
-                <Routes>
-                  <Route path="/" element={<Home addToCart={addToCart} />} />
-                  <Route path="/products" element={<ProductsPage addToCart={addToCart} />} />
-                  <Route path="/product/:id" element={<ProductDetail addToCart={addToCart} />} />
-                  <Route path="/checkout" element={<Checkout cart={cart} clearCart={clearCart} />} />
-                  <Route path="/blog" element={<Blog />} />
-                  <Route path="/blog/:id" element={<BlogPost addToCart={addToCart} />} />
-                  {/* <Route path="/order-lookup" element={<OrderLookup />} /> */}
-                  <Route path="/contact" element={<Contact />} />
-                </Routes>
-              </div>
-              <Footer />
-            </>
-          } />
+          {isMaintenanceMode ? (
+            <Route path="*" element={<Maintenance />} />
+          ) : (
+            <Route path="*" element={
+              <>
+                <Navbar 
+                  cartCount={cartCount} 
+                  onOpenCart={() => setIsCartOpen(true)}
+                  isSearchOpen={isSearchOpen}
+                  setIsSearchOpen={setIsSearchOpen}
+                />
+                {/* Removed pb-24 since BottomNav is gone */}
+                <div className="">
+                  <Routes>
+                    <Route path="/" element={<Home addToCart={addToCart} />} />
+                    <Route path="/products" element={<ProductsPage addToCart={addToCart} />} />
+                    <Route path="/product/:id" element={<ProductDetail addToCart={addToCart} />} />
+                    <Route path="/checkout" element={<Checkout cart={cart} clearCart={clearCart} />} />
+                    <Route path="/blog" element={<Blog />} />
+                    <Route path="/blog/:id" element={<BlogPost addToCart={addToCart} />} />
+                    {/* <Route path="/order-lookup" element={<OrderLookup />} /> */}
+                    <Route path="/contact" element={<Contact />} />
+                  </Routes>
+                </div>
+                <Footer />
+              </>
+            } />
+          )}
         </Routes>
         
-        <CartDrawer 
-          isOpen={isCartOpen} 
-          onClose={() => setIsCartOpen(false)} 
-          cartItems={cart} 
-          onRemove={removeFromCart}
-          onUpdateQuantity={updateQuantity}
-        />
+        {!isMaintenanceMode && (
+          <CartDrawer 
+            isOpen={isCartOpen} 
+            onClose={() => setIsCartOpen(false)} 
+            cartItems={cart} 
+            onRemove={removeFromCart}
+            onUpdateQuantity={updateQuantity}
+          />
+        )}
       </div>
     </Router>
   );
