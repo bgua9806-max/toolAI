@@ -67,29 +67,42 @@ export const Home: React.FC<HomeProps> = ({ addToCart }) => {
   
   const newProducts = products.filter(p => p.isNew || (typeof p.id === 'string' && parseInt(p.id) > 8));
 
-  // JSON-LD Schema including Organization Logo for Google
+  // JSON-LD Schema including Organization & OnlineStore for Google and AI Search
   const homeSchema = {
     "@context": "https://schema.org",
     "@graph": [
       {
-        "@type": "Organization",
+        "@type": ["Organization", "OnlineStore"],
+        "@id": "https://muatoolai.com/#organization",
         "name": "MuaToolAI.com",
-        "url": window.location.origin,
-        "logo": "https://placehold.co/512x512?text=A", // REPLACE THIS with your actual logo URL
+        "url": "https://muatoolai.com",
+        "logo": "https://muatoolai.com/favicon.png",
+        "description": "Kho tài khoản AI Tools và phần mềm bản quyền giá rẻ uy tín số 1 Việt Nam. Bảo hành 1-1 trọn đời.",
+        "telephone": "+84906291941",
+        "email": "support@MuaToolAI.com",
+        "priceRange": "69.000đ - 1.500.000đ",
+        "currenciesAccepted": "VND",
+        "paymentAccepted": "Bank Transfer, VietQR, MoMo, ZaloPay",
+        "address": {
+          "@type": "PostalAddress",
+          "addressCountry": "VN"
+        },
         "sameAs": [
           "https://www.facebook.com/profile.php?id=61552104173388&locale=vi_VN",
-          "https://zalo.me/g/bguamkuy0hcgjpvf9kyp"
+          "https://zalo.me/g/bguamkuy0hcgjpvf9kyp",
+          "https://t.me/aidayne"
         ]
       },
       {
         "@type": "WebSite",
+        "@id": "https://muatoolai.com/#website",
         "name": "MuaToolAI.com",
-        "url": window.location.origin,
+        "url": "https://muatoolai.com",
         "potentialAction": {
           "@type": "SearchAction",
           "target": {
             "@type": "EntryPoint",
-            "urlTemplate": `${window.location.origin}/products?q={search_term_string}`
+            "urlTemplate": "https://muatoolai.com/products?q={search_term_string}"
           },
           "query-input": "required name=search_term_string"
         }
@@ -100,8 +113,9 @@ export const Home: React.FC<HomeProps> = ({ addToCart }) => {
   return (
     <main className="min-h-screen bg-[#F2F2F7] pb-24">
       <SEO 
-        title="MuaToolAI.com - Bản Quyền Phần Mềm & AI Tools Giá Rẻ" 
-        description="Mua bản quyền ChatGPT Plus, Netflix, Youtube Premium, Adobe, Windows, Office giá rẻ, bảo hành trọn đời. Uy tín, giao hàng tự động 24/7."
+        title="MuaToolAI.com - Phần Mềm Bản Quyền & AI Tools Giá Rẻ Uy Tín Số 1" 
+        description="Mua bản quyền ChatGPT Plus, Midjourney, Canva Pro, Netflix, Youtube Premium, Adobe, Windows, Office giá rẻ, bảo hành 1-1 trọn đời. Giao hàng tự động 24/7."
+        canonical="https://muatoolai.com/"
         schema={homeSchema}
       />
       <Hero />

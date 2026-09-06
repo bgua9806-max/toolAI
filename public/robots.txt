@@ -1,0 +1,57 @@
+# Robots.txt for https://muatoolai.com
+# Optimized for Search Engines (SEO) and Generative AI Engines (GEO)
+
+User-agent: *
+Allow: /
+Allow: /products
+Allow: /product/
+Allow: /blog
+Allow: /blog/
+Allow: /contact
+Allow: /llms.txt
+Allow: /llms-full.txt
+Allow: /sitemap.xml
+Disallow: /admin
+Disallow: /admin/
+Disallow: /login
+Disallow: /checkout
+
+# AI Crawlers (Allowed for Generative Engine Optimization & AI Citations)
+User-agent: GPTBot
+Allow: /
+Disallow: /admin
+Disallow: /login
+Disallow: /checkout
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+Disallow: /admin
+Disallow: /login
+Disallow: /checkout
+
+User-agent: ClaudeBot
+Allow: /
+Disallow: /admin
+Disallow: /login
+Disallow: /checkout
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+Disallow: /admin
+Disallow: /login
+Disallow: /checkout
+
+# Sitemap Declaration
+Sitemap: https://muatoolai.com/sitemap.xml

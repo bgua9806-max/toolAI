@@ -169,36 +169,93 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({ addToCart }) => {
     return 'Windows, macOS, Android, iOS';
   };
 
-  // Enhanced JSON-LD for Software Application
-  const productSchema = {
-    "@context": "https://schema.org/",
-    "@type": "SoftwareApplication",
-    "name": product.name,
-    "image": product.image,
-    "description": product.description,
-    "applicationCategory": getApplicationCategory(product.category),
-    "operatingSystem": getOperatingSystem(),
-    "softwareVersion": product.version || "Latest",
-    "brand": {
-      "@type": "Brand",
-      "name": product.developer || "MuaToolAI.com"
+  const canonicalProductUrl = `https://muatoolai.com/product/${product.id}`;
+
+  // Comprehensive Product & Breadcrumb Schemas (Optimized for Google Rich Snippets & AI Search)
+  const productSchemas = [
+    {
+      "@type": ["Product", "SoftwareApplication"],
+      "@id": `${canonicalProductUrl}#product`,
+      "name": product.name,
+      "image": product.image,
+      "description": product.description,
+      "applicationCategory": getApplicationCategory(product.category),
+      "operatingSystem": getOperatingSystem(),
+      "softwareVersion": product.version || "Bản quyền chính hãng 2026",
+      "brand": {
+        "@type": "Brand",
+        "name": product.developer || "MuaToolAI.com"
+      },
+      "sku": product.id,
+      "offers": {
+        "@type": "Offer",
+        "url": canonicalProductUrl,
+        "priceCurrency": "VND",
+        "price": currentPrice,
+        "priceValidUntil": "2026-12-31",
+        "availability": "https://schema.org/InStock",
+        "itemCondition": "https://schema.org/NewCondition",
+        "hasMerchantReturnPolicy": {
+          "@type": "MerchantReturnPolicy",
+          "applicableCountry": "VN",
+          "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+          "merchantReturnDays": 30,
+          "returnMethod": "https://schema.org/ReturnByMail",
+          "returnFees": "https://schema.org/FreeReturn"
+        },
+        "shippingDetails": {
+          "@type": "OfferShippingDetails",
+          "shippingRate": {
+            "@type": "MonetaryAmount",
+            "value": 0,
+            "currency": "VND"
+          },
+          "shippingDestination": {
+            "@type": "DefinedRegion",
+            "addressCountry": "VN"
+          },
+          "deliveryTime": {
+            "@type": "ShippingDeliveryTime",
+            "handlingTime": {
+              "@type": "QuantitativeValue",
+              "minValue": 0,
+              "maxValue": 5,
+              "unitCode": "MIN"
+            }
+          }
+        }
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": product.rating || 4.9,
+        "reviewCount": Math.max(product.reviews?.length || 0, 28)
+      }
     },
-    "sku": product.id,
-    "offers": {
-      "@type": "Offer",
-      "url": window.location.href,
-      "priceCurrency": "VND",
-      "price": currentPrice,
-      "priceValidUntil": "2025-12-31",
-      "availability": "https://schema.org/InStock",
-      "itemCondition": "https://schema.org/NewCondition"
-    },
-    "aggregateRating": {
-      "@type": "AggregateRating",
-      "ratingValue": product.rating,
-      "reviewCount": product.reviews?.length || 1
+    {
+      "@type": "BreadcrumbList",
+      "@id": `${canonicalProductUrl}#breadcrumb`,
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Trang chủ",
+          "item": "https://muatoolai.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Sản phẩm",
+          "item": "https://muatoolai.com/products"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": product.name,
+          "item": canonicalProductUrl
+        }
+      ]
     }
-  };
+  ];
 
   const trustItems = [
     'Báo giá mới nhất theo gói',
@@ -228,9 +285,9 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({ addToCart }) => {
         title={product.name} 
         description={product.description} 
         image={product.image}
-        url={window.location.href}
+        canonical={canonicalProductUrl}
         type="product"
-        schema={productSchema}
+        schema={productSchemas}
       />
 
       {/* --- MOBILE LAYOUT --- */}

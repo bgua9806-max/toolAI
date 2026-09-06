@@ -159,12 +159,46 @@ export const ProductsPage: React.FC<ProductsPageProps> = ({ addToCart }) => {
 
   const currentCategoryName = CATEGORIES.find(c => c.id === selectedCategory)?.name || 'Cửa hàng';
 
+  const canonicalProductsUrl = selectedCategory === 'all' 
+    ? (isFlashSalePage ? 'https://muatoolai.com/products?filter=flash-sale' : 'https://muatoolai.com/products')
+    : `https://muatoolai.com/products?category=${selectedCategory}`;
+
+  const productsSchema = [
+    {
+      "@type": "CollectionPage",
+      "@id": `${canonicalProductsUrl}#webpage`,
+      "url": canonicalProductsUrl,
+      "name": isFlashSalePage ? "Flash Sale Phần Mềm Bản Quyền & AI Tools | MuaToolAI.com" : `Kho Sản Phẩm ${currentCategoryName} | MuaToolAI.com`,
+      "description": `Danh sách ${filteredProducts.length} sản phẩm phần mềm và công cụ AI bản quyền giá rẻ uy tín.`
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": `${canonicalProductsUrl}#breadcrumb`,
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Trang chủ",
+          "item": "https://muatoolai.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": isFlashSalePage ? "Flash Sale" : "Cửa hàng",
+          "item": "https://muatoolai.com/products"
+        }
+      ]
+    }
+  ];
+
   return (
     <main className="min-h-screen bg-[#F5F5F7] pb-20">
       
       <SEO 
-        title={isFlashSalePage ? "Flash Sale - Sản phẩm đang giảm giá" : selectedCategory === 'all' ? "Tất cả sản phẩm - MuaToolAI.com Store" : `Mua ${currentCategoryName} bản quyền giá rẻ`}
-        description={isFlashSalePage ? "Danh sách sản phẩm đang Flash Sale tại MuaToolAI.com. Săn deal giá sốc, số lượng có hạn." : `Danh sách các sản phẩm ${currentCategoryName} tốt nhất. Bảo hành trọn đời, giá rẻ hơn gốc đến 70%.`}
+        title={isFlashSalePage ? "Flash Sale - Sản phẩm đang giảm giá sốc" : selectedCategory === 'all' ? "Tất cả sản phẩm - MuaToolAI.com Store" : `Mua ${currentCategoryName} bản quyền giá rẻ`}
+        description={isFlashSalePage ? "Danh sách sản phẩm đang Flash Sale tại MuaToolAI.com. Săn deal giá sốc ChatGPT, Midjourney, Canva, YouTube Premium số lượng có hạn." : `Danh sách các sản phẩm ${currentCategoryName} tốt nhất. Bảo hành 1-1 trọn đời, giá rẻ hơn gốc đến 70%.`}
+        canonical={canonicalProductsUrl}
+        schema={productsSchema}
       />
 
       {/* Premium Dark Hero Banner */}

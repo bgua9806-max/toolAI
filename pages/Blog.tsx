@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import * as ReactRouterDOM from 'react-router-dom';
 import { Clock, TrendingUp, ChevronRight, Search, Sparkles } from 'lucide-react';
+import { SEO } from '../components/SEO';
 import { BlogPost } from '../types';
 import { supabase } from '../lib/supabase';
 import { BLOG_POSTS as FALLBACK_POSTS } from '../constants';
@@ -86,8 +87,27 @@ export const Blog: React.FC = () => {
     </div>
   );
 
+  const blogSchema = {
+    "@type": "CollectionPage",
+    "@id": "https://muatoolai.com/blog#webpage",
+    "url": "https://muatoolai.com/blog",
+    "name": "Blog Công Nghệ, Thủ Thuật & Kiến Thức AI | MuaToolAI.com",
+    "description": "Tổng hợp tin tức, đánh giá phần mềm, thủ thuật sử dụng ChatGPT, Midjourney, Canva, bản quyền Microsoft và mẹo công nghệ số.",
+    "publisher": {
+      "@type": "Organization",
+      "name": "MuaToolAI.com",
+      "url": "https://muatoolai.com"
+    }
+  };
+
   return (
     <main className="min-h-screen bg-[#F5F5F7]">
+      <SEO 
+        title="Blog Công Nghệ, Thủ Thuật & Kiến Thức AI"
+        description="Tổng hợp tin tức, đánh giá phần mềm, thủ thuật sử dụng ChatGPT, Midjourney, Canva, bản quyền Microsoft và mẹo công nghệ số mới nhất."
+        canonical="https://muatoolai.com/blog"
+        schema={blogSchema}
+      />
       
       {/* =========================================
           MOBILE LAYOUT ( < 1024px )

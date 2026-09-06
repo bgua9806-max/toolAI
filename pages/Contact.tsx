@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Mail, Phone, MapPin, Clock, Send, MessageSquare, HelpCircle, ChevronDown, CheckCircle, Facebook, ArrowRight } from 'lucide-react';
+import { SEO } from '../components/SEO';
 
 export const Contact: React.FC = () => {
   useEffect(() => {
@@ -52,8 +53,42 @@ export const Contact: React.FC = () => {
     }
   ];
 
+  const contactSchema = [
+    {
+      "@type": "ContactPage",
+      "@id": "https://muatoolai.com/contact#webpage",
+      "url": "https://muatoolai.com/contact",
+      "name": "Liên Hệ & Hỗ Trợ 24/7 | MuaToolAI.com",
+      "description": "Trung tâm hỗ trợ và giải đáp thắc mắc khách hàng của MuaToolAI.com",
+      "mainEntity": {
+        "@type": "Organization",
+        "name": "MuaToolAI.com",
+        "telephone": "+84906291941",
+        "email": "support@MuaToolAI.com"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://muatoolai.com/contact#faq",
+      "mainEntity": FAQS.map(faq => ({
+        "@type": "Question",
+        "name": faq.question,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": faq.answer
+        }
+      }))
+    }
+  ];
+
   return (
     <main className="min-h-screen bg-[#F2F2F7] pt-28 pb-20">
+      <SEO 
+        title="Liên Hệ Hỗ Trợ 24/7 & Câu Hỏi Thường Gặp"
+        description="Trung tâm trợ giúp và giải đáp thắc mắc MuaToolAI.com. Hướng dẫn nhận tài khoản, kích hoạt key, chính sách bảo hành 1-1, hotline: 0906.291.941."
+        canonical="https://muatoolai.com/contact"
+        schema={contactSchema}
+      />
       
       {/* Header */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12 text-center">

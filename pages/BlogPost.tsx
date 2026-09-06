@@ -306,15 +306,61 @@ export const BlogPost: React.FC<BlogPostProps> = ({ addToCart }) => {
     return <div className="min-h-screen pt-32 text-center text-gray-500 font-medium bg-[#F5F5F7]">Đang tải bài viết...</div>;
   }
 
-  const articleSchema = {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    "headline": post.title,
-    "image": post.image,
-    "author": { "@type": "Person", "name": post.author },
-    "publisher": { "@type": "Organization", "name": "MuaToolAI.com" },
-    "datePublished": post.date
-  };
+  const postSlug = post.slug || slugify(post.title);
+  const canonicalUrl = `https://muatoolai.com/blog/${postSlug}`;
+
+  const articleSchemas = [
+    {
+      "@type": "Article",
+      "@id": `${canonicalUrl}#article`,
+      "headline": post.title,
+      "description": post.excerpt,
+      "image": post.image,
+      "author": { 
+        "@type": "Person", 
+        "name": post.author || "Chuyên gia Công nghệ MuaToolAI",
+        "url": "https://muatoolai.com"
+      },
+      "publisher": { 
+        "@type": "Organization", 
+        "name": "MuaToolAI.com",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://muatoolai.com/favicon.png"
+        }
+      },
+      "datePublished": post.created_at || post.date || "2026-01-01",
+      "dateModified": post.created_at || "2026-09-07",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": canonicalUrl
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": `${canonicalUrl}#breadcrumb`,
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Trang chủ",
+          "item": "https://muatoolai.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Blog",
+          "item": "https://muatoolai.com/blog"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": post.title,
+          "item": canonicalUrl
+        }
+      ]
+    }
+  ];
 
   return (
     <main className="min-h-screen bg-white font-sans selection:bg-primary/20 selection:text-primary">
@@ -322,9 +368,9 @@ export const BlogPost: React.FC<BlogPostProps> = ({ addToCart }) => {
         title={post.title} 
         description={post.excerpt} 
         image={post.image} 
-        url={window.location.href}
+        canonical={canonicalUrl}
         type="article" 
-        schema={articleSchema} 
+        schema={articleSchemas} 
       />
 
       {/* ==============================================================
