@@ -120,7 +120,7 @@ function AppContent() {
   };
 
   const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
-  const isMaintenanceMode = true; // Bật/tắt chế độ bảo trì tạm dừng website
+  const isMaintenanceMode = false; // Bật/tắt chế độ bảo trì tạm dừng website
 
   return (
     <Router>
