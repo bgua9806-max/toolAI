@@ -63,7 +63,7 @@ export const Contact: React.FC = () => {
       "mainEntity": {
         "@type": "Organization",
         "name": "MuaToolAI.com",
-        "telephone": "+84906291941",
+        "telephone": "+84943436730",
         "email": "support@MuaToolAI.com"
       }
     },
@@ -85,7 +85,7 @@ export const Contact: React.FC = () => {
     <main className="min-h-screen bg-[#F2F2F7] pt-28 pb-20">
       <SEO 
         title="Liên Hệ Hỗ Trợ 24/7 & Câu Hỏi Thường Gặp"
-        description="Trung tâm trợ giúp và giải đáp thắc mắc MuaToolAI.com. Hướng dẫn nhận tài khoản, kích hoạt key, chính sách bảo hành 1-1, hotline: 0906.291.941."
+        description="Trung tâm trợ giúp và giải đáp thắc mắc MuaToolAI.com. Hướng dẫn nhận tài khoản, kích hoạt key, chính sách bảo hành 1-1, hotline: 0943.436.730."
         canonical="https://muatoolai.com/contact"
         schema={contactSchema}
       />
@@ -114,8 +114,8 @@ export const Contact: React.FC = () => {
                    <div>
                       <h3 className="font-bold text-gray-900 text-lg mb-1">Hotline / Zalo</h3>
                       <p className="text-gray-500 text-sm mb-2">Hỗ trợ kỹ thuật & Tư vấn mua hàng</p>
-                      <a href="https://zalo.me/g/bguamkuy0hcgjpvf9kyp" target="_blank" rel="noreferrer" className="text-xl font-bold text-primary hover:underline block">0906291941</a>
-                      <a href="https://zalo.me/g/bguamkuy0hcgjpvf9kyp" target="_blank" rel="noreferrer" className="text-xs font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded-md inline-block mt-1 hover:bg-blue-100">Chat Zalo Ngay</a>
+                      <a href="https://zalo.me/0943436730" target="_blank" rel="noreferrer" className="text-xl font-bold text-[#0068FF] hover:underline block">0943.436.730</a>
+                      <a href="https://zalo.me/0943436730" target="_blank" rel="noreferrer" className="text-xs font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded-md inline-block mt-1 hover:bg-blue-100">Chat Zalo Ngay</a>
                    </div>
                 </div>
 

@@ -259,7 +259,7 @@ export const Maintenance: React.FC = () => {
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <a 
-              href="https://zalo.me/g/bguamkuy0hcgjpvf9kyp" 
+              href="https://zalo.me/0943436730" 
               target="_blank" 
               rel="noreferrer"
               className="flex items-center justify-center gap-2 py-3 bg-white/[0.02] border border-white/[0.05] hover:bg-white/[0.06] active:scale-[0.98] transition-all rounded-xl text-xs sm:text-sm font-bold text-gray-300 hover:text-white"
@@ -277,11 +277,11 @@ export const Maintenance: React.FC = () => {
               Telegram Support
             </a>
             <a 
-              href="tel:0906291941" 
+              href="tel:0943436730" 
               className="flex items-center justify-center gap-2 py-3 bg-white/[0.02] border border-white/[0.05] hover:bg-white/[0.06] active:scale-[0.98] transition-all rounded-xl text-xs sm:text-sm font-bold text-gray-300 hover:text-white"
             >
               <Phone size={16} className="text-green-400 shrink-0" />
-              Hotline: 0906291941
+              Hotline: 0943.436.730
             </a>
           </div>
         </div>

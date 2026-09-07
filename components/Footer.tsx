@@ -66,13 +66,13 @@ export const Footer: React.FC = () => {
           <div className="p-6 rounded-2xl bg-white/[0.02] border border-white/5 backdrop-blur-sm h-fit hover:bg-white/[0.03] transition-colors duration-300">
             <h3 className="text-white font-bold mb-6 text-[11px] uppercase tracking-[0.2em]">Liên Hệ Trực Tiếp</h3>
             <div className="space-y-5">
-              <a href="https://zalo.me/g/bguamkuy0hcgjpvf9kyp" target="_blank" rel="noreferrer" className="flex items-start gap-4 group">
+              <a href="https://zalo.me/0943436730" target="_blank" rel="noreferrer" className="flex items-start gap-4 group">
                 <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0 group-hover:bg-primary transition-colors duration-300">
                   <Phone size={18} className="text-primary group-hover:text-white transition-colors" />
                 </div>
                 <div>
                   <p className="text-xs text-gray-500 mb-1 font-medium">Hotline / Zalo</p>
-                  <p className="text-sm text-gray-200 font-bold group-hover:text-white transition-colors">0906.291.941</p>
+                  <p className="text-sm text-gray-200 font-bold group-hover:text-white transition-colors">0943.436.730</p>
                 </div>
               </a>
               <a href="mailto:support@MuaToolAI.com" className="flex items-start gap-4 group">

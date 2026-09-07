@@ -263,11 +263,11 @@ export const ChatBot: React.FC = () => {
           <div className="flex items-center gap-2 min-w-0">
             <span className="w-2 h-2 rounded-full bg-green-500 animate-ping shrink-0"></span>
             <span className="text-[11px] font-bold text-gray-700 truncate">
-              Kỹ thuật viên Zalo: <strong className="text-[#0068FF]">0906.291.941</strong>
+              Kỹ thuật viên Zalo: <strong className="text-[#0068FF]">0943.436.730</strong>
             </span>
           </div>
           <a 
-            href="https://zalo.me/0906291941" 
+            href="https://zalo.me/0943436730" 
             target="_blank" 
             rel="noopener noreferrer"
             className="px-2.5 py-1 rounded-lg bg-[#0068FF] hover:bg-blue-700 text-white text-[11px] font-black shadow-sm active:scale-95 transition-transform flex items-center gap-1 shrink-0"

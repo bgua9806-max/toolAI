@@ -78,7 +78,7 @@ export const Home: React.FC<HomeProps> = ({ addToCart }) => {
         "url": "https://muatoolai.com",
         "logo": "https://muatoolai.com/favicon.png",
         "description": "Kho tài khoản AI Tools và phần mềm bản quyền giá rẻ uy tín số 1 Việt Nam. Bảo hành 1-1 trọn đời.",
-        "telephone": "+84906291941",
+        "telephone": "+84943436730",
         "email": "support@MuaToolAI.com",
         "priceRange": "69.000đ - 1.500.000đ",
         "currenciesAccepted": "VND",

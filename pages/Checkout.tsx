@@ -20,7 +20,7 @@ const BANK_INFO = {
   BANK_ID: 'MB', // MBBank (Ngân hàng TMCP Quân Đội)
   ACCOUNT_NO: '808123456789',
   ACCOUNT_NAME: 'NGUYEN TRONG HUU',
-  HOTLINE_ZALO: '0906291941',
+  HOTLINE_ZALO: '0943436730',
   ZALO_GROUP: 'https://zalo.me/g/bguamkuy0hcgjpvf9kyp',
   TEMPLATE: 'compact2' // Giao diện QR VietQR chuẩn
 };

@@ -349,7 +349,7 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({ addToCart }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const HOTLINE_ZALO = '0906291941';
+  const HOTLINE_ZALO = '0943436730';
 
   const currentPrice = selectedVariant ? selectedVariant.price : (product?.price || 0);
   const rawOriginalPrice = (selectedVariant?.originalPrice && selectedVariant.originalPrice > currentPrice)

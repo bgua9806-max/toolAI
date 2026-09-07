@@ -73,7 +73,7 @@ export const AdminSettings: React.FC = () => {
             <Field label="Tên miền" value="MuaToolAI.com" />
           </div>
           <Field label="Email hỗ trợ" value="support@MuaToolAI.com" />
-          <Field label="Số Zalo" value="0906291941" />
+          <Field label="Số Zalo" value="0943436730" />
         </SettingCard>
 
         <SettingCard icon={UserCog} title="Tài khoản quản trị" description="Thiết lập thông tin đăng nhập và quyền truy cập admin.">
