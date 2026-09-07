@@ -298,12 +298,9 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({ addToCart }) => {
     fetchProduct();
   }, [paramSlug]);
 
-  const [showStickyBar, setShowStickyBar] = useState(false);
-
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 40);
-      setShowStickyBar(window.scrollY > 350);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
@@ -828,31 +825,41 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({ addToCart }) => {
           </div>
         </div>
 
-        {/* Mobile Fixed Luxury Bottom Bar */}
-        <div className="fixed bottom-0 inset-x-0 z-50 bg-white/95 backdrop-blur-xl border-t border-gray-200/90 shadow-2xl px-4 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
-          <div className="flex items-center gap-2.5">
-            <div className="min-w-0 pr-1">
-              <div className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Giá ưu đãi</div>
-              <div className="text-base font-black text-blue-600 truncate leading-tight">
-                {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND', maximumFractionDigits: 0 }).format(currentPrice)}
+        {/* Mobile Fixed Bottom Action Bar */}
+        <div className="fixed bottom-0 inset-x-0 z-50 bg-white/95 backdrop-blur-xl border-t border-gray-200/90 shadow-[0_-8px_30px_rgba(0,0,0,0.1)] px-3 sm:px-4 py-2.5 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
+          <div className="flex items-center justify-between gap-2.5 max-w-lg mx-auto">
+            <div className="flex items-center gap-2.5 min-w-0 flex-1">
+              <img 
+                src={product.image || 'https://placehold.co/100'} 
+                alt={product.name} 
+                className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl object-cover border border-gray-100 bg-gray-50 shrink-0 mix-blend-multiply"
+              />
+              <div className="min-w-0">
+                <div className="text-[10px] sm:text-[11px] font-bold text-gray-500 truncate">{selectedVariant?.name || product.name}</div>
+                <div className="text-sm sm:text-base font-black text-[#0068FF] leading-tight">
+                  {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND', maximumFractionDigits: 0 }).format(currentPrice)}
+                </div>
               </div>
             </div>
-            
-            <button
-              onClick={handleAddToCart}
-              className="w-12 h-12 rounded-2xl bg-gray-100 text-gray-800 flex items-center justify-center shrink-0 active:scale-95 transition-transform"
-              aria-label="Thêm vào giỏ"
-            >
-              <ShoppingCart size={20} />
-            </button>
 
-            <button
-              onClick={openZaloConsultation}
-              className="flex-1 h-12 rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-black text-sm shadow-lg shadow-blue-500/25 flex items-center justify-center gap-2 active:scale-95 transition-all truncate px-3"
-            >
-              <MessageCircle size={18} />
-              <span>Mua Ngay Qua Zalo</span>
-            </button>
+            <div className="flex items-center gap-2 shrink-0">
+              <button
+                onClick={openZaloConsultation}
+                className="h-10 sm:h-11 px-3 sm:px-3.5 rounded-xl bg-blue-50 border border-blue-200 text-[#0068FF] font-black text-xs flex items-center gap-1.5 active:scale-95 transition-transform"
+                title="Nhắn tin Zalo tư vấn"
+              >
+                <MessageCircle size={18} />
+                <span>Zalo</span>
+              </button>
+
+              <button
+                onClick={handleAddToCart}
+                className="h-10 sm:h-11 px-3.5 sm:px-4 rounded-xl bg-gray-950 text-white font-black text-xs flex items-center gap-1.5 active:scale-95 transition-transform hover:bg-[#0068FF] shadow-md shadow-gray-900/20"
+              >
+                <ShoppingCart size={16} />
+                <span>Mua ngay</span>
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -1318,48 +1325,6 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({ addToCart }) => {
             </div>
           )}
 
-        </div>
-      </div>
-
-      {/* Sticky Bottom Action Bar on Mobile */}
-      <div 
-        className={`fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-xl border-t border-gray-200/90 shadow-[0_-8px_30px_rgba(0,0,0,0.12)] p-3 pb-[calc(0.75rem+env(safe-area-inset-bottom,0px))] lg:hidden transition-all duration-300 ease-out ${
-          showStickyBar ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0 pointer-events-none'
-        }`}
-      >
-        <div className="flex items-center justify-between gap-3 max-w-lg mx-auto">
-          <div className="flex items-center gap-2.5 min-w-0 flex-1">
-            <img 
-              src={product.image || 'https://placehold.co/100'} 
-              alt={product.name} 
-              className="w-11 h-11 rounded-xl object-cover border border-gray-100 bg-gray-50 shrink-0 mix-blend-multiply"
-            />
-            <div className="min-w-0">
-              <div className="text-[11px] font-bold text-gray-500 truncate">{selectedVariant?.name || product.name}</div>
-              <div className="text-base font-black text-[#0068FF] leading-tight">
-                {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND', maximumFractionDigits: 0 }).format(currentPrice)}
-              </div>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-2 shrink-0">
-            <button
-              onClick={openZaloConsultation}
-              className="h-11 px-3.5 rounded-xl bg-blue-50 border border-blue-200 text-[#0068FF] font-black text-xs flex items-center gap-1.5 active:scale-95 transition-transform"
-              title="Nhắn tin Zalo tư vấn"
-            >
-              <MessageCircle size={18} />
-              <span>Zalo</span>
-            </button>
-
-            <button
-              onClick={handleAddToCart}
-              className="h-11 px-4 sm:px-5 rounded-xl bg-gray-950 text-white font-black text-xs flex items-center gap-1.5 active:scale-95 transition-transform hover:bg-[#0068FF] shadow-lg shadow-gray-900/20"
-            >
-              <ShoppingCart size={16} />
-              <span>Mua ngay</span>
-            </button>
-          </div>
         </div>
       </div>
 
