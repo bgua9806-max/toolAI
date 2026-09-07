@@ -55,17 +55,19 @@ export const MobileProductCard: React.FC<MobileProductCardProps> = ({ product })
           </h3>
         </Link>
 
-        <div className="mt-auto pt-1">
-          <div className="mb-2.5">
-            <span className="font-extrabold text-[#0068FF] text-sm sm:text-base leading-none">
+        <div className="mt-auto pt-2 border-t border-gray-100 flex items-center justify-between gap-1.5">
+          <div className="min-w-0 flex-1">
+            <span className="font-black text-[#0068FF] text-sm sm:text-base leading-none block truncate">
               {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND', maximumFractionDigits: 0 }).format(product.price)}
-              {product.pricingUnit && <span className="text-[10px] font-bold text-gray-500 ml-1">{product.pricingUnit}</span>}
             </span>
+            {product.pricingUnit && (
+              <span className="text-[10px] font-bold text-gray-400 block mt-0.5 truncate">{product.pricingUnit}</span>
+            )}
           </div>
 
           <Link
             to={productLink}
-            className="w-full h-8 sm:h-9 rounded-xl bg-gray-950 text-white flex items-center justify-center text-xs font-bold active:scale-95 transition-all hover:bg-[#0068FF] shadow-sm"
+            className="h-8 px-3 rounded-xl bg-gray-950 text-white flex items-center justify-center text-[11px] font-black active:scale-95 transition-all hover:bg-[#0068FF] shadow-sm shrink-0"
           >
             Mua ngay
           </Link>

@@ -223,40 +223,58 @@ export const ChatBot: React.FC = () => {
         className={`fixed ${mobileBottomClass} lg:bottom-24 right-4 sm:right-6 w-[calc(100vw-2rem)] sm:w-[400px] h-[600px] max-h-[70vh] bg-white/95 backdrop-blur-2xl rounded-[2.5rem] shadow-2xl border border-white/20 z-[60] flex flex-col overflow-hidden transition-all duration-500 origin-bottom-right ${isOpen ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-50 translate-y-20 pointer-events-none'}`}
       >
         {/* Header */}
-        <div className="bg-white/50 backdrop-blur-md p-4 sm:p-5 flex items-center justify-between shrink-0 border-b border-gray-100">
-           <div className="flex items-center gap-3">
-              <div className="relative">
-                <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-gradient-to-tr from-primary to-blue-400 flex items-center justify-center shadow-lg shadow-primary/30">
+        <div className="bg-white/80 backdrop-blur-md px-4 py-3.5 flex items-center justify-between shrink-0 border-b border-gray-100">
+           <div className="flex items-center gap-2.5 min-w-0">
+              <div className="relative shrink-0">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-[#0068FF] to-blue-400 flex items-center justify-center shadow-md shadow-blue-500/20">
                     <Bot size={20} className="text-white" />
                 </div>
                 <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></div>
               </div>
-              <div>
-                 <h3 className="font-extrabold text-gray-900 text-sm sm:text-base">MuaToolAI.com AI</h3>
-                 <p className="text-[11px] text-gray-500 font-medium flex items-center gap-1">
-                    <Sparkles size={10} className="text-primary" /> Trợ lý ảo thông minh
+              <div className="min-w-0">
+                 <h3 className="font-black text-gray-900 text-sm tracking-tight truncate">Trợ Lý AI MuaTool</h3>
+                 <p className="text-[11px] text-emerald-600 font-bold flex items-center gap-1 leading-none mt-0.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <span>Đang hoạt động 24/7</span>
                  </p>
               </div>
            </div>
-           <div className="flex items-center gap-2">
-               <a 
-                 href="https://zalo.me/0906291941" 
-                 target="_blank" 
-                 rel="noopener noreferrer" 
-                 className="px-2.5 py-1 rounded-full bg-blue-50 text-[#0068FF] text-[11px] font-extrabold hover:bg-blue-100 transition-colors flex items-center gap-1 border border-blue-200"
-                 title="Chat Zalo với kỹ thuật viên"
+
+           <div className="flex items-center gap-1.5 shrink-0">
+               <button 
+                 onClick={() => setMessages([messages[0]])} 
+                 className="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-primary hover:bg-gray-100 rounded-full transition-colors active:scale-95" 
+                 title="Làm mới đoạn chat"
                >
-                 <Phone size={11} />
-                 <span>Zalo CSKH</span>
-               </a>
-               <button onClick={() => setMessages([messages[0]])} className="p-1.5 text-gray-400 hover:text-primary hover:bg-gray-100 rounded-full transition-colors" title="Làm mới đoạn chat">
-                 <RefreshCcw size={16} />
+                 <RefreshCcw size={15} />
                </button>
-               {/* Mobile Close Button */}
-               <button onClick={() => setIsOpen(false)} className="lg:hidden p-1.5 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-full transition-colors" title="Đóng chat">
-                 <Minus size={20} />
+               <button 
+                 onClick={() => setIsOpen(false)} 
+                 className="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-full transition-colors active:scale-95" 
+                 title="Đóng chat"
+               >
+                 <X size={18} />
                </button>
            </div>
+        </div>
+
+        {/* Zalo Direct Support Callout Banner */}
+        <div className="bg-gradient-to-r from-blue-50 to-indigo-50/70 border-b border-blue-100 px-4 py-2 flex items-center justify-between gap-2 shrink-0">
+          <div className="flex items-center gap-2 min-w-0">
+            <span className="w-2 h-2 rounded-full bg-green-500 animate-ping shrink-0"></span>
+            <span className="text-[11px] font-bold text-gray-700 truncate">
+              Kỹ thuật viên Zalo: <strong className="text-[#0068FF]">0906.291.941</strong>
+            </span>
+          </div>
+          <a 
+            href="https://zalo.me/0906291941" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="px-2.5 py-1 rounded-lg bg-[#0068FF] hover:bg-blue-700 text-white text-[11px] font-black shadow-sm active:scale-95 transition-transform flex items-center gap-1 shrink-0"
+          >
+            <Phone size={11} />
+            <span>Nhắn Zalo</span>
+          </a>
         </div>
 
         {/* Messages Area */}

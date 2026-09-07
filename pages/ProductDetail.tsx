@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import * as ReactRouterDOM from 'react-router-dom';
 import { Product, Variant, Review } from '../types';
 import { 
@@ -197,6 +197,7 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({ addToCart }) => {
   const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
   const [selectedVariant, setSelectedVariant] = useState<Variant | null>(null);
   const [loading, setLoading] = useState(true);
+  const [recTab, setRecTab] = useState<'all' | 'category' | 'hot'>('all');
   
   // UI State
   const [isScrolled, setIsScrolled] = useState(false);
@@ -205,6 +206,20 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({ addToCart }) => {
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
   const [isCopied, setIsCopied] = useState(false);
   const [addedToast, setAddedToast] = useState(false);
+
+  // Filtered recommended products based on active tab
+  const displayedRelated = useMemo(() => {
+    if (!product || relatedProducts.length === 0) return [];
+    if (recTab === 'category') {
+      const filtered = relatedProducts.filter(p => p.category === product.category);
+      return filtered.length > 0 ? filtered : relatedProducts;
+    }
+    if (recTab === 'hot') {
+      const filtered = relatedProducts.filter(p => p.isHot || (p.sold && p.sold >= 100));
+      return filtered.length > 0 ? filtered : relatedProducts;
+    }
+    return relatedProducts;
+  }, [relatedProducts, recTab, product]);
 
   // Fetch Data Logic
   const fetchProduct = async () => {
@@ -279,12 +294,40 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({ addToCart }) => {
           setSelectedVariant(currentProduct.variants[0]);
         }
 
-        const source = !error && allProducts ? allProducts : FALLBACK_PRODUCTS;
-        const related = source
-          .filter((p: Product) => p.category === currentProduct!.category && p.id !== currentProduct!.id)
-          .slice(0, 4)
-          .map((p: Product) => !p.image ? {...p, image: 'https://placehold.co/400?text=No+Img'} : p);
-        setRelatedProducts(related);
+        const source: Product[] = (!error && allProducts && allProducts.length > 0) ? allProducts : FALLBACK_PRODUCTS;
+        
+        // Cơ chế gợi ý thông minh đa tầng:
+        // Tầng 1: Cùng chuyên mục (loại trừ chính sản phẩm đang xem)
+        const sameCategory = source.filter(
+          (p: Product) => p.category === currentProduct!.category && String(p.id) !== String(currentProduct!.id)
+        );
+
+        // Tầng 2: Công cụ bổ trợ / hot / bán chạy thịnh hành
+        const hotOrComplementary = source.filter(
+          (p: Product) => 
+            String(p.id) !== String(currentProduct!.id) &&
+            p.category !== currentProduct!.category &&
+            (p.isHot || (p.rating && p.rating >= 4.8) || (p.sold && p.sold >= 100))
+        );
+
+        // Tầng 3: Các sản phẩm dự phòng khác để đảm bảo luôn có đủ 6 - 8 gợi ý
+        const remaining = source.filter(
+          (p: Product) =>
+            String(p.id) !== String(currentProduct!.id) &&
+            !sameCategory.some(sc => String(sc.id) === String(p.id)) &&
+            !hotOrComplementary.some(hc => String(hc.id) === String(p.id))
+        );
+
+        // Kết hợp ưu tiên: cùng danh mục -> hot bán chạy -> các công cụ khác
+        const combined = [...sameCategory, ...hotOrComplementary, ...remaining];
+
+        // Khử trùng lặp ID và gán ảnh fallback nếu thiếu
+        const uniqueRelated = Array.from(new Map(combined.map(item => [item.id, item])).values())
+          .slice(0, 8)
+          .map((p: Product) => !p.image ? { ...p, image: 'https://placehold.co/400?text=No+Img' } : p);
+
+        setRelatedProducts(uniqueRelated);
+        setRecTab('all');
       }
     } catch (err) {
       console.error(err);
@@ -823,6 +866,89 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({ addToCart }) => {
               ))}
             </div>
           </div>
+
+          {/* Mobile Recommended Products Section */}
+          {relatedProducts.length > 0 && (
+            <div className="bg-white rounded-3xl p-4 sm:p-5 border border-gray-200/80 shadow-sm">
+              <div className="flex items-center justify-between mb-3">
+                <div>
+                  <h3 className="text-sm sm:text-base font-black text-gray-900 flex items-center gap-1.5">
+                    <Sparkles size={17} className="text-[#0068FF]" /> Gợi ý cho bạn
+                  </h3>
+                  <p className="text-[11px] text-gray-500 font-medium mt-0.5">
+                    Các công cụ AI & phần mềm thường mua cùng
+                  </p>
+                </div>
+                <Link 
+                  to="/products" 
+                  className="text-[11px] font-bold text-[#0068FF] hover:underline flex items-center gap-0.5 shrink-0 bg-blue-50 px-2.5 py-1 rounded-full border border-blue-100/80"
+                >
+                  Xem tất cả <ChevronRight size={13} />
+                </Link>
+              </div>
+
+              {/* Filter Pills */}
+              <div className="flex items-center gap-1.5 mb-3.5 overflow-x-auto no-scrollbar pb-0.5">
+                <button
+                  type="button"
+                  onClick={() => setRecTab('all')}
+                  className={`px-3 py-1 rounded-full text-[11px] font-bold transition-all shrink-0 ${
+                    recTab === 'all'
+                      ? 'bg-[#0068FF] text-white shadow-sm'
+                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                  }`}
+                >
+                  Tất cả ({relatedProducts.length})
+                </button>
+                {relatedProducts.some(p => p.category === product.category) && (
+                  <button
+                    type="button"
+                    onClick={() => setRecTab('category')}
+                    className={`px-3 py-1 rounded-full text-[11px] font-bold transition-all shrink-0 ${
+                      recTab === 'category'
+                        ? 'bg-[#0068FF] text-white shadow-sm'
+                        : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                    }`}
+                  >
+                    Cùng chuyên mục
+                  </button>
+                )}
+                <button
+                  type="button"
+                  onClick={() => setRecTab('hot')}
+                  className={`px-3 py-1 rounded-full text-[11px] font-bold transition-all shrink-0 ${
+                    recTab === 'hot'
+                      ? 'bg-[#0068FF] text-white shadow-sm'
+                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                  }`}
+                >
+                  Bán chạy nhất
+                </button>
+              </div>
+
+              {/* 2-Column Mobile Grid */}
+              <div className="grid grid-cols-2 gap-2.5 sm:gap-3">
+                {displayedRelated.slice(0, 4).map((relProduct) => (
+                  <MobileProductCard 
+                    key={`mob-rec-${relProduct.id}`} 
+                    product={relProduct} 
+                    onAddToCart={addToCart}
+                  />
+                ))}
+              </div>
+
+              {displayedRelated.length > 4 && (
+                <div className="mt-3.5 pt-2.5 border-t border-gray-100 text-center">
+                  <Link
+                    to="/products"
+                    className="inline-flex items-center justify-center gap-1.5 w-full py-2 rounded-xl bg-gray-50 hover:bg-gray-100 border border-gray-200/80 text-xs font-bold text-gray-700 active:scale-98 transition-all"
+                  >
+                    Xem thêm {displayedRelated.length - 4} công cụ khác <ChevronRight size={14} />
+                  </Link>
+                </div>
+              )}
+            </div>
+          )}
         </div>
 
         {/* Mobile Fixed Bottom Action Bar */}
@@ -1301,25 +1427,70 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({ addToCart }) => {
           {/* 5. Related Products Section */}
           {relatedProducts.length > 0 && (
             <div className="mt-16 pt-12 border-t border-gray-200">
-              <div className="flex items-center justify-between mb-8">
+              <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
                 <div>
-                  <h3 className="text-2xl font-black text-gray-900">Sản phẩm cùng danh mục</h3>
-                  <p className="text-xs text-gray-500 mt-1">Có thể bạn cũng quan tâm đến các công cụ hữu ích này</p>
+                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 text-[#0068FF] text-xs font-black uppercase tracking-wider mb-2 border border-blue-100">
+                    <Sparkles size={14} /> Gợi ý thông minh
+                  </div>
+                  <h3 className="text-2xl lg:text-3xl font-black text-gray-900 tracking-tight">
+                    Sản phẩm gợi ý & Thường mua cùng
+                  </h3>
+                  <p className="text-sm text-gray-500 mt-1">
+                    Khám phá các tài khoản AI & phần mềm bản quyền chính hãng được ưa chuộng nhất
+                  </p>
                 </div>
-                <Link to={`/category/${product.category}`} className="text-xs font-bold text-blue-600 hover:underline flex items-center gap-1">
-                  Xem tất cả <ChevronRight size={14} />
-                </Link>
+
+                <div className="flex items-center gap-2">
+                  <div className="flex items-center bg-gray-100/80 p-1 rounded-xl border border-gray-200/60">
+                    <button
+                      type="button"
+                      onClick={() => setRecTab('all')}
+                      className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                        recTab === 'all'
+                          ? 'bg-white text-[#0068FF] shadow-sm'
+                          : 'text-gray-600 hover:text-gray-900'
+                      }`}
+                    >
+                      Tất cả ({relatedProducts.length})
+                    </button>
+                    {relatedProducts.some(p => p.category === product.category) && (
+                      <button
+                        type="button"
+                        onClick={() => setRecTab('category')}
+                        className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                          recTab === 'category'
+                            ? 'bg-white text-[#0068FF] shadow-sm'
+                            : 'text-gray-600 hover:text-gray-900'
+                        }`}
+                      >
+                        Cùng danh mục
+                      </button>
+                    )}
+                    <button
+                      type="button"
+                      onClick={() => setRecTab('hot')}
+                      className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                        recTab === 'hot'
+                          ? 'bg-white text-[#0068FF] shadow-sm'
+                          : 'text-gray-600 hover:text-gray-900'
+                      }`}
+                    >
+                      Bán chạy nhất
+                    </button>
+                  </div>
+
+                  <Link 
+                    to="/products" 
+                    className="hidden sm:inline-flex items-center gap-1 px-4 py-2 rounded-xl text-xs font-bold text-white bg-[#0068FF] hover:bg-blue-700 shadow-md shadow-blue-500/20 transition-all"
+                  >
+                    Xem tất cả <ChevronRight size={14} />
+                  </Link>
+                </div>
               </div>
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
-                {relatedProducts.map(p => (
-                  <React.Fragment key={p.id}>
-                    <div className="lg:hidden">
-                      <MobileProductCard product={p} />
-                    </div>
-                    <div className="hidden lg:block">
-                      <ProductCard product={p} onAddToCart={addToCart} />
-                    </div>
-                  </React.Fragment>
+
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-6">
+                {displayedRelated.map(p => (
+                  <ProductCard key={`desk-rec-${p.id}`} product={p} onAddToCart={addToCart} />
                 ))}
               </div>
             </div>
