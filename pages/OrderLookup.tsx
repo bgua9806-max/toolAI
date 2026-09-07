@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { Search, Package, Clock, CheckCircle, AlertCircle, Copy, ArrowRight, CreditCard, Download, RefreshCw } from 'lucide-react';
+import { Search, Package, Clock, CheckCircle, AlertCircle, Copy, ArrowRight, CreditCard, Download, RefreshCw, MessageCircle } from 'lucide-react';
 import * as ReactRouterDOM from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 
@@ -11,6 +11,7 @@ const BANK_INFO = {
   BANK_ID: 'MB', // MBBank
   ACCOUNT_NO: '808123456789',
   ACCOUNT_NAME: 'NGUYEN TRONG HUU',
+  HOTLINE_ZALO: '0906291941',
   TEMPLATE: 'compact2' 
 };
 
@@ -338,8 +339,19 @@ export const OrderLookup: React.FC = () => {
                                 </>
                             )}
                           </button>
+
+                          <a 
+                            href={`https://zalo.me/${BANK_INFO.HOTLINE_ZALO}?text=${encodeURIComponent(`Chào shop! Tôi đang kiểm tra đơn hàng #${orderData.id}. Tôi gửi bill chuyển khoản nhờ shop kích hoạt tài khoản giúp tôi nhé!`)}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="w-full py-3.5 bg-[#0068FF] hover:bg-[#0052cc] text-white font-bold rounded-xl shadow-md transition-all flex items-center justify-center gap-2"
+                          >
+                            <MessageCircle size={18} />
+                            <span>Nhắn tin Zalo nhận tài khoản ngay ({BANK_INFO.HOTLINE_ZALO})</span>
+                          </a>
+
                           <p className="text-center text-xs text-gray-400 italic">
-                              * Hệ thống sẽ tự động xác nhận đơn hàng sau 1-3 phút khi nhận được tiền.
+                              * Hệ thống sẽ tự động xác nhận đơn hàng hoặc kỹ thuật viên hỗ trợ qua Zalo trong 3 - 5 phút.
                           </p>
                       </div>
                    </div>
