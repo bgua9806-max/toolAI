@@ -231,7 +231,7 @@ export const FlashSale: React.FC<FlashSaleProps> = ({ addToCart }) => {
                                  <span className="font-extrabold lg:font-black text-[#0068FF] lg:text-red-600 text-sm sm:text-base lg:text-xl leading-none">
                                     {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND', maximumFractionDigits: 0 }).format(salePrice)}
                                  </span>
-                                 <span className="text-[10px] sm:text-[11px] lg:text-xs text-gray-400 line-through font-semibold mt-0.5 lg:mt-0 lg:mb-1 leading-none">
+                                 <span className="hidden lg:inline text-xs text-gray-400 line-through font-semibold mb-1 leading-none">
                                     {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND', maximumFractionDigits: 0 }).format(originalPrice)}
                                  </span>
                               </div>
