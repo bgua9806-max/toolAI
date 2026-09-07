@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { Zap, ArrowRight, Clock } from 'lucide-react';
+import { Zap, ArrowRight, Clock, ShoppingCart } from 'lucide-react';
 import { Product } from '../types';
 import * as ReactRouterDOM from 'react-router-dom';
 import { supabase } from '../lib/supabase';
@@ -226,18 +226,41 @@ export const FlashSale: React.FC<FlashSaleProps> = ({ addToCart }) => {
                               </h3>
                            </Link>
 
-                           <div className="mt-auto">
-                              <div className="flex flex-col lg:flex-row lg:items-end gap-0.5 lg:gap-2 mb-2 lg:mb-3">
-                                 <span className="font-extrabold lg:font-black text-[#0068FF] lg:text-red-600 text-sm sm:text-base lg:text-xl leading-none">
+                           {/* Mobile Bottom Row: Price on left, Luxury ShoppingCart Icon on right */}
+                           <div className="lg:hidden mt-auto pt-2 border-t border-gray-100 flex items-center justify-between gap-1.5">
+                              <div className="min-w-0 flex-1">
+                                 <span className="font-black text-[#0068FF] text-sm sm:text-base leading-none block truncate">
                                     {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND', maximumFractionDigits: 0 }).format(salePrice)}
                                  </span>
-                                 <span className="hidden lg:inline text-xs text-gray-400 line-through font-semibold mb-1 leading-none">
+                                 {item.product.pricingUnit && (
+                                    <span className="text-[10px] font-bold text-gray-400 block mt-0.5 truncate">{item.product.pricingUnit}</span>
+                                 )}
+                              </div>
+
+                              <button
+                                 type="button"
+                                 onClick={() => addToCart({ ...item.product!, price: salePrice, originalPrice: originalPrice })}
+                                 aria-label={`Mua ${item.product.name}`}
+                                 className="w-8 h-8 rounded-xl bg-gray-950 hover:bg-[#0068FF] text-white flex items-center justify-center active:scale-90 transition-all shadow-xs shrink-0"
+                                 title="Mua ngay"
+                              >
+                                 <ShoppingCart size={15} strokeWidth={2.2} />
+                              </button>
+                           </div>
+
+                           {/* Desktop Bottom Area: Scarcity Bar + Full-width Button */}
+                           <div className="hidden lg:block mt-auto">
+                              <div className="flex items-end gap-2 mb-3">
+                                 <span className="font-black text-red-600 text-xl leading-none">
+                                    {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND', maximumFractionDigits: 0 }).format(salePrice)}
+                                 </span>
+                                 <span className="text-xs text-gray-400 line-through font-semibold mb-1 leading-none">
                                     {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND', maximumFractionDigits: 0 }).format(originalPrice)}
                                  </span>
                               </div>
 
                               {/* Scarcity Bar - Desktop Only */}
-                              <div className="hidden lg:block relative h-5 bg-red-100/70 rounded-full overflow-hidden mb-4 border border-red-100">
+                              <div className="relative h-5 bg-red-100/70 rounded-full overflow-hidden mb-4 border border-red-100">
                                  <div
                                     className="absolute top-0 left-0 h-full bg-gradient-to-r from-orange-500 to-red-600 rounded-full transition-all duration-1000 ease-out shadow-[0_0_10px_rgba(239,68,68,0.5)]"
                                     style={{ width: `${soldPercentage}%` }}
@@ -250,8 +273,9 @@ export const FlashSale: React.FC<FlashSaleProps> = ({ addToCart }) => {
                               </div>
 
                               <button
+                                 type="button"
                                  onClick={() => addToCart({ ...item.product!, price: salePrice, originalPrice: originalPrice })}
-                                 className="w-full h-8 sm:h-9 lg:h-auto lg:py-3 rounded-xl bg-gray-950 text-white flex items-center justify-center text-xs lg:text-sm font-bold lg:font-black active:scale-95 transition-all hover:bg-[#0068FF] lg:hover:bg-primary shadow-sm lg:shadow-lg lg:shadow-gray-200 group-hover:shadow-red-500/30"
+                                 className="w-full py-3 rounded-xl bg-gray-950 text-white flex items-center justify-center text-sm font-black active:scale-95 transition-all hover:bg-[#0068FF] shadow-lg shadow-gray-200 group-hover:shadow-red-500/30"
                               >
                                  Mua ngay
                               </button>
