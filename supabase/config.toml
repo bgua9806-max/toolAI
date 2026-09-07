@@ -1,0 +1,4 @@
+project_id = "rlzwmldvrxdlvosottrt"
+
+[functions.video-download]
+verify_jwt = false

@@ -65,14 +65,14 @@ export const ToolsHub: React.FC = () => {
     },
     {
       id: 'video-downloader',
-      name: 'Tải Video TikTok & Reels',
-      badge: 'SẴN SÀNG',
+      name: 'Tải Video TikTok Không Logo',
+      badge: 'HOẠT ĐỘNG',
       badgeColor: 'bg-emerald-50 text-emerald-700 border border-emerald-200/80 font-bold',
       status: 'active',
       path: '/tools/tai-video',
       icon: Video,
       iconColor: 'text-teal-600 bg-teal-50 border-teal-100',
-      description: 'Tải video ngắn TikTok, Facebook Reels chất lượng Full HD không dính logo watermark.',
+      description: 'Bóc sạch watermark logo TikTok, tải video bản Full HD và tách nhạc nền MP3 chất lượng cao.',
     }
   ];
 

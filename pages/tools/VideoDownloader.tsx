@@ -1,113 +1,514 @@
-import React, { FormEvent, useMemo, useState } from 'react';
-import { AlertCircle, ArrowLeft, Check, CheckCircle2, Clipboard, Download, Facebook, Film, Loader2, Music2, ShieldCheck, Sparkles, Video, Youtube } from 'lucide-react';
+import React, { useState, useMemo } from 'react';
+import { 
+  Download, 
+  Sparkles, 
+  Music2, 
+  Video, 
+  CheckCircle2, 
+  AlertCircle, 
+  Clipboard, 
+  RefreshCw, 
+  ArrowRight,
+  ShieldCheck,
+  Zap,
+  ExternalLink,
+  Layers,
+  User,
+  Clock,
+  Heart,
+  Eye
+} from 'lucide-react';
 import * as ReactRouterDOM from 'react-router-dom';
 import { SEO } from '../../components/SEO';
 
 const { Link } = ReactRouterDOM;
-type DownloadMode = 'auto' | 'audio' | 'mute';
-type VideoQuality = 'max' | '2160' | '1440' | '1080' | '720' | '480';
-interface DownloadItem { url: string; filename?: string; type?: string; thumb?: string }
-interface DownloadResponse { status: 'tunnel' | 'redirect' | 'picker' | 'error'; url?: string; filename?: string; picker?: DownloadItem[]; error?: string }
 
-const PLATFORMS = [
-  { name: 'TikTok', test: /(^|\.)tiktok\.com$/i, icon: Music2, color: 'text-pink-500' },
-  { name: 'Facebook', test: /(^|\.)(facebook\.com|fb\.watch)$/i, icon: Facebook, color: 'text-blue-600' },
-  { name: 'YouTube', test: /(^|\.)(youtube\.com|youtu\.be)$/i, icon: Youtube, color: 'text-red-500' },
-  { name: 'Threads', test: /(^|\.)(threads\.net|threads\.com)$/i, icon: Film, color: 'text-gray-900' },
-];
-const QUALITIES: Array<{ value: VideoQuality; label: string; hint: string }> = [
-  { value: 'max', label: 'Cao nhất', hint: 'Tự động' }, { value: '2160', label: '4K', hint: 'Nếu có' },
-  { value: '1440', label: '2K', hint: 'Nếu có' }, { value: '1080', label: '1080p', hint: 'Full HD' },
-  { value: '720', label: '720p', hint: 'Dung lượng vừa' }, { value: '480', label: '480p', hint: 'Tải nhanh' },
-];
-const MODES: Array<{ value: DownloadMode; label: string; description: string }> = [
-  { value: 'auto', label: 'Video có âm thanh', description: 'MP4, ưu tiên bản tốt nhất' },
-  { value: 'audio', label: 'Chỉ âm thanh', description: 'MP3 chất lượng cao' },
-  { value: 'mute', label: 'Video không tiếng', description: 'Giữ nguyên phần hình ảnh' },
-];
-const detectPlatform = (value: string) => {
-  try { const host = new URL(value.trim()).hostname.replace(/^www\./, ''); return PLATFORMS.find((item) => item.test.test(host)); }
-  catch { return undefined; }
-};
+interface VideoMetadata {
+  id: string;
+  title: string;
+  cover: string;
+  duration: number;
+  playUrl: string;
+  hdPlayUrl?: string;
+  musicUrl?: string;
+  musicTitle?: string;
+  authorName: string;
+  authorId: string;
+  authorAvatar?: string;
+  diggCount?: number;
+  playCount?: number;
+  images?: string[];
+}
 
 export const VideoDownloader: React.FC = () => {
-  const [url, setUrl] = useState('');
-  const [quality, setQuality] = useState<VideoQuality>('max');
-  const [mode, setMode] = useState<DownloadMode>('auto');
-  const [confirmed, setConfirmed] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-  const [result, setResult] = useState<DownloadResponse | null>(null);
-  const platform = useMemo(() => detectPlatform(url), [url]);
-  const PlatformIcon = platform?.icon;
+  const [inputUrl, setInputUrl] = useState<string>('');
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [downloadingType, setDownloadingType] = useState<string | null>(null);
+  const [error, setError] = useState<string>('');
+  const [videoData, setVideoData] = useState<VideoMetadata | null>(null);
 
-  const paste = async () => {
-    try { setUrl((await navigator.clipboard.readText()).trim()); setError(''); setResult(null); }
-    catch { setError('Trình duyệt chưa cho phép đọc clipboard. Hãy dán liên kết thủ công.'); }
-  };
-  const submit = async (event: FormEvent) => {
-    event.preventDefault(); setError(''); setResult(null);
-    if (!platform) return setError('Liên kết chưa hợp lệ. Công cụ hỗ trợ TikTok, Facebook, YouTube và Threads.');
-    if (!confirmed) return setError('Bạn cần xác nhận có quyền tải và sử dụng nội dung này.');
+  // Detect platform from URL
+  const detectedPlatform = useMemo(() => {
+    const trimmed = inputUrl.trim();
+    if (!trimmed) return null;
+    if (/tiktok\.com/i.test(trimmed)) return { name: 'TikTok', icon: Music2, color: 'text-pink-500', isSupported: true };
+    if (/(facebook\.com|fb\.watch)/i.test(trimmed)) return { name: 'Facebook', icon: Video, color: 'text-blue-600', isSupported: false };
+    if (/(youtube\.com|youtu\.be)/i.test(trimmed)) return { name: 'YouTube', icon: Video, color: 'text-red-500', isSupported: false };
+    return null;
+  }, [inputUrl]);
+
+  const handlePaste = async () => {
     try {
-      setLoading(true);
-      const response = await fetch('/api/video-download', { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify({ url: url.trim(), quality, mode }) });
-      const data = (await response.json()) as DownloadResponse;
-      if (!response.ok || data.status === 'error') throw new Error(data.error || 'Không thể xử lý video này.');
-      setResult(data);
-    } catch (reason) { setError(reason instanceof Error ? reason.message : 'Đã có lỗi khi xử lý liên kết.'); }
-    finally { setLoading(false); }
+      const text = await navigator.clipboard.readText();
+      if (text) {
+        setInputUrl(text.trim());
+        setError('');
+      }
+    } catch {
+      setError('Vui lòng dán liên kết video thủ công vào ô bên dưới.');
+    }
   };
-  const downloads: DownloadItem[] = result?.status === 'picker' ? result.picker || [] : result?.url ? [{ url: result.url, filename: result.filename }] : [];
 
-  return <main className="min-h-screen bg-[#F4F7FB] pb-20 text-gray-900">
-    <SEO title="Tải Video TikTok, Facebook, YouTube & Threads Chất Lượng Cao" description="Công cụ tải video công khai từ TikTok, Facebook, YouTube và Threads với chất lượng tốt nhất mà nguồn cung cấp." keywords="tải video tiktok không logo, tải video facebook, tải video youtube, tải video threads" canonical="/tools/tai-video" />
-    <section className="relative overflow-hidden bg-[#080B12] pb-14 pt-28 text-white md:pt-32">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_16%_20%,rgba(236,72,153,.2),transparent_30%),radial-gradient(circle_at_82%_18%,rgba(37,99,235,.28),transparent_34%),radial-gradient(circle_at_54%_100%,rgba(16,185,129,.12),transparent_35%)]" />
-      <div className="absolute inset-0 opacity-[.06] [background-image:linear-gradient(rgba(255,255,255,.8)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.8)_1px,transparent_1px)] [background-size:36px_36px]" />
-      <div className="relative z-10 mx-auto max-w-5xl px-4 text-center">
-        <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-4 py-2 text-xs font-black uppercase tracking-widest text-blue-100"><Sparkles size={14} className="text-cyan-300" /> TikTok · Facebook · YouTube · Threads</div>
-        <h1 className="text-3xl font-black tracking-tight sm:text-5xl lg:text-6xl">Tải video chất lượng cao<span className="mt-1 block bg-gradient-to-r from-cyan-300 via-blue-400 to-pink-400 bg-clip-text text-transparent">gọn trong một lần dán</span></h1>
-        <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-gray-300">Dán liên kết công khai, chọn chất lượng và tải file phù hợp. Công cụ giữ nguyên chất lượng nguồn, không tự phóng đại độ phân giải.</p>
+  const handleAnalyze = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    const url = inputUrl.trim();
+    if (!url) {
+      setError('Vui lòng nhập hoặc dán liên kết video.');
+      return;
+    }
+
+    if (!/tiktok\.com/i.test(url)) {
+      if (/(facebook\.com|fb\.watch|youtube\.com|youtu\.be)/i.test(url)) {
+        setError('Hệ thống hiện đang tối ưu tốt nhất cho TikTok không logo. Nền tảng Facebook & YouTube đang được nâng cấp máy chủ cào dữ liệu.');
+      } else {
+        setError('Liên kết chưa hợp lệ. Vui lòng dán liên kết video TikTok (ví dụ: vt.tiktok.com/... hoặc tiktok.com/@user/video/...)');
+      }
+      return;
+    }
+
+    try {
+      setIsLoading(true);
+      setError('');
+      setVideoData(null);
+
+      const endpoint = `https://www.tikwm.com/api/?url=${encodeURIComponent(url)}&hd=1`;
+      const res = await fetch(endpoint, {
+        headers: { 'Accept': 'application/json' }
+      });
+
+      if (!res.ok) {
+        throw new Error('Máy chủ trích xuất video tạm thời bận. Vui lòng thử lại sau vài giây.');
+      }
+
+      const json = await res.json();
+
+      if (json.code !== 0 || !json.data) {
+        throw new Error(json.msg || 'Không thể bóc tách video này. Hãy kiểm tra xem video có đang để chế độ công khai không.');
+      }
+
+      const d = json.data;
+      setVideoData({
+        id: d.id || String(Date.now()),
+        title: d.title || 'Video TikTok Không Logo',
+        cover: d.cover || d.origin_cover || '',
+        duration: d.duration || 0,
+        playUrl: d.play || '',
+        hdPlayUrl: d.hdplay || d.play || '',
+        musicUrl: d.music || '',
+        musicTitle: d.music_info?.title || 'Âm thanh gốc',
+        authorName: d.author?.nickname || 'Creator',
+        authorId: d.author?.unique_id || '',
+        authorAvatar: d.author?.avatar || '',
+        diggCount: d.digg_count,
+        playCount: d.play_count,
+        images: d.images && Array.isArray(d.images) && d.images.length > 0 ? d.images : undefined
+      });
+    } catch (err: any) {
+      console.error(err);
+      setError(err.message || 'Đã có lỗi xảy ra khi phân tích video.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleDownloadFile = async (fileUrl: string, fileName: string, typeKey: string) => {
+    try {
+      setDownloadingType(typeKey);
+      
+      // Attempt blob download for direct browser file saving
+      const response = await fetch(fileUrl);
+      if (!response.ok) throw new Error('Không thể tải luồng video');
+      
+      const blob = await response.blob();
+      const blobUrl = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = blobUrl;
+      link.download = fileName;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      setTimeout(() => URL.revokeObjectURL(blobUrl), 10000);
+    } catch (err) {
+      console.warn('Direct blob fetch failed, falling back to window.open', err);
+      // Fallback: Open file directly in new window
+      window.open(fileUrl, '_blank');
+    } finally {
+      setDownloadingType(null);
+    }
+  };
+
+  const formatCount = (num?: number) => {
+    if (!num) return '0';
+    if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
+    if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
+    return String(num);
+  };
+
+  const formatDuration = (sec: number) => {
+    const mins = Math.floor(sec / 60);
+    const remainingSecs = sec % 60;
+    return `${mins}:${remainingSecs < 10 ? '0' : ''}${remainingSecs}`;
+  };
+
+  return (
+    <main className="min-h-screen bg-[#F8FAFC] text-gray-900 pb-24">
+      <SEO
+        title="Tải Video TikTok Không Logo Full HD & MP3 Miễn Phí"
+        description="Công cụ tải video TikTok không dính watermark logo, bóc tách chất lượng Full HD và tách nhạc nền MP3 tự động 100% miễn phí."
+      />
+
+      {/* Luxury Minimalist Hero Banner */}
+      <div className="relative bg-gray-950 pt-20 pb-8 md:pt-28 md:pb-14 mb-6 md:mb-8 overflow-hidden rounded-b-[1.75rem] md:rounded-b-[2.5rem] shadow-xl shadow-gray-950/10">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_30%,rgba(0,104,255,0.2),transparent_40%),radial-gradient(circle_at_80%_80%,rgba(236,72,153,0.15),transparent_40%)]"></div>
+        <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent"></div>
+
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center relative z-10">
+          <span className="inline-flex items-center gap-1.5 py-1 px-3 rounded-full bg-white/10 border border-white/10 text-pink-200 text-[11px] font-bold tracking-wide mb-3 backdrop-blur-md">
+            <Sparkles size={12} className="text-pink-400" />
+            Không Watermark • Chuẩn HD • Tách MP3
+          </span>
+
+          <h1 className="text-2xl sm:text-4xl lg:text-5xl font-black text-white mb-2 tracking-tight">
+            Tải Video TikTok <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-purple-300 to-cyan-300">Không Logo</span>
+          </h1>
+
+          <p className="text-gray-400 text-xs sm:text-sm font-medium max-w-lg mx-auto leading-relaxed">
+            Dán liên kết video công khai để tải video sạch không dính watermark hoặc tách nhạc nền MP3 chất lượng cao.
+          </p>
+        </div>
       </div>
-    </section>
-    <div className="relative z-20 mx-auto -mt-6 max-w-5xl px-4 sm:px-6">
-      <div className="mb-5 flex items-center gap-2 text-sm font-medium text-gray-500"><Link to="/tools" className="inline-flex items-center gap-1.5 hover:text-blue-600"><ArrowLeft size={15} /> Chợ Tool AI</Link><span>/</span><span className="font-bold text-gray-800">Tải video</span></div>
-      <form onSubmit={submit} className="overflow-hidden rounded-[2rem] border border-gray-200 bg-white shadow-[0_24px_70px_-30px_rgba(15,23,42,.35)]">
-        <div className="border-b border-gray-100 p-5 sm:p-8">
-          <label htmlFor="video-url" className="mb-3 block text-base font-black">Liên kết video</label>
-          <div className={`flex min-h-16 items-center gap-3 rounded-2xl border-2 bg-gray-50 px-4 focus-within:bg-white ${platform ? 'border-emerald-400' : 'border-gray-200 focus-within:border-blue-500'}`}>
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white shadow-sm">{PlatformIcon ? <PlatformIcon size={21} className={platform.color} /> : <Video size={21} className="text-gray-400" />}</div>
-            <input id="video-url" value={url} onChange={(e) => { setUrl(e.target.value); setError(''); setResult(null); }} placeholder="Dán link TikTok, Facebook, YouTube hoặc Threads..." inputMode="url" autoComplete="url" className="min-w-0 flex-1 bg-transparent py-4 text-base font-semibold outline-none placeholder:font-medium placeholder:text-gray-400" />
-            {platform && <span className="hidden rounded-lg bg-emerald-50 px-2.5 py-1 text-xs font-black text-emerald-700 sm:block">{platform.name}</span>}
-            <button type="button" onClick={paste} className="inline-flex items-center gap-2 rounded-xl border border-gray-200 bg-white px-3 py-2.5 text-sm font-bold text-gray-700 hover:text-blue-600" aria-label="Dán liên kết"><Clipboard size={16} /><span className="hidden sm:inline">Dán</span></button>
+
+      <div className="max-w-5xl mx-auto px-4 sm:px-6">
+        
+        {/* Breadcrumb Navigation */}
+        <div className="flex items-center gap-2 text-xs text-gray-400 mb-6 font-medium">
+          <Link to="/" className="hover:text-[#0068FF] transition-colors">Trang chủ</Link>
+          <span className="text-gray-300">/</span>
+          <Link to="/tools" className="hover:text-[#0068FF] transition-colors">Chợ Tool</Link>
+          <span className="text-gray-300">/</span>
+          <span className="text-gray-900 font-bold">Tải Video Không Logo</span>
+        </div>
+
+        {/* Input & Form Card */}
+        <div className="bg-white border border-gray-200/90 rounded-2xl sm:rounded-3xl p-5 sm:p-8 shadow-xs mb-8">
+          <form onSubmit={handleAnalyze} className="space-y-4">
+            <label htmlFor="video-url-input" className="block text-xs sm:text-sm font-bold text-gray-900">
+              Dán liên kết video TikTok
+            </label>
+
+            <div className="flex flex-col sm:flex-row items-stretch gap-2.5">
+              <div className="relative flex-1 flex items-center bg-gray-50 border border-gray-200/80 focus-within:border-[#0068FF] focus-within:bg-white rounded-xl sm:rounded-2xl transition-all px-3.5 py-1">
+                <Music2 size={18} className="text-pink-500 shrink-0 mr-2.5" />
+                <input
+                  id="video-url-input"
+                  type="url"
+                  value={inputUrl}
+                  onChange={(e) => {
+                    setInputUrl(e.target.value);
+                    setError('');
+                  }}
+                  placeholder="https://vt.tiktok.com/... hoặc https://www.tiktok.com/@..."
+                  className="w-full bg-transparent py-2.5 text-xs sm:text-sm font-medium text-gray-900 outline-none placeholder:text-gray-400"
+                />
+                <button
+                  type="button"
+                  onClick={handlePaste}
+                  className="px-2.5 py-1 rounded-lg bg-white border border-gray-200 text-gray-600 hover:text-[#0068FF] hover:border-blue-200 text-xs font-bold shrink-0 shadow-2xs flex items-center gap-1 transition-all"
+                >
+                  <Clipboard size={13} />
+                  <span>Dán</span>
+                </button>
+              </div>
+
+              <button
+                type="submit"
+                disabled={isLoading || !inputUrl.trim()}
+                className={`py-3 px-6 rounded-xl sm:rounded-2xl font-black text-xs sm:text-sm flex items-center justify-center gap-2 transition-all shrink-0 ${
+                  isLoading || !inputUrl.trim()
+                    ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                    : 'bg-gray-950 hover:bg-[#0068FF] text-white shadow-xs active:scale-98'
+                }`}
+              >
+                {isLoading ? (
+                  <>
+                    <RefreshCw size={16} className="animate-spin text-cyan-300" />
+                    <span>Đang bóc tách...</span>
+                  </>
+                ) : (
+                  <>
+                    <Download size={16} />
+                    <span>Lấy link tải</span>
+                  </>
+                )}
+              </button>
+            </div>
+
+            {/* Error Display */}
+            {error && (
+              <div className="p-3.5 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs flex items-start gap-2.5">
+                <AlertCircle size={16} className="shrink-0 mt-0.5" />
+                <span className="leading-relaxed">{error}</span>
+              </div>
+            )}
+          </form>
+        </div>
+
+        {/* Video Result Presentation */}
+        {videoData && (
+          <div className="bg-white border border-gray-200/90 rounded-2xl sm:rounded-3xl p-5 sm:p-8 shadow-xs space-y-6 mb-8 animate-in fade-in duration-300">
+            
+            {/* Header Result */}
+            <div className="flex items-center justify-between border-b border-gray-100 pb-3">
+              <span className="text-xs font-black uppercase tracking-wider text-gray-900 flex items-center gap-1.5">
+                <CheckCircle2 size={16} className="text-emerald-500" />
+                Đã bóc sạch Watermark
+              </span>
+              <span className="text-[11px] font-bold text-emerald-600 bg-emerald-50 px-2.5 py-0.5 rounded-full">
+                Sẵn sàng tải
+              </span>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
+              
+              {/* Thumbnail / Preview (4 cols) */}
+              <div className="md:col-span-4 relative rounded-2xl overflow-hidden bg-gray-950 border border-gray-100 shadow-2xs group">
+                <img
+                  src={videoData.cover}
+                  alt={videoData.title}
+                  className="w-full aspect-[9/16] object-cover max-h-[380px] mx-auto transition-transform group-hover:scale-102 duration-300"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20 pointer-events-none"></div>
+
+                {/* Duration Badge */}
+                {videoData.duration > 0 && (
+                  <div className="absolute bottom-3 left-3 bg-black/70 backdrop-blur-md text-white text-[11px] font-mono px-2 py-0.5 rounded-md flex items-center gap-1">
+                    <Clock size={11} />
+                    <span>{formatDuration(videoData.duration)}</span>
+                  </div>
+                )}
+
+                {/* Stats */}
+                <div className="absolute top-3 right-3 flex items-center gap-1.5 bg-black/60 backdrop-blur-md text-white text-[10px] font-bold px-2 py-0.5 rounded-md">
+                  <Heart size={11} className="text-pink-400 fill-pink-400" />
+                  <span>{formatCount(videoData.diggCount)}</span>
+                </div>
+              </div>
+
+              {/* Details & Download Options (8 cols) */}
+              <div className="md:col-span-8 space-y-4">
+                
+                {/* Author Info & Title */}
+                <div>
+                  <div className="flex items-center gap-2 mb-1.5">
+                    {videoData.authorAvatar ? (
+                      <img src={videoData.authorAvatar} alt="" className="w-5 h-5 rounded-full object-cover" />
+                    ) : (
+                      <User size={14} className="text-gray-400" />
+                    )}
+                    <span className="text-xs font-bold text-gray-900">{videoData.authorName}</span>
+                    {videoData.authorId && (
+                      <span className="text-[11px] text-gray-400 font-mono">@{videoData.authorId}</span>
+                    )}
+                  </div>
+
+                  <h2 className="text-sm sm:text-base font-bold text-gray-900 leading-snug line-clamp-3">
+                    {videoData.title || 'Video TikTok'}
+                  </h2>
+                </div>
+
+                {/* Download CTA Action Buttons */}
+                <div className="space-y-2.5 pt-2">
+                  
+                  {/* HD Video Download Button */}
+                  <button
+                    type="button"
+                    disabled={downloadingType !== null}
+                    onClick={() => handleDownloadFile(
+                      videoData.hdPlayUrl || videoData.playUrl,
+                      `tiktok_${videoData.authorId || 'video'}_${videoData.id}_HD.mp4`,
+                      'hd'
+                    )}
+                    className="w-full p-3.5 rounded-xl bg-gray-950 hover:bg-[#0068FF] text-white flex items-center justify-between transition-all active:scale-98 shadow-xs group cursor-pointer"
+                  >
+                    <div className="flex items-center gap-2.5 text-left">
+                      <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center text-cyan-300">
+                        {downloadingType === 'hd' ? <RefreshCw size={16} className="animate-spin" /> : <Download size={16} />}
+                      </div>
+                      <div>
+                        <div className="text-xs sm:text-sm font-black flex items-center gap-1.5">
+                          <span>Tải Video Không Logo (Bản HD)</span>
+                          <span className="text-[10px] bg-cyan-400/20 text-cyan-300 px-1.5 py-0.2 rounded font-mono">1080p</span>
+                        </div>
+                        <div className="text-[10px] text-gray-400">Độ phân giải nét nhất, không dính logo watermark</div>
+                      </div>
+                    </div>
+                    <ArrowRight size={16} className="text-gray-400 group-hover:text-white group-hover:translate-x-1 transition-all" />
+                  </button>
+
+                  {/* Standard Video Download Button */}
+                  <button
+                    type="button"
+                    disabled={downloadingType !== null}
+                    onClick={() => handleDownloadFile(
+                      videoData.playUrl,
+                      `tiktok_${videoData.authorId || 'video'}_${videoData.id}.mp4`,
+                      'sd'
+                    )}
+                    className="w-full p-3.5 rounded-xl bg-gray-50 hover:bg-gray-100 border border-gray-200 text-gray-900 flex items-center justify-between transition-all active:scale-98 group cursor-pointer"
+                  >
+                    <div className="flex items-center gap-2.5 text-left">
+                      <div className="w-8 h-8 rounded-lg bg-gray-200 flex items-center justify-center text-gray-700">
+                        {downloadingType === 'sd' ? <RefreshCw size={16} className="animate-spin" /> : <Video size={16} />}
+                      </div>
+                      <div>
+                        <div className="text-xs sm:text-sm font-black">
+                          Tải Video Không Logo (Bản Chuẩn)
+                        </div>
+                        <div className="text-[10px] text-gray-500">Tốc độ tải nhanh, dung lượng gọn nhẹ</div>
+                      </div>
+                    </div>
+                    <ArrowRight size={16} className="text-gray-400 group-hover:text-gray-900 group-hover:translate-x-1 transition-all" />
+                  </button>
+
+                  {/* Music MP3 Download Button */}
+                  {videoData.musicUrl && (
+                    <button
+                      type="button"
+                      disabled={downloadingType !== null}
+                      onClick={() => handleDownloadFile(
+                        videoData.musicUrl!,
+                        `audio_${videoData.authorId || 'sound'}_${videoData.id}.mp3`,
+                        'music'
+                      )}
+                      className="w-full p-3.5 rounded-xl bg-pink-50/50 hover:bg-pink-50 border border-pink-200 text-pink-950 flex items-center justify-between transition-all active:scale-98 group cursor-pointer"
+                    >
+                      <div className="flex items-center gap-2.5 text-left">
+                        <div className="w-8 h-8 rounded-lg bg-pink-100 flex items-center justify-center text-pink-600">
+                          {downloadingType === 'music' ? <RefreshCw size={16} className="animate-spin" /> : <Music2 size={16} />}
+                        </div>
+                        <div>
+                          <div className="text-xs sm:text-sm font-black flex items-center gap-1.5 text-pink-900">
+                            <span>Tách Nhạc Nền Gốc (.mp3)</span>
+                            <span className="text-[10px] bg-pink-200 text-pink-700 px-1.5 py-0.2 rounded font-mono">Audio</span>
+                          </div>
+                          <div className="text-[10px] text-pink-700/80 truncate max-w-[240px] sm:max-w-[340px]">
+                            {videoData.musicTitle}
+                          </div>
+                        </div>
+                      </div>
+                      <ArrowRight size={16} className="text-pink-400 group-hover:text-pink-600 group-hover:translate-x-1 transition-all" />
+                    </button>
+                  )}
+
+                </div>
+
+                {/* Photo Slideshow Images (if available) */}
+                {videoData.images && videoData.images.length > 0 && (
+                  <div className="pt-4 border-t border-gray-100 space-y-2">
+                    <div className="text-xs font-bold text-gray-900 flex items-center gap-1.5">
+                      <Layers size={14} className="text-[#0068FF]" />
+                      <span>Tải ảnh bộ sưu tập Slide ({videoData.images.length} ảnh):</span>
+                    </div>
+                    <div className="grid grid-cols-4 gap-2">
+                      {videoData.images.map((imgUrl, idx) => (
+                        <a
+                          key={idx}
+                          href={imgUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="group relative rounded-lg overflow-hidden border border-gray-200 aspect-square"
+                        >
+                          <img src={imgUrl} alt="" className="w-full h-full object-cover group-hover:scale-105 transition-transform" />
+                          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-[10px] font-bold">
+                            Tải #{idx + 1}
+                          </div>
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+              </div>
+
+            </div>
+
+          </div>
+        )}
+
+        {/* Feature Benefits Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 mb-10">
+          <div className="p-4 rounded-2xl bg-white border border-gray-200/80 shadow-2xs space-y-1">
+            <div className="w-8 h-8 rounded-xl bg-blue-50 text-[#0068FF] flex items-center justify-center mb-2">
+              <Zap size={16} />
+            </div>
+            <div className="text-xs font-bold text-gray-900">Bóc Watermark Tự Động</div>
+            <p className="text-[11px] text-gray-400 leading-relaxed">
+              Xóa logo mờ TikTok ở góc trên và dưới video mà không làm vỡ hình ảnh.
+            </p>
+          </div>
+
+          <div className="p-4 rounded-2xl bg-white border border-gray-200/80 shadow-2xs space-y-1">
+            <div className="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center mb-2">
+              <Sparkles size={16} />
+            </div>
+            <div className="text-xs font-bold text-gray-900">Chuẩn HD 1080p Gốc</div>
+            <p className="text-[11px] text-gray-400 leading-relaxed">
+              Giữ nguyên bitrate cao nhất từ máy chủ, không nén lại chất lượng video.
+            </p>
+          </div>
+
+          <div className="p-4 rounded-2xl bg-white border border-gray-200/80 shadow-2xs space-y-1">
+            <div className="w-8 h-8 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center mb-2">
+              <ShieldCheck size={16} />
+            </div>
+            <div className="text-xs font-bold text-gray-900">Bảo Mật & Tiện Lợi</div>
+            <p className="text-[11px] text-gray-400 leading-relaxed">
+              Không yêu cầu đăng nhập, không lưu trữ dữ liệu cá nhân hay video của bạn.
+            </p>
           </div>
         </div>
-        <div className="grid lg:grid-cols-2">
-          <fieldset className="border-b border-gray-100 p-5 sm:p-8 lg:border-b-0 lg:border-r">
-            <legend className="mb-4 text-base font-black">Định dạng tải xuống</legend>
-            <div className="space-y-3">{MODES.map((option) => <label key={option.value} className={`flex cursor-pointer items-center gap-3 rounded-2xl border p-4 ${mode === option.value ? 'border-blue-500 bg-blue-50/70 ring-2 ring-blue-100' : 'border-gray-200 hover:border-gray-300'}`}>
-              <input className="sr-only" type="radio" name="mode" checked={mode === option.value} onChange={() => setMode(option.value)} /><span className={`flex h-10 w-10 items-center justify-center rounded-xl ${mode === option.value ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-500'}`}>{option.value === 'audio' ? <Music2 size={19} /> : <Video size={19} />}</span>
-              <span className="min-w-0 flex-1"><span className="block text-sm font-black">{option.label}</span><span className="block text-sm text-gray-500">{option.description}</span></span>{mode === option.value && <CheckCircle2 size={20} className="text-blue-600" />}
-            </label>)}</div>
-          </fieldset>
-          <fieldset className="p-5 sm:p-8"><legend className="mb-4 text-base font-black">Chất lượng video</legend>
-            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">{QUALITIES.map((option) => <label key={option.value} className={`cursor-pointer rounded-2xl border p-3 text-center ${quality === option.value ? 'border-gray-950 bg-gray-950 text-white shadow-lg' : 'border-gray-200 hover:border-gray-400'} ${mode === 'audio' ? 'pointer-events-none opacity-40' : ''}`}><input className="sr-only" type="radio" name="quality" checked={quality === option.value} onChange={() => setQuality(option.value)} disabled={mode === 'audio'} /><span className="block text-sm font-black">{option.label}</span><span className={`mt-1 block text-xs ${quality === option.value ? 'text-gray-300' : 'text-gray-500'}`}>{option.hint}</span></label>)}</div>
-            {mode === 'audio' && <p className="mt-3 text-sm text-gray-500">Âm thanh sẽ được xuất ở chất lượng tốt nhất mà nguồn cho phép.</p>}
-          </fieldset>
+
+        {/* Minimal Banner: Cửa Hàng Bản Quyền */}
+        <div className="rounded-2xl bg-white border border-gray-200/90 p-5 sm:p-6 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-xs">
+          <div className="max-w-xl text-center sm:text-left">
+            <div className="text-xs sm:text-sm font-black text-gray-900 mb-0.5">
+              Tài khoản CapCut Pro, Canva Pro bản quyền
+            </div>
+            <div className="text-[11px] sm:text-xs text-gray-500 font-medium">
+              Chỉnh sửa video ngắn chuyên nghiệp, bảo hành 1-1 tại MuaToolAI
+            </div>
+          </div>
+
+          <Link
+            to="/products"
+            className="px-4 py-2 rounded-xl bg-gray-950 hover:bg-[#0068FF] text-white font-bold text-xs shrink-0 transition-colors flex items-center gap-1.5"
+          >
+            <span>Xem cửa hàng</span>
+            <ArrowRight size={12} />
+          </Link>
         </div>
-        <div className="border-t border-gray-100 bg-gray-50/80 p-5 sm:p-8">
-          <label className="mb-5 flex cursor-pointer items-start gap-3 rounded-2xl border border-gray-200 bg-white p-4"><input type="checkbox" checked={confirmed} onChange={(e) => setConfirmed(e.target.checked)} className="peer sr-only" /><span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-md border-2 border-gray-300 peer-checked:border-emerald-500 peer-checked:bg-emerald-500 peer-checked:text-white">{confirmed && <Check size={14} strokeWidth={3} />}</span><span className="text-sm leading-relaxed text-gray-600">Tôi xác nhận đây là nội dung của tôi, nội dung được phép tải xuống hoặc tôi đã có quyền sử dụng hợp pháp.</span></label>
-          {error && <div role="alert" className="mb-5 flex items-start gap-3 rounded-2xl border border-red-200 bg-red-50 p-4 text-sm font-semibold text-red-700"><AlertCircle size={19} className="shrink-0" /><span>{error}</span></div>}
-          <button type="submit" disabled={loading} className="flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-blue-600 to-cyan-500 px-6 py-4 text-base font-black text-white shadow-lg shadow-blue-500/20 transition-all hover:-translate-y-0.5 disabled:cursor-wait disabled:opacity-70">{loading ? <><Loader2 size={20} className="animate-spin" /> Đang lấy bản tốt nhất...</> : <><Download size={20} /> Phân tích và tải video</>}</button>
-        </div>
-      </form>
-      {downloads.length > 0 && <section className="mt-6 rounded-[2rem] border border-emerald-200 bg-white p-5 shadow-lg sm:p-8" aria-live="polite"><div className="mb-5 flex items-start gap-3"><div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-emerald-100 text-emerald-600"><CheckCircle2 size={24} /></div><div><h2 className="text-lg font-black">Video đã sẵn sàng</h2><p className="mt-1 text-sm text-gray-500">Liên kết tải có thể hết hạn, bạn nên lưu file ngay.</p></div></div><div className="grid gap-3 sm:grid-cols-2">{downloads.map((item, index) => <a key={`${item.url}-${index}`} href={item.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 rounded-2xl border border-gray-200 p-4 hover:border-emerald-400 hover:bg-emerald-50">{item.thumb ? <img src={item.thumb} alt="" className="h-14 w-14 rounded-xl object-cover" /> : <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-gray-950 text-white"><Download size={20} /></span>}<span className="min-w-0 flex-1"><span className="block truncate text-sm font-black">{item.filename || `Tệp ${index + 1}`}</span><span className="mt-1 block text-xs font-bold text-emerald-600">Nhấn để tải xuống</span></span></a>)}</div></section>}
-      <section className="mt-8 grid gap-4 sm:grid-cols-3">{[
-        { icon: ShieldCheck, title: 'Không lưu nội dung', text: 'Máy chủ chỉ xử lý liên kết và không xây dựng thư viện video của người dùng.' },
-        { icon: Sparkles, title: 'Giữ chất lượng nguồn', text: 'Ưu tiên luồng tốt nhất có sẵn, không gắn thêm watermark vào file.' },
-        { icon: Download, title: 'Nhiều định dạng', text: 'Tải video có tiếng, video không tiếng hoặc tách riêng âm thanh.' },
-      ].map(({ icon: Icon, title, text }) => <article key={title} className="rounded-2xl border border-gray-200 bg-white p-5"><Icon size={21} className="mb-3 text-blue-600" /><h2 className="text-sm font-black">{title}</h2><p className="mt-2 text-sm leading-relaxed text-gray-500">{text}</p></article>)}</section>
-    </div>
-  </main>;
+
+      </div>
+    </main>
+  );
 };
