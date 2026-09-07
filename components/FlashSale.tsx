@@ -204,11 +204,11 @@ export const FlashSale: React.FC<FlashSaleProps> = ({ addToCart }) => {
                   if (soldPercentage > 100) soldPercentage = 100;
 
                   return (
-                     <div key={item.id} className={`group relative flex flex-col w-full bg-white rounded-2xl lg:rounded-3xl p-3 sm:p-3.5 lg:p-4 shadow-[0_4px_16px_-4px_rgba(0,0,0,0.06)] lg:shadow-none hover:bg-white hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-gray-100 lg:border-white/70 hover:border-orange-100 h-full ${index >= 4 ? 'hidden lg:flex' : ''}`}>
+                     <div key={item.id} className={`group relative flex flex-col w-full bg-white rounded-2xl lg:rounded-3xl overflow-hidden lg:p-4 shadow-[0_4px_16px_-4px_rgba(0,0,0,0.06)] lg:shadow-none hover:bg-white hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-gray-100 lg:border-white/70 hover:border-orange-100 h-full ${index >= 4 ? 'hidden lg:flex' : ''}`}>
                         <Link to={`/product/${item.product.slug || slugify(item.product.name)}`} className="block active:scale-95 transition-transform duration-200">
-                           <div className="relative aspect-square rounded-xl lg:rounded-2xl overflow-hidden bg-gray-50 lg:bg-white mb-2.5 lg:mb-4 shadow-inner">
-                              <img src={item.product.image} alt={item.product.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 mix-blend-multiply" />
-                              <div className="absolute top-1.5 left-1.5 bg-gradient-to-r from-red-500 to-orange-500 lg:bg-red-600 lg:bg-none text-white text-[10px] lg:text-xs font-black px-2 py-0.5 lg:px-2.5 lg:py-1.5 rounded-lg shadow-sm lg:shadow-md lg:shadow-red-600/30 flex items-center gap-1 z-10">
+                           <div className="relative aspect-square w-full lg:rounded-2xl overflow-hidden bg-gray-50 lg:bg-white lg:mb-4 shadow-inner">
+                              <img src={item.product.image} alt={item.product.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                              <div className="absolute top-2 left-2 lg:top-1.5 lg:left-1.5 bg-gradient-to-r from-red-500 to-orange-500 lg:bg-red-600 lg:bg-none text-white text-[10px] lg:text-xs font-black px-2 py-0.5 lg:px-2.5 lg:py-1.5 rounded-lg shadow-sm lg:shadow-md lg:shadow-red-600/30 flex items-center gap-1 z-10">
                                  <Zap size={10} fill="currentColor" /> -{item.discount_percent}%
                               </div>
                               {soldPercentage >= 90 && (
@@ -219,7 +219,7 @@ export const FlashSale: React.FC<FlashSaleProps> = ({ addToCart }) => {
                            </div>
                         </Link>
 
-                        <div className="flex flex-col flex-1 justify-between">
+                        <div className="flex flex-col flex-1 justify-between p-3 sm:p-3.5 lg:p-0">
                            <Link to={`/product/${item.product.slug || slugify(item.product.name)}`}>
                               <h3 className="font-bold lg:font-black text-gray-900 text-xs sm:text-[13px] lg:text-[15px] leading-snug line-clamp-2 min-h-[34px] sm:min-h-[36px] lg:h-[42px] mb-2 group-hover:text-primary transition-colors" title={item.product.name}>
                                  {item.product.name}

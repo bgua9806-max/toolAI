@@ -26,29 +26,29 @@ export const MobileProductCard: React.FC<MobileProductCardProps> = ({ product })
   };
 
   return (
-    <div className="group relative flex flex-col w-full bg-white rounded-2xl p-3 sm:p-3.5 shadow-[0_4px_16px_-4px_rgba(0,0,0,0.06)] hover:shadow-md border border-gray-100/90 transition-all">
+    <div className="group relative flex flex-col w-full bg-white rounded-2xl overflow-hidden shadow-[0_4px_16px_-4px_rgba(0,0,0,0.06)] hover:shadow-md border border-gray-100/90 transition-all">
       <Link to={productLink} className="block active:scale-95 transition-transform duration-200">
-        <div className="relative aspect-square rounded-xl overflow-hidden bg-[#F5F5F7] mb-2.5 shadow-inner">
+        <div className="relative aspect-square w-full overflow-hidden bg-[#F5F5F7]">
           <img
             src={imgSrc}
             alt={product.name}
             onError={handleImageError}
-            className="w-full h-full object-cover mix-blend-multiply group-hover:scale-105 transition-transform duration-300"
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
           />
           {product.discount > 0 && (
-            <div className="absolute top-1.5 left-1.5 bg-gradient-to-r from-red-500 to-orange-500 text-white text-[10px] font-black px-2 py-0.5 rounded-lg shadow-sm">
+            <div className="absolute top-2 left-2 bg-gradient-to-r from-red-500 to-orange-500 text-white text-[10px] font-black px-2 py-0.5 rounded-lg shadow-sm">
               -{product.discount}%
             </div>
           )}
           {product.isHot && (
-            <div className="absolute top-1.5 right-1.5 bg-orange-500 text-white text-[9px] font-black px-1.5 py-0.5 rounded-md shadow-sm">
+            <div className="absolute top-2 right-2 bg-orange-500 text-white text-[9px] font-black px-1.5 py-0.5 rounded-md shadow-sm">
               HOT
             </div>
           )}
         </div>
       </Link>
 
-      <div className="flex flex-col flex-1 justify-between">
+      <div className="flex flex-col flex-1 justify-between p-3 sm:p-3.5 pt-2.5">
         <Link to={productLink} className="block mb-2">
           <h3 className="font-bold text-gray-900 text-xs sm:text-[13px] leading-snug line-clamp-2 min-h-[34px] sm:min-h-[36px] group-hover:text-primary transition-colors">
             {product.name}
