@@ -888,13 +888,13 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({ addToCart }) => {
               </div>
 
               {/* Filter Pills */}
-              <div className="flex items-center gap-1.5 mb-3.5 overflow-x-auto no-scrollbar pb-0.5">
+              <div className="flex items-center gap-1.5 mb-3 overflow-x-auto no-scrollbar pb-0.5">
                 <button
                   type="button"
                   onClick={() => setRecTab('all')}
-                  className={`px-3 py-1 rounded-full text-[11px] font-bold transition-all shrink-0 ${
+                  className={`h-7 px-3 rounded-full text-[11px] font-bold inline-flex items-center justify-center leading-none active:scale-95 transition-all shrink-0 ${
                     recTab === 'all'
-                      ? 'bg-[#0068FF] text-white shadow-sm'
+                      ? 'bg-[#0068FF] text-white shadow-xs'
                       : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                   }`}
                 >
@@ -904,9 +904,9 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({ addToCart }) => {
                   <button
                     type="button"
                     onClick={() => setRecTab('category')}
-                    className={`px-3 py-1 rounded-full text-[11px] font-bold transition-all shrink-0 ${
+                    className={`h-7 px-3 rounded-full text-[11px] font-bold inline-flex items-center justify-center leading-none active:scale-95 transition-all shrink-0 ${
                       recTab === 'category'
-                        ? 'bg-[#0068FF] text-white shadow-sm'
+                        ? 'bg-[#0068FF] text-white shadow-xs'
                         : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                     }`}
                   >
@@ -916,9 +916,9 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({ addToCart }) => {
                 <button
                   type="button"
                   onClick={() => setRecTab('hot')}
-                  className={`px-3 py-1 rounded-full text-[11px] font-bold transition-all shrink-0 ${
+                  className={`h-7 px-3 rounded-full text-[11px] font-bold inline-flex items-center justify-center leading-none active:scale-95 transition-all shrink-0 ${
                     recTab === 'hot'
-                      ? 'bg-[#0068FF] text-white shadow-sm'
+                      ? 'bg-[#0068FF] text-white shadow-xs'
                       : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                   }`}
                 >
