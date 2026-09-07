@@ -41,7 +41,7 @@ export const ALL_BLOG_POSTS: BlogPost[] = [
     "readTime": "5 phút",
     "read_time": "5 phút",
     "date": "07/09/2026",
-    "image": "https://images.unsplash.com/photo-1563986768609-322da13575f3?w=1200&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1200&auto=format&fit=crop&q=80",
     "relatedProductId": "3"
   },
   {
@@ -139,7 +139,7 @@ export const ALL_BLOG_POSTS: BlogPost[] = [
     "readTime": "7 phút",
     "read_time": "7 phút",
     "date": "07/09/2026",
-    "image": "https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=1200&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&auto=format&fit=crop&q=80",
     "relatedProductId": "3"
   },
   {
@@ -265,7 +265,7 @@ export const ALL_BLOG_POSTS: BlogPost[] = [
     "readTime": "6 phút",
     "read_time": "6 phút",
     "date": "07/09/2026",
-    "image": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=1200&auto=format&fit=crop&q=80",
     "relatedProductId": "3"
   },
   {
@@ -293,7 +293,7 @@ export const ALL_BLOG_POSTS: BlogPost[] = [
     "readTime": "6 phút",
     "read_time": "6 phút",
     "date": "07/09/2026",
-    "image": "https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=1200&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=1200&auto=format&fit=crop&q=80",
     "relatedProductId": "12"
   },
   {
@@ -307,7 +307,7 @@ export const ALL_BLOG_POSTS: BlogPost[] = [
     "readTime": "6 phút",
     "read_time": "6 phút",
     "date": "07/09/2026",
-    "image": "https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=1200&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1587620962725-abab7fe55159?w=1200&auto=format&fit=crop&q=80",
     "relatedProductId": "12"
   },
   {
@@ -335,7 +335,7 @@ export const ALL_BLOG_POSTS: BlogPost[] = [
     "readTime": "6 phút",
     "read_time": "6 phút",
     "date": "07/09/2026",
-    "image": "https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=1200&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1607799279861-4dd421887fb3?w=1200&auto=format&fit=crop&q=80",
     "relatedProductId": "12"
   },
   {
@@ -349,7 +349,7 @@ export const ALL_BLOG_POSTS: BlogPost[] = [
     "readTime": "6 phút",
     "read_time": "6 phút",
     "date": "07/09/2026",
-    "image": "https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=1200&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?w=1200&auto=format&fit=crop&q=80",
     "relatedProductId": "12"
   },
   {
@@ -363,7 +363,7 @@ export const ALL_BLOG_POSTS: BlogPost[] = [
     "readTime": "6 phút",
     "read_time": "6 phút",
     "date": "07/09/2026",
-    "image": "https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=1200&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=1200&auto=format&fit=crop&q=80",
     "relatedProductId": "12"
   },
   {
@@ -377,7 +377,7 @@ export const ALL_BLOG_POSTS: BlogPost[] = [
     "readTime": "6 phút",
     "read_time": "6 phút",
     "date": "07/09/2026",
-    "image": "https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=1200&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1618401471353-b98aedd04e11?w=1200&auto=format&fit=crop&q=80",
     "relatedProductId": "12"
   },
   {
@@ -391,7 +391,7 @@ export const ALL_BLOG_POSTS: BlogPost[] = [
     "readTime": "6 phút",
     "read_time": "6 phút",
     "date": "07/09/2026",
-    "image": "https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=1200&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=1200&auto=format&fit=crop&q=80",
     "relatedProductId": "12"
   },
   {
@@ -405,7 +405,7 @@ export const ALL_BLOG_POSTS: BlogPost[] = [
     "readTime": "6 phút",
     "read_time": "6 phút",
     "date": "07/09/2026",
-    "image": "https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=1200&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1563986768494-4dee2763ff3f?w=1200&auto=format&fit=crop&q=80",
     "relatedProductId": "12"
   },
   {
@@ -419,7 +419,7 @@ export const ALL_BLOG_POSTS: BlogPost[] = [
     "readTime": "6 phút",
     "read_time": "6 phút",
     "date": "07/09/2026",
-    "image": "https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=1200&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1550439062-609e15737780?w=1200&auto=format&fit=crop&q=80",
     "relatedProductId": "12"
   },
   {
@@ -433,7 +433,7 @@ export const ALL_BLOG_POSTS: BlogPost[] = [
     "readTime": "6 phút",
     "read_time": "6 phút",
     "date": "07/09/2026",
-    "image": "https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=1200&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1504639725590-34d0984388bd?w=1200&auto=format&fit=crop&q=80",
     "relatedProductId": "12"
   },
   {
@@ -447,7 +447,7 @@ export const ALL_BLOG_POSTS: BlogPost[] = [
     "readTime": "6 phút",
     "read_time": "6 phút",
     "date": "07/09/2026",
-    "image": "https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=1200&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1629654297299-c8506221ca97?w=1200&auto=format&fit=crop&q=80",
     "relatedProductId": "12"
   },
   {
@@ -461,7 +461,7 @@ export const ALL_BLOG_POSTS: BlogPost[] = [
     "readTime": "6 phút",
     "read_time": "6 phút",
     "date": "07/09/2026",
-    "image": "https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=1200&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1535378917042-10a22c95931a?w=1200&auto=format&fit=crop&q=80",
     "relatedProductId": "12"
   },
   {
@@ -475,7 +475,7 @@ export const ALL_BLOG_POSTS: BlogPost[] = [
     "readTime": "6 phút",
     "read_time": "6 phút",
     "date": "07/09/2026",
-    "image": "https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=1200&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=1200&auto=format&fit=crop&q=80",
     "relatedProductId": "12"
   },
   {
@@ -489,7 +489,7 @@ export const ALL_BLOG_POSTS: BlogPost[] = [
     "readTime": "6 phút",
     "read_time": "6 phút",
     "date": "07/09/2026",
-    "image": "https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=1200&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1510511459019-5dda7724fd87?w=1200&auto=format&fit=crop&q=80",
     "relatedProductId": "12"
   },
   {
@@ -503,7 +503,7 @@ export const ALL_BLOG_POSTS: BlogPost[] = [
     "readTime": "6 phút",
     "read_time": "6 phút",
     "date": "07/09/2026",
-    "image": "https://images.unsplash.com/photo-1626785774573-4b799312c95d?w=1200&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?w=1200&auto=format&fit=crop&q=80",
     "relatedProductId": "6"
   },
   {
@@ -517,7 +517,7 @@ export const ALL_BLOG_POSTS: BlogPost[] = [
     "readTime": "6 phút",
     "read_time": "6 phút",
     "date": "07/09/2026",
-    "image": "https://images.unsplash.com/photo-1626785774573-4b799312c95d?w=1200&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1534447677768-be436bb09401?w=1200&auto=format&fit=crop&q=80",
     "relatedProductId": "6"
   },
   {
@@ -531,7 +531,7 @@ export const ALL_BLOG_POSTS: BlogPost[] = [
     "readTime": "6 phút",
     "read_time": "6 phút",
     "date": "07/09/2026",
-    "image": "https://images.unsplash.com/photo-1626785774573-4b799312c95d?w=1200&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=1200&auto=format&fit=crop&q=80",
     "relatedProductId": "6"
   },
   {
@@ -545,7 +545,7 @@ export const ALL_BLOG_POSTS: BlogPost[] = [
     "readTime": "6 phút",
     "read_time": "6 phút",
     "date": "07/09/2026",
-    "image": "https://images.unsplash.com/photo-1626785774573-4b799312c95d?w=1200&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=1200&auto=format&fit=crop&q=80",
     "relatedProductId": "6"
   },
   {
@@ -573,7 +573,7 @@ export const ALL_BLOG_POSTS: BlogPost[] = [
     "readTime": "6 phút",
     "read_time": "6 phút",
     "date": "07/09/2026",
-    "image": "https://images.unsplash.com/photo-1626785774573-4b799312c95d?w=1200&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?w=1200&auto=format&fit=crop&q=80",
     "relatedProductId": "6"
   },
   {
@@ -587,7 +587,7 @@ export const ALL_BLOG_POSTS: BlogPost[] = [
     "readTime": "6 phút",
     "read_time": "6 phút",
     "date": "07/09/2026",
-    "image": "https://images.unsplash.com/photo-1626785774573-4b799312c95d?w=1200&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1600132806370-bf17e65e942f?w=1200&auto=format&fit=crop&q=80",
     "relatedProductId": "6"
   },
   {
@@ -601,7 +601,7 @@ export const ALL_BLOG_POSTS: BlogPost[] = [
     "readTime": "6 phút",
     "read_time": "6 phút",
     "date": "07/09/2026",
-    "image": "https://images.unsplash.com/photo-1626785774573-4b799312c95d?w=1200&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1541701494587-cb58502866ab?w=1200&auto=format&fit=crop&q=80",
     "relatedProductId": "6"
   },
   {
@@ -615,7 +615,7 @@ export const ALL_BLOG_POSTS: BlogPost[] = [
     "readTime": "6 phút",
     "read_time": "6 phút",
     "date": "07/09/2026",
-    "image": "https://images.unsplash.com/photo-1626785774573-4b799312c95d?w=1200&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1558655146-d09347e92766?w=1200&auto=format&fit=crop&q=80",
     "relatedProductId": "6"
   },
   {
@@ -629,7 +629,7 @@ export const ALL_BLOG_POSTS: BlogPost[] = [
     "readTime": "6 phút",
     "read_time": "6 phút",
     "date": "07/09/2026",
-    "image": "https://images.unsplash.com/photo-1626785774573-4b799312c95d?w=1200&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=1200&auto=format&fit=crop&q=80",
     "relatedProductId": "6"
   },
   {
@@ -643,7 +643,7 @@ export const ALL_BLOG_POSTS: BlogPost[] = [
     "readTime": "6 phút",
     "read_time": "6 phút",
     "date": "07/09/2026",
-    "image": "https://images.unsplash.com/photo-1626785774573-4b799312c95d?w=1200&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1549490349-8643362247b5?w=1200&auto=format&fit=crop&q=80",
     "relatedProductId": "6"
   },
   {
@@ -657,7 +657,7 @@ export const ALL_BLOG_POSTS: BlogPost[] = [
     "readTime": "6 phút",
     "read_time": "6 phút",
     "date": "07/09/2026",
-    "image": "https://images.unsplash.com/photo-1626785774573-4b799312c95d?w=1200&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&auto=format&fit=crop&q=80",
     "relatedProductId": "6"
   },
   {
@@ -671,7 +671,7 @@ export const ALL_BLOG_POSTS: BlogPost[] = [
     "readTime": "6 phút",
     "read_time": "6 phút",
     "date": "07/09/2026",
-    "image": "https://images.unsplash.com/photo-1626785774573-4b799312c95d?w=1200&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=1200&auto=format&fit=crop&q=80",
     "relatedProductId": "6"
   },
   {
@@ -685,7 +685,7 @@ export const ALL_BLOG_POSTS: BlogPost[] = [
     "readTime": "6 phút",
     "read_time": "6 phút",
     "date": "07/09/2026",
-    "image": "https://images.unsplash.com/photo-1626785774573-4b799312c95d?w=1200&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=1200&auto=format&fit=crop&q=80",
     "relatedProductId": "6"
   },
   {
@@ -699,7 +699,7 @@ export const ALL_BLOG_POSTS: BlogPost[] = [
     "readTime": "6 phút",
     "read_time": "6 phút",
     "date": "07/09/2026",
-    "image": "https://images.unsplash.com/photo-1626785774573-4b799312c95d?w=1200&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=1200&auto=format&fit=crop&q=80",
     "relatedProductId": "6"
   },
   {
@@ -713,7 +713,7 @@ export const ALL_BLOG_POSTS: BlogPost[] = [
     "readTime": "6 phút",
     "read_time": "6 phút",
     "date": "07/09/2026",
-    "image": "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=1200&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1485846234645-a62644f84728?w=1200&auto=format&fit=crop&q=80",
     "relatedProductId": "11"
   },
   {
@@ -741,7 +741,7 @@ export const ALL_BLOG_POSTS: BlogPost[] = [
     "readTime": "6 phút",
     "read_time": "6 phút",
     "date": "07/09/2026",
-    "image": "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=1200&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=1200&auto=format&fit=crop&q=80",
     "relatedProductId": "11"
   },
   {
@@ -755,7 +755,7 @@ export const ALL_BLOG_POSTS: BlogPost[] = [
     "readTime": "6 phút",
     "read_time": "6 phút",
     "date": "07/09/2026",
-    "image": "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=1200&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=1200&auto=format&fit=crop&q=80",
     "relatedProductId": "11"
   },
   {
@@ -769,7 +769,7 @@ export const ALL_BLOG_POSTS: BlogPost[] = [
     "readTime": "6 phút",
     "read_time": "6 phút",
     "date": "07/09/2026",
-    "image": "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=1200&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1590602847861-f357a9332bbc?w=1200&auto=format&fit=crop&q=80",
     "relatedProductId": "11"
   },
   {
@@ -783,7 +783,7 @@ export const ALL_BLOG_POSTS: BlogPost[] = [
     "readTime": "6 phút",
     "read_time": "6 phút",
     "date": "07/09/2026",
-    "image": "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=1200&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1536240478700-b869070f9279?w=1200&auto=format&fit=crop&q=80",
     "relatedProductId": "11"
   },
   {
@@ -797,7 +797,7 @@ export const ALL_BLOG_POSTS: BlogPost[] = [
     "readTime": "6 phút",
     "read_time": "6 phút",
     "date": "07/09/2026",
-    "image": "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=1200&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=1200&auto=format&fit=crop&q=80",
     "relatedProductId": "11"
   },
   {
@@ -811,7 +811,7 @@ export const ALL_BLOG_POSTS: BlogPost[] = [
     "readTime": "6 phút",
     "read_time": "6 phút",
     "date": "07/09/2026",
-    "image": "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=1200&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1563089145-599997674d42?w=1200&auto=format&fit=crop&q=80",
     "relatedProductId": "11"
   },
   {
@@ -825,7 +825,7 @@ export const ALL_BLOG_POSTS: BlogPost[] = [
     "readTime": "6 phút",
     "read_time": "6 phút",
     "date": "07/09/2026",
-    "image": "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=1200&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=1200&auto=format&fit=crop&q=80",
     "relatedProductId": "11"
   },
   {
@@ -839,7 +839,7 @@ export const ALL_BLOG_POSTS: BlogPost[] = [
     "readTime": "6 phút",
     "read_time": "6 phút",
     "date": "07/09/2026",
-    "image": "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=1200&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=1200&auto=format&fit=crop&q=80",
     "relatedProductId": "11"
   },
   {
@@ -853,7 +853,7 @@ export const ALL_BLOG_POSTS: BlogPost[] = [
     "readTime": "6 phút",
     "read_time": "6 phút",
     "date": "07/09/2026",
-    "image": "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=1200&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1478737270239-2f02b77fc618?w=1200&auto=format&fit=crop&q=80",
     "relatedProductId": "11"
   },
   {
@@ -867,7 +867,7 @@ export const ALL_BLOG_POSTS: BlogPost[] = [
     "readTime": "6 phút",
     "read_time": "6 phút",
     "date": "07/09/2026",
-    "image": "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=1200&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=1200&auto=format&fit=crop&q=80",
     "relatedProductId": "11"
   },
   {
@@ -881,7 +881,7 @@ export const ALL_BLOG_POSTS: BlogPost[] = [
     "readTime": "6 phút",
     "read_time": "6 phút",
     "date": "07/09/2026",
-    "image": "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=1200&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=1200&auto=format&fit=crop&q=80",
     "relatedProductId": "11"
   },
   {
@@ -895,7 +895,7 @@ export const ALL_BLOG_POSTS: BlogPost[] = [
     "readTime": "6 phút",
     "read_time": "6 phút",
     "date": "07/09/2026",
-    "image": "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=1200&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1461360370896-922624d12aa1?w=1200&auto=format&fit=crop&q=80",
     "relatedProductId": "11"
   },
   {
@@ -909,7 +909,7 @@ export const ALL_BLOG_POSTS: BlogPost[] = [
     "readTime": "6 phút",
     "read_time": "6 phút",
     "date": "07/09/2026",
-    "image": "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=1200&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1576267423445-b2e0074d68a4?w=1200&auto=format&fit=crop&q=80",
     "relatedProductId": "11"
   },
   {
@@ -923,7 +923,7 @@ export const ALL_BLOG_POSTS: BlogPost[] = [
     "readTime": "6 phút",
     "read_time": "6 phút",
     "date": "07/09/2026",
-    "image": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1200&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=1200&auto=format&fit=crop&q=80",
     "relatedProductId": "3"
   },
   {
@@ -951,7 +951,7 @@ export const ALL_BLOG_POSTS: BlogPost[] = [
     "readTime": "6 phút",
     "read_time": "6 phút",
     "date": "07/09/2026",
-    "image": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1200&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=1200&auto=format&fit=crop&q=80",
     "relatedProductId": "3"
   },
   {
@@ -965,7 +965,7 @@ export const ALL_BLOG_POSTS: BlogPost[] = [
     "readTime": "6 phút",
     "read_time": "6 phút",
     "date": "07/09/2026",
-    "image": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1200&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=1200&auto=format&fit=crop&q=80",
     "relatedProductId": "3"
   },
   {
@@ -979,7 +979,7 @@ export const ALL_BLOG_POSTS: BlogPost[] = [
     "readTime": "6 phút",
     "read_time": "6 phút",
     "date": "07/09/2026",
-    "image": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1200&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=1200&auto=format&fit=crop&q=80",
     "relatedProductId": "3"
   },
   {
@@ -993,7 +993,7 @@ export const ALL_BLOG_POSTS: BlogPost[] = [
     "readTime": "6 phút",
     "read_time": "6 phút",
     "date": "07/09/2026",
-    "image": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1200&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1553877522-43269d4ea984?w=1200&auto=format&fit=crop&q=80",
     "relatedProductId": "3"
   },
   {
@@ -1007,7 +1007,7 @@ export const ALL_BLOG_POSTS: BlogPost[] = [
     "readTime": "6 phút",
     "read_time": "6 phút",
     "date": "07/09/2026",
-    "image": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1200&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1200&auto=format&fit=crop&q=80",
     "relatedProductId": "3"
   },
   {
@@ -1021,7 +1021,7 @@ export const ALL_BLOG_POSTS: BlogPost[] = [
     "readTime": "6 phút",
     "read_time": "6 phút",
     "date": "07/09/2026",
-    "image": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1200&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=1200&auto=format&fit=crop&q=80",
     "relatedProductId": "3"
   },
   {
@@ -1035,7 +1035,7 @@ export const ALL_BLOG_POSTS: BlogPost[] = [
     "readTime": "6 phút",
     "read_time": "6 phút",
     "date": "07/09/2026",
-    "image": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1200&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=1200&auto=format&fit=crop&q=80",
     "relatedProductId": "3"
   },
   {
@@ -1049,7 +1049,7 @@ export const ALL_BLOG_POSTS: BlogPost[] = [
     "readTime": "6 phút",
     "read_time": "6 phút",
     "date": "07/09/2026",
-    "image": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1200&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1509062522246-3755977927d7?w=1200&auto=format&fit=crop&q=80",
     "relatedProductId": "3"
   },
   {
@@ -1077,7 +1077,7 @@ export const ALL_BLOG_POSTS: BlogPost[] = [
     "readTime": "6 phút",
     "read_time": "6 phút",
     "date": "07/09/2026",
-    "image": "https://images.unsplash.com/photo-1497215728101-856f4ea42174?w=1200&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1543286386-713bdd548da4?w=1200&auto=format&fit=crop&q=80",
     "relatedProductId": "8"
   },
   {
@@ -1091,7 +1091,7 @@ export const ALL_BLOG_POSTS: BlogPost[] = [
     "readTime": "6 phút",
     "read_time": "6 phút",
     "date": "07/09/2026",
-    "image": "https://images.unsplash.com/photo-1497215728101-856f4ea42174?w=1200&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1475721027785-f74eccf877e2?w=1200&auto=format&fit=crop&q=80",
     "relatedProductId": "8"
   },
   {
@@ -1105,7 +1105,7 @@ export const ALL_BLOG_POSTS: BlogPost[] = [
     "readTime": "6 phút",
     "read_time": "6 phút",
     "date": "07/09/2026",
-    "image": "https://images.unsplash.com/photo-1497215728101-856f4ea42174?w=1200&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=1200&auto=format&fit=crop&q=80",
     "relatedProductId": "8"
   },
   {
@@ -1119,7 +1119,7 @@ export const ALL_BLOG_POSTS: BlogPost[] = [
     "readTime": "6 phút",
     "read_time": "6 phút",
     "date": "07/09/2026",
-    "image": "https://images.unsplash.com/photo-1497215728101-856f4ea42174?w=1200&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1200&auto=format&fit=crop&q=80",
     "relatedProductId": "8"
   },
   {
@@ -1133,7 +1133,7 @@ export const ALL_BLOG_POSTS: BlogPost[] = [
     "readTime": "6 phút",
     "read_time": "6 phút",
     "date": "07/09/2026",
-    "image": "https://images.unsplash.com/photo-1497215728101-856f4ea42174?w=1200&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=1200&auto=format&fit=crop&q=80",
     "relatedProductId": "8"
   },
   {
@@ -1147,7 +1147,7 @@ export const ALL_BLOG_POSTS: BlogPost[] = [
     "readTime": "6 phút",
     "read_time": "6 phút",
     "date": "07/09/2026",
-    "image": "https://images.unsplash.com/photo-1497215728101-856f4ea42174?w=1200&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1531403009284-440f080d1e12?w=1200&auto=format&fit=crop&q=80",
     "relatedProductId": "8"
   },
   {
@@ -1161,7 +1161,7 @@ export const ALL_BLOG_POSTS: BlogPost[] = [
     "readTime": "6 phút",
     "read_time": "6 phút",
     "date": "07/09/2026",
-    "image": "https://images.unsplash.com/photo-1497215728101-856f4ea42174?w=1200&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=1200&auto=format&fit=crop&q=80",
     "relatedProductId": "8"
   },
   {
@@ -1175,7 +1175,7 @@ export const ALL_BLOG_POSTS: BlogPost[] = [
     "readTime": "6 phút",
     "read_time": "6 phút",
     "date": "07/09/2026",
-    "image": "https://images.unsplash.com/photo-1497215728101-856f4ea42174?w=1200&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1507925921958-8a62f3d1a50d?w=1200&auto=format&fit=crop&q=80",
     "relatedProductId": "8"
   },
   {
@@ -1189,7 +1189,7 @@ export const ALL_BLOG_POSTS: BlogPost[] = [
     "readTime": "6 phút",
     "read_time": "6 phút",
     "date": "07/09/2026",
-    "image": "https://images.unsplash.com/photo-1497215728101-856f4ea42174?w=1200&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=1200&auto=format&fit=crop&q=80",
     "relatedProductId": "8"
   },
   {
@@ -1203,7 +1203,7 @@ export const ALL_BLOG_POSTS: BlogPost[] = [
     "readTime": "6 phút",
     "read_time": "6 phút",
     "date": "07/09/2026",
-    "image": "https://images.unsplash.com/photo-1563986768609-322da13575f3?w=1200&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=1200&auto=format&fit=crop&q=80",
     "relatedProductId": "7"
   },
   {
@@ -1217,7 +1217,7 @@ export const ALL_BLOG_POSTS: BlogPost[] = [
     "readTime": "6 phút",
     "read_time": "6 phút",
     "date": "07/09/2026",
-    "image": "https://images.unsplash.com/photo-1563986768609-322da13575f3?w=1200&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?w=1200&auto=format&fit=crop&q=80",
     "relatedProductId": "7"
   },
   {
@@ -1231,7 +1231,7 @@ export const ALL_BLOG_POSTS: BlogPost[] = [
     "readTime": "6 phút",
     "read_time": "6 phút",
     "date": "07/09/2026",
-    "image": "https://images.unsplash.com/photo-1563986768609-322da13575f3?w=1200&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1614064641938-3bbee52942c7?w=1200&auto=format&fit=crop&q=80",
     "relatedProductId": "7"
   },
   {
@@ -1259,7 +1259,7 @@ export const ALL_BLOG_POSTS: BlogPost[] = [
     "readTime": "6 phút",
     "read_time": "6 phút",
     "date": "07/09/2026",
-    "image": "https://images.unsplash.com/photo-1563986768609-322da13575f3?w=1200&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1501167786227-4cba60f6d58f?w=1200&auto=format&fit=crop&q=80",
     "relatedProductId": "7"
   },
   {
@@ -1273,7 +1273,7 @@ export const ALL_BLOG_POSTS: BlogPost[] = [
     "readTime": "6 phút",
     "read_time": "6 phút",
     "date": "07/09/2026",
-    "image": "https://images.unsplash.com/photo-1563986768609-322da13575f3?w=1200&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1588702547919-26089e690ecc?w=1200&auto=format&fit=crop&q=80",
     "relatedProductId": "7"
   },
   {
@@ -1287,7 +1287,7 @@ export const ALL_BLOG_POSTS: BlogPost[] = [
     "readTime": "6 phút",
     "read_time": "6 phút",
     "date": "07/09/2026",
-    "image": "https://images.unsplash.com/photo-1563986768609-322da13575f3?w=1200&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?w=1200&auto=format&fit=crop&q=80",
     "relatedProductId": "7"
   },
   {
@@ -1301,7 +1301,7 @@ export const ALL_BLOG_POSTS: BlogPost[] = [
     "readTime": "6 phút",
     "read_time": "6 phút",
     "date": "07/09/2026",
-    "image": "https://images.unsplash.com/photo-1563986768609-322da13575f3?w=1200&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=1200&auto=format&fit=crop&q=80",
     "relatedProductId": "7"
   },
   {
@@ -1315,7 +1315,7 @@ export const ALL_BLOG_POSTS: BlogPost[] = [
     "readTime": "6 phút",
     "read_time": "6 phút",
     "date": "07/09/2026",
-    "image": "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=1200&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1593784991095-a205069470b6?w=1200&auto=format&fit=crop&q=80",
     "relatedProductId": "2"
   },
   {
@@ -1343,7 +1343,7 @@ export const ALL_BLOG_POSTS: BlogPost[] = [
     "readTime": "6 phút",
     "read_time": "6 phút",
     "date": "07/09/2026",
-    "image": "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=1200&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?w=1200&auto=format&fit=crop&q=80",
     "relatedProductId": "2"
   },
   {
@@ -1357,7 +1357,7 @@ export const ALL_BLOG_POSTS: BlogPost[] = [
     "readTime": "6 phút",
     "read_time": "6 phút",
     "date": "07/09/2026",
-    "image": "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=1200&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1483058712412-4245e9b90334?w=1200&auto=format&fit=crop&q=80",
     "relatedProductId": "2"
   },
   {
@@ -1371,7 +1371,7 @@ export const ALL_BLOG_POSTS: BlogPost[] = [
     "readTime": "6 phút",
     "read_time": "6 phút",
     "date": "07/09/2026",
-    "image": "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=1200&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=1200&auto=format&fit=crop&q=80",
     "relatedProductId": "2"
   },
   {
@@ -1385,7 +1385,7 @@ export const ALL_BLOG_POSTS: BlogPost[] = [
     "readTime": "6 phút",
     "read_time": "6 phút",
     "date": "07/09/2026",
-    "image": "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=1200&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=1200&auto=format&fit=crop&q=80",
     "relatedProductId": "2"
   },
   {
@@ -1399,7 +1399,7 @@ export const ALL_BLOG_POSTS: BlogPost[] = [
     "readTime": "6 phút",
     "read_time": "6 phút",
     "date": "07/09/2026",
-    "image": "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=1200&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=1200&auto=format&fit=crop&q=80",
     "relatedProductId": "2"
   }
 ];

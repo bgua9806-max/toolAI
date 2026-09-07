@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import * as ReactRouterDOM from 'react-router-dom';
 import { PRODUCTS, BLOG_POSTS } from '../constants';
+import { ALL_BLOG_POSTS } from '../data/allBlogs';
 import { Product, BlogPost as BlogPostType } from '../types';
 import { 
   ArrowLeft, Clock, Share2, Home, ArrowUp, Zap, ShoppingCart, User, Plus
@@ -126,7 +127,10 @@ export const BlogPost: React.FC<BlogPostProps> = ({ addToCart }) => {
         }
 
         if (!foundPost) {
-            foundPost = BLOG_POSTS.find(p => {
+            foundPost = ALL_BLOG_POSTS.find(p => {
+                const pSlug = p.slug || slugify(p.title);
+                return pSlug === paramSlug || String(p.id) === paramSlug;
+            }) || BLOG_POSTS.find(p => {
                 const pSlug = slugify(p.title);
                 return pSlug === paramSlug || String(p.id) === paramSlug;
             }) || null;
@@ -135,11 +139,16 @@ export const BlogPost: React.FC<BlogPostProps> = ({ addToCart }) => {
         if (foundPost) {
             // Enhance image fallback
             let enrichedPost = foundPost;
-            if (!enrichedPost.image || enrichedPost.image.trim() === '') {
-                 const fallback = BLOG_POSTS.find(p => String(p.id) === String(enrichedPost.id));
+            if (!enrichedPost.image || enrichedPost.image.trim() === '' || enrichedPost.image.includes('placehold.co')) {
+                 const fallback = ALL_BLOG_POSTS.find(p => 
+                     String(p.id) === String(enrichedPost.id) || 
+                     (p.slug && p.slug === enrichedPost.slug) ||
+                     slugify(p.title) === slugify(enrichedPost.title || '')
+                 ) || BLOG_POSTS.find(p => String(p.id) === String(enrichedPost.id));
+                 
                  enrichedPost = { 
                      ...enrichedPost, 
-                     image: fallback?.image || 'https://placehold.co/1200x600?text=No+Cover+Image' 
+                     image: fallback?.image || 'https://placehold.co/1200x600?text=MuaToolAI.com+Blog' 
                  };
             }
             setPost(enrichedPost);

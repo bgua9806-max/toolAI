@@ -188,7 +188,7 @@ export const Blog: React.FC = () => {
                     <img 
                         src={featuredPost.image} 
                         alt={featuredPost.title}
-                        onError={(e) => { e.currentTarget.src = '/blog/vpn-security.svg'; }}
+                        onError={(e) => { e.currentTarget.src = getBlogFallbackImage(featuredPost); }}
                         className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-105"
                     />
                     {/* Gradient Mesh Overlay */}
