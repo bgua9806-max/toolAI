@@ -9,6 +9,7 @@ import {
 import { supabase } from '../lib/supabase';
 import { slugify } from '../lib/utils';
 import { SEO } from '../components/SEO';
+import { parseMarkdownToHtml } from '../lib/markdown';
 
 const getBlogFallbackImage = (post?: Partial<BlogPostType>) => {
   const text = `${post?.title || ''} ${post?.category || ''}`.toLowerCase();
@@ -38,55 +39,7 @@ const normalizeBlogContent = (content: string) => {
     .trim();
 };
 
-const hasHtmlMarkup = (content: string) => /<\/?(?:p|h[1-6]|ul|ol|li|blockquote|strong|em|br|img|a|div|span)\b/i.test(content);
-
-const renderPlainTextContent = (content: string) => {
-  const blocks = content.split(/\n\s*\n/).map(block => block.trim()).filter(Boolean);
-
-  return blocks.map((block, index) => {
-    const lines = block.split('\n').map(line => line.trim()).filter(Boolean);
-    const firstLine = lines[0] || '';
-
-    if (/^#{1,3}\s+/.test(firstLine)) {
-      const level = Math.min((firstLine.match(/^#+/)?.[0].length || 2), 3);
-      const text = firstLine.replace(/^#{1,3}\s+/, '');
-      const className = level === 1
-        ? 'text-3xl sm:text-4xl font-black text-gray-950 tracking-tight mt-10 mb-5'
-        : level === 2
-          ? 'text-2xl sm:text-3xl font-extrabold text-gray-950 tracking-tight mt-9 mb-4'
-          : 'text-xl sm:text-2xl font-extrabold text-gray-900 mt-8 mb-3';
-      const HeadingTag = `h${Math.min(level + 1, 4)}` as keyof JSX.IntrinsicElements;
-      return <HeadingTag key={index} className={className}>{text}</HeadingTag>;
-    }
-
-    if (lines.every(line => /^[-*•]\s+/.test(line))) {
-      return (
-        <ul key={index} className="my-6 space-y-3 rounded-3xl border border-blue-100 bg-blue-50/50 p-5 sm:p-6">
-          {lines.map((line, lineIndex) => (
-            <li key={lineIndex} className="flex gap-3 text-gray-700 leading-8">
-              <span className="mt-3 h-2 w-2 rounded-full bg-blue-600 shrink-0" />
-              <span>{line.replace(/^[-*•]\s+/, '')}</span>
-            </li>
-          ))}
-        </ul>
-      );
-    }
-
-    if (/^>\s+/.test(firstLine)) {
-      return (
-        <blockquote key={index} className="my-8 rounded-r-3xl border-l-4 border-blue-600 bg-blue-50/70 px-5 py-4 text-lg font-semibold italic text-gray-800 shadow-sm">
-          {lines.map(line => line.replace(/^>\s+/, '')).join(' ')}
-        </blockquote>
-      );
-    }
-
-    return (
-      <p key={index} className="mb-6 text-[1.05rem] sm:text-[1.125rem] leading-8 sm:leading-9 text-gray-700">
-        {lines.join(' ')}
-      </p>
-    );
-  });
-};
+const isPureHtml = (content: string) => /^\s*<(?:p|div|section|article|main)\b/i.test(content.trim());
 
 interface BlogPostProps {
   addToCart: (product: Product) => void;
@@ -271,15 +224,22 @@ export const BlogPost: React.FC<BlogPostProps> = ({ addToCart }) => {
     const regex = /\[\[PRODUCT:([a-zA-Z0-9-]+)\]\]/g;
     const parts = normalizedContent.split(regex); 
     
-    // If no shortcodes, render cleaned HTML or formatted plain text
+    const renderChunk = (chunk: string, keyIdx?: number) => {
+      const trimmed = chunk.trim();
+      if (!trimmed) return null;
+      if (isPureHtml(trimmed)) {
+        return <div key={keyIdx} dangerouslySetInnerHTML={{ __html: trimmed }} />;
+      }
+      return <div key={keyIdx} dangerouslySetInnerHTML={{ __html: parseMarkdownToHtml(trimmed) }} />;
+    };
+
+    // If no shortcodes, render directly
     if (parts.length === 1) {
-        return hasHtmlMarkup(normalizedContent)
-          ? <div dangerouslySetInnerHTML={{ __html: normalizedContent }} />
-          : <div>{renderPlainTextContent(normalizedContent)}</div>;
+        return renderChunk(parts[0]);
     }
 
     return (
-      <div>
+      <div className="space-y-4">
         {parts.map((part, index) => {
            // Odd indices are captured groups (IDs), Even indices are text/HTML chunks
            if (index % 2 === 1) {
@@ -293,10 +253,7 @@ export const BlogPost: React.FC<BlogPostProps> = ({ addToCart }) => {
                return null; // ID not found, render nothing
            }
            
-            // Render cleaned HTML chunk or formatted plain text chunk
-            return hasHtmlMarkup(part)
-              ? <span key={index} dangerouslySetInnerHTML={{ __html: part }} />
-              : <React.Fragment key={index}>{renderPlainTextContent(part)}</React.Fragment>;
+           return renderChunk(part, index);
         })}
       </div>
     );

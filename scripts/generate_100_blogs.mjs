@@ -557,15 +557,31 @@ CLUSTER_CONFIGS.forEach(cluster => {
 
 console.log(`Generated topic list with ${fullBlogs.length} articles.`);
 
+const STEP_DEFAULTS = [
+  'Khảo sát nhu cầu và lựa chọn phương án tối ưu',
+  'Quy trình thiết lập và triển khai từng bước',
+  'Đánh giá hiệu năng và so sánh giải pháp thực tế',
+  'Kinh nghiệm thực chiến và khuyến nghị an toàn'
+];
+
 // Formats full markdown content for each post
 function createMarkdownContent(blog) {
   const slug = slugify(blog.title);
-  return `## Tóm Tắt Nhanh (Direct Answer)
-> **${blog.title}**: ${blog.summary}
+  
+  const stepBlocks = blog.points.map((p, i) => {
+    let title = '';
+    let body = '';
+    if (p.includes(':')) {
+      title = p.split(':')[0].trim();
+      body = p.substring(p.indexOf(':') + 1).trim();
+    } else {
+      title = STEP_DEFAULTS[i] || `Bước ${i + 1}`;
+      body = p.trim();
+    }
+    return `### Bước ${i + 1}: ${title}\n${body}\n`;
+  }).join('\n');
 
----
-
-## 1. Tổng Quan & Bối Cảnh Thực Tế
+  return `## 1. Tổng Quan & Bối Cảnh Thực Tế
 Trong thời đại công nghệ số và trí tuệ nhân tạo phát triển vượt bậc năm 2026, việc nắm vững **${blog.title}** không chỉ giúp bạn tiết kiệm hàng chục giờ làm việc mỗi tuần mà còn tạo ra lợi thế cạnh tranh vượt trội trong công việc và học tập.
 
 Dưới đây là các điểm mấu chốt bạn cần lưu ý:
@@ -576,8 +592,7 @@ Dưới đây là các điểm mấu chốt bạn cần lưu ý:
 ---
 
 ## 2. Hướng Dẫn Chi Tiết Từng Bước
-${blog.points.map((p, i) => `### Bước ${i + 1}: ${p.split(':')[0]}\n${p}\n`).join('\n')}
-
+${stepBlocks}
 ---
 
 ## 3. Bảng Đánh Giá & So Sánh Nhanh
@@ -641,19 +656,18 @@ console.log(`Successfully wrote ${finalBlogs.length} blog posts to data/allBlogs
 
 // 2. Upload to Supabase in batches
 async function uploadToSupabase() {
-  console.log('Connecting to Supabase to upsert blogs...');
+  console.log('Connecting to Supabase to update/upsert blogs...');
   
-  // Check existing slugs in database
-  const { data: existingBlogs, error: fetchErr } = await supabase.from('blogs').select('slug');
-  const existingSlugs = new Set((existingBlogs || []).map(b => b.slug));
-  console.log(`Found ${existingSlugs.size} existing blogs in Supabase.`);
+  // Fetch existing blogs to map by slug
+  const { data: existingBlogs, error: fetchErr } = await supabase.from('blogs').select('id, slug');
+  const existingMap = new Map((existingBlogs || []).map(b => [b.slug, b.id]));
+  console.log(`Found ${existingMap.size} existing blogs in Supabase.`);
 
-  const toInsert = finalBlogs.filter(b => !existingSlugs.has(b.slug));
-  console.log(`Identified ${toInsert.length} new blogs to insert.`);
+  let updatedCount = 0;
+  let insertedCount = 0;
 
-  const batchSize = 10;
-  for (let i = 0; i < toInsert.length; i += batchSize) {
-    const batch = toInsert.slice(i, i + batchSize).map(b => ({
+  for (const b of finalBlogs) {
+    const payload = {
       title: b.title,
       slug: b.slug,
       excerpt: b.excerpt,
@@ -661,20 +675,31 @@ async function uploadToSupabase() {
       author: b.author,
       category: b.category,
       read_time: b.readTime,
+      readTime: b.readTime,
       date: b.date,
       image: b.image,
       relatedProductId: b.relatedProductId
-    }));
+    };
 
-    const { error } = await supabase.from('blogs').insert(batch);
-    if (error) {
-      console.error(`Batch ${Math.floor(i / batchSize) + 1} insert error:`, error);
+    if (existingMap.has(b.slug)) {
+      const id = existingMap.get(b.slug);
+      const { error } = await supabase.from('blogs').update(payload).eq('id', id);
+      if (!error) {
+        updatedCount++;
+      } else {
+        console.error(`Error updating blog ${b.slug}:`, error);
+      }
     } else {
-      console.log(`Inserted batch ${Math.floor(i / batchSize) + 1} (${batch.length} posts) successfully.`);
+      const { error } = await supabase.from('blogs').insert([payload]);
+      if (!error) {
+        insertedCount++;
+      } else {
+        console.error(`Error inserting blog ${b.slug}:`, error);
+      }
     }
   }
 
-  console.log('Supabase blog upload complete!');
+  console.log(`Supabase blog sync complete! Updated: ${updatedCount}, Inserted: ${insertedCount}`);
 }
 
 // 3. Update public/sitemap.xml

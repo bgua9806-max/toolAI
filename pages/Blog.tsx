@@ -19,14 +19,17 @@ const getBlogFallbackImage = (post?: Partial<BlogPost>) => {
 
 const { Link } = ReactRouterDOM;
 
+import { ALL_BLOG_POSTS } from '../data/allBlogs';
+
 const CATEGORIES = [
-  "All", "Công nghệ AI", "Thủ thuật", "Review", "Bảo mật", "Tin tức", "Design"
+  "All", "Công nghệ AI", "Thủ thuật", "Review", "Bảo mật", "Tin tức", "Thiết kế"
 ];
 
 export const Blog: React.FC = () => {
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeCategory, setActiveCategory] = useState("All");
+  const [searchQuery, setSearchQuery] = useState("");
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
@@ -40,7 +43,11 @@ export const Blog: React.FC = () => {
         
         if (!error && data && data.length > 0) {
             const enhancedPosts = data.map((post: BlogPost) => {
-                const fallback = FALLBACK_POSTS.find(fp => 
+                const fallback = ALL_BLOG_POSTS.find(fp => 
+                    String(fp.id) === String(post.id) ||
+                    slugify(fp.title) === slugify(post.title || '') ||
+                    (post.slug && slugify(fp.title) === post.slug)
+                ) || FALLBACK_POSTS.find(fp => 
                     String(fp.id) === String(post.id) ||
                     slugify(fp.title) === slugify(post.title || '') ||
                     (post.slug && slugify(fp.title) === post.slug)
@@ -61,11 +68,11 @@ export const Blog: React.FC = () => {
             });
             setPosts(enhancedPosts);
         } else {
-            setPosts(FALLBACK_POSTS);
+            setPosts(ALL_BLOG_POSTS.length > 0 ? ALL_BLOG_POSTS : FALLBACK_POSTS);
         }
       } catch (err) {
         console.error("Error fetching blog:", err);
-        setPosts(FALLBACK_POSTS);
+        setPosts(ALL_BLOG_POSTS.length > 0 ? ALL_BLOG_POSTS : FALLBACK_POSTS);
       } finally {
         setLoading(false);
       }
@@ -74,9 +81,22 @@ export const Blog: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const filteredPosts = activeCategory === "All" 
-    ? posts 
-    : posts.filter(p => p.category === activeCategory);
+  const filteredPosts = posts.filter(p => {
+    const matchCategory = activeCategory === "All" || 
+      p.category === activeCategory || 
+      (activeCategory === "Thiết kế" && (p.category === "Design" || p.category === "Thiết kế")) ||
+      (activeCategory === "Design" && (p.category === "Design" || p.category === "Thiết kế"));
+    
+    if (!matchCategory) return false;
+
+    if (!searchQuery.trim()) return true;
+    const q = searchQuery.toLowerCase();
+    return (
+      (p.title && p.title.toLowerCase().includes(q)) ||
+      (p.excerpt && p.excerpt.toLowerCase().includes(q)) ||
+      (p.category && p.category.toLowerCase().includes(q))
+    );
+  });
 
   const featuredPost = filteredPosts[0];
   const otherPosts = filteredPosts.slice(1);
@@ -117,10 +137,27 @@ export const Blog: React.FC = () => {
         
         {/* 1. Ultra-Clean Sticky Header (Adjusted to avoid Navbar overlap) */}
         <div className={`sticky top-[56px] z-40 transition-all duration-300 ${isScrolled ? 'bg-white/90 backdrop-blur-xl border-b border-gray-200/50 py-3' : 'bg-transparent pb-4'}`}>
-            <div className="px-5 flex items-center justify-between mb-3">
+            <div className="px-5 flex items-center justify-between mb-2">
                 <h1 className={`text-2xl font-black text-gray-900 tracking-tighter transition-all origin-left ${isScrolled ? 'opacity-0 h-0 hidden' : 'opacity-100'}`}>
                     Khám phá
                 </h1>
+            </div>
+
+            {/* Mobile Search */}
+            <div className="px-5 mb-3">
+                <div className="relative">
+                    <Search size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
+                    <input
+                        type="text"
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        placeholder="Tìm bài viết, AI, thủ thuật..."
+                        className="w-full pl-9 pr-8 py-2 bg-white rounded-xl border border-gray-200 text-xs shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-600/30 text-gray-800"
+                    />
+                    {searchQuery && (
+                        <button onClick={() => setSearchQuery('')} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-xs text-gray-400 font-bold px-1">✕</button>
+                    )}
+                </div>
             </div>
 
             {/* Pills Categories */}
@@ -259,23 +296,48 @@ export const Blog: React.FC = () => {
       <div className="hidden lg:block pt-32 pb-24 max-w-7xl mx-auto px-8">
         
         {/* Header */}
-        <div className="text-center mb-16">
-            <h1 className="text-5xl font-extrabold text-gray-900 mb-4 tracking-tight">Newsroom</h1>
-            <p className="text-xl text-gray-500">Kiến thức, thủ thuật và tin tức công nghệ mới nhất.</p>
+        <div className="text-center mb-14 max-w-2xl mx-auto">
+            <h1 className="text-5xl font-extrabold text-gray-900 mb-4 tracking-tight">Blog & Kiến Thức AI</h1>
+            <p className="text-lg text-gray-500 mb-7">Kiến thức, thủ thuật và tin tức công nghệ mới nhất.</p>
             
+            {/* Desktop Search */}
+            <div className="relative mb-7 max-w-md mx-auto">
+                <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
+                <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Tìm kiếm bài viết, chủ đề, công nghệ AI..."
+                    className="w-full pl-11 pr-9 py-3 bg-white rounded-full border border-gray-200 shadow-sm text-sm focus:outline-none focus:ring-2 focus:ring-blue-600/30 focus:border-blue-600 transition-all text-gray-800"
+                />
+                {searchQuery && (
+                    <button onClick={() => setSearchQuery('')} className="absolute right-3.5 top-1/2 -translate-y-1/2 text-xs text-gray-400 hover:text-gray-600 font-bold px-1.5 py-0.5 rounded-full">✕</button>
+                )}
+            </div>
+
             {/* Desktop Categories */}
-            <div className="flex items-center justify-center gap-2 mt-8">
+            <div className="flex flex-wrap items-center justify-center gap-2">
                 {CATEGORIES.map((cat) => (
                     <button
                         key={cat}
                         onClick={() => setActiveCategory(cat)}
-                        className={`px-5 py-2 rounded-full text-sm font-bold transition-all ${activeCategory === cat ? 'bg-black text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
+                        className={`px-5 py-2 rounded-full text-sm font-bold transition-all ${activeCategory === cat ? 'bg-black text-white shadow-md' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
                     >
                         {cat}
                     </button>
                 ))}
             </div>
         </div>
+
+        {/* Empty State */}
+        {filteredPosts.length === 0 && (
+            <div className="text-center py-20 bg-white rounded-3xl border border-gray-100 p-8 my-8 shadow-sm">
+                <p className="text-gray-500 font-medium text-lg mb-4">Không tìm thấy bài viết phù hợp với bộ lọc hiện tại</p>
+                <button onClick={() => { setSearchQuery(''); setActiveCategory('All'); }} className="px-5 py-2.5 rounded-full bg-blue-600 text-white font-bold text-xs uppercase tracking-wider shadow-md hover:bg-blue-700 transition-colors">
+                    Xem tất cả bài viết
+                </button>
+            </div>
+        )}
 
         {/* Featured Post (Landscape) */}
         {featuredPost && (
