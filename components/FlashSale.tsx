@@ -186,9 +186,9 @@ export const FlashSale: React.FC<FlashSaleProps> = ({ addToCart }) => {
             </div>
 
             {/* Products Grid */}
-            <div className="grid grid-cols-3 lg:[grid-template-columns:repeat(auto-fit,minmax(190px,1fr))] gap-2 sm:gap-3 lg:gap-6 relative z-10">
+            <div className="grid grid-cols-2 sm:grid-cols-2 lg:[grid-template-columns:repeat(auto-fit,minmax(190px,1fr))] gap-3 sm:gap-4 lg:gap-6 relative z-10">
                {loading ? (
-                  [1, 2, 3, 4, 5, 6].map(i => <div key={i} className={`w-full aspect-[1/1.5] lg:h-[340px] lg:aspect-auto bg-white/70 rounded-[1.25rem] lg:rounded-3xl animate-pulse ${i > 3 ? 'hidden lg:block' : ''}`}></div>)
+                  [1, 2, 3, 4, 5, 6].map(i => <div key={i} className={`w-full aspect-[1/1.4] lg:h-[340px] lg:aspect-auto bg-white/70 rounded-2xl lg:rounded-3xl animate-pulse ${i > 4 ? 'hidden lg:block' : ''}`}></div>)
                ) : items.map((item, index) => {
                   if (!item.product) return null;
 
@@ -204,12 +204,12 @@ export const FlashSale: React.FC<FlashSaleProps> = ({ addToCart }) => {
                   if (soldPercentage > 100) soldPercentage = 100;
 
                   return (
-                     <div key={item.id} className={`group relative flex flex-col w-full bg-white rounded-[1.25rem] lg:rounded-3xl p-2 lg:p-4 shadow-[0_4px_12px_-4px_rgba(0,0,0,0.05)] lg:shadow-none hover:bg-white hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-gray-100 lg:border-white/70 hover:border-orange-100 h-full ${index >= 3 ? 'hidden lg:flex' : ''}`}>
+                     <div key={item.id} className={`group relative flex flex-col w-full bg-white rounded-2xl lg:rounded-3xl p-3 sm:p-3.5 lg:p-4 shadow-[0_4px_16px_-4px_rgba(0,0,0,0.06)] lg:shadow-none hover:bg-white hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-gray-100 lg:border-white/70 hover:border-orange-100 h-full ${index >= 4 ? 'hidden lg:flex' : ''}`}>
                         <Link to={`/product/${item.product.slug || slugify(item.product.name)}`} className="block active:scale-95 transition-transform duration-200">
-                           <div className="relative aspect-square rounded-xl lg:rounded-2xl overflow-hidden bg-gray-50 lg:bg-white mb-2 lg:mb-4 shadow-inner">
+                           <div className="relative aspect-square rounded-xl lg:rounded-2xl overflow-hidden bg-gray-50 lg:bg-white mb-2.5 lg:mb-4 shadow-inner">
                               <img src={item.product.image} alt={item.product.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 mix-blend-multiply" />
-                              <div className="absolute top-1 left-1 lg:top-1.5 lg:left-1.5 bg-gradient-to-r from-red-500 to-orange-500 lg:bg-red-600 lg:bg-none text-white text-[9px] lg:text-xs font-black px-1.5 py-0.5 lg:px-2.5 lg:py-1.5 rounded-md lg:rounded-lg shadow-sm lg:shadow-md lg:shadow-red-600/30 flex items-center gap-1 z-10">
-                                 <Zap size={9} fill="currentColor" /> -{item.discount_percent}%
+                              <div className="absolute top-1.5 left-1.5 bg-gradient-to-r from-red-500 to-orange-500 lg:bg-red-600 lg:bg-none text-white text-[10px] lg:text-xs font-black px-2 py-0.5 lg:px-2.5 lg:py-1.5 rounded-lg shadow-sm lg:shadow-md lg:shadow-red-600/30 flex items-center gap-1 z-10">
+                                 <Zap size={10} fill="currentColor" /> -{item.discount_percent}%
                               </div>
                               {soldPercentage >= 90 && (
                                  <div className="hidden lg:block absolute bottom-0 left-0 right-0 bg-red-600/90 text-white text-[10px] font-bold text-center py-1 backdrop-blur-sm">
@@ -221,17 +221,17 @@ export const FlashSale: React.FC<FlashSaleProps> = ({ addToCart }) => {
 
                         <div className="flex flex-col flex-1 justify-between">
                            <Link to={`/product/${item.product.slug || slugify(item.product.name)}`}>
-                              <h3 className="font-bold lg:font-black text-gray-900 text-[10px] sm:text-xs lg:text-[15px] leading-[1.3] lg:leading-snug line-clamp-2 h-7 sm:h-8 lg:h-[42px] mb-1.5 lg:mb-2 group-hover:text-primary transition-colors" title={item.product.name}>
+                              <h3 className="font-bold lg:font-black text-gray-900 text-xs sm:text-[13px] lg:text-[15px] leading-snug line-clamp-2 min-h-[34px] sm:min-h-[36px] lg:h-[42px] mb-2 group-hover:text-primary transition-colors" title={item.product.name}>
                                  {item.product.name}
                               </h3>
                            </Link>
 
                            <div className="mt-auto">
                               <div className="flex flex-col lg:flex-row lg:items-end gap-0.5 lg:gap-2 mb-2 lg:mb-3">
-                                 <span className="font-extrabold lg:font-black text-[#0068FF] lg:text-red-600 text-[11px] sm:text-xs lg:text-xl leading-none">
+                                 <span className="font-extrabold lg:font-black text-[#0068FF] lg:text-red-600 text-sm sm:text-base lg:text-xl leading-none">
                                     {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND', maximumFractionDigits: 0 }).format(salePrice)}
                                  </span>
-                                 <span className="text-[9px] lg:text-xs text-gray-400 line-through font-semibold mt-0.5 lg:mt-0 lg:mb-1 leading-none">
+                                 <span className="text-[10px] sm:text-[11px] lg:text-xs text-gray-400 line-through font-semibold mt-0.5 lg:mt-0 lg:mb-1 leading-none">
                                     {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND', maximumFractionDigits: 0 }).format(originalPrice)}
                                  </span>
                               </div>
@@ -251,7 +251,7 @@ export const FlashSale: React.FC<FlashSaleProps> = ({ addToCart }) => {
 
                               <button
                                  onClick={() => addToCart({ ...item.product!, price: salePrice, originalPrice: originalPrice })}
-                                 className="w-full h-6 !min-h-0 lg:h-auto lg:py-3 rounded-md lg:rounded-xl bg-gray-950 text-white flex items-center justify-center text-[10px] lg:text-sm font-bold lg:font-black active:scale-95 transition-all hover:bg-[#0068FF] lg:hover:bg-primary shadow-none lg:shadow-lg lg:shadow-gray-200 group-hover:shadow-red-500/30"
+                                 className="w-full h-8 sm:h-9 lg:h-auto lg:py-3 rounded-xl bg-gray-950 text-white flex items-center justify-center text-xs lg:text-sm font-bold lg:font-black active:scale-95 transition-all hover:bg-[#0068FF] lg:hover:bg-primary shadow-sm lg:shadow-lg lg:shadow-gray-200 group-hover:shadow-red-500/30"
                               >
                                  Mua ngay
                               </button>

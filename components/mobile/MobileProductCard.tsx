@@ -1,8 +1,9 @@
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Product } from '../../types';
 import * as ReactRouterDOM from 'react-router-dom';
 import { slugify } from '../../lib/utils';
+import { getProductImageFallback } from '../../lib/imageFallbacks';
 
 const { Link } = ReactRouterDOM;
 
@@ -13,54 +14,69 @@ interface MobileProductCardProps {
 
 export const MobileProductCard: React.FC<MobileProductCardProps> = ({ product }) => {
   const productLink = `/product/${product.slug || slugify(product.name)}`;
+  const [imgSrc, setImgSrc] = useState(product.image);
+
+  useEffect(() => {
+    setImgSrc(product.image || getProductImageFallback(product));
+  }, [product]);
+
+  const handleImageError = () => {
+    const fallback = getProductImageFallback(product);
+    setImgSrc((current) => current === fallback ? '' : fallback);
+  };
 
   return (
-    <div className="group relative flex flex-col w-full bg-white rounded-[1.25rem] p-2 shadow-[0_4px_12px_-4px_rgba(0,0,0,0.05)] border border-gray-100">
+    <div className="group relative flex flex-col w-full bg-white rounded-2xl p-3 sm:p-3.5 shadow-[0_4px_16px_-4px_rgba(0,0,0,0.06)] hover:shadow-md border border-gray-100/90 transition-all">
       <Link to={productLink} className="block active:scale-95 transition-transform duration-200">
-        <div className="relative aspect-square rounded-xl overflow-hidden bg-gray-50 mb-2">
+        <div className="relative aspect-square rounded-xl overflow-hidden bg-[#F5F5F7] mb-2.5 shadow-inner">
           <img
-            src={product.image || 'https://placehold.co/300'}
+            src={imgSrc}
             alt={product.name}
-            className="w-full h-full object-cover mix-blend-multiply"
+            onError={handleImageError}
+            className="w-full h-full object-cover mix-blend-multiply group-hover:scale-105 transition-transform duration-300"
           />
           {product.discount > 0 && (
-            <div className="absolute top-1 left-1 bg-gradient-to-r from-red-500 to-orange-500 text-white text-[9px] font-black px-1.5 py-0.5 rounded-md shadow-sm">
+            <div className="absolute top-1.5 left-1.5 bg-gradient-to-r from-red-500 to-orange-500 text-white text-[10px] font-black px-2 py-0.5 rounded-lg shadow-sm">
               -{product.discount}%
+            </div>
+          )}
+          {product.isHot && (
+            <div className="absolute top-1.5 right-1.5 bg-orange-500 text-white text-[9px] font-black px-1.5 py-0.5 rounded-md shadow-sm">
+              HOT
             </div>
           )}
         </div>
       </Link>
 
       <div className="flex flex-col flex-1 justify-between">
-        <Link to={productLink}>
-          <h3 className="font-bold text-gray-900 text-[10px] sm:text-xs leading-[1.3] line-clamp-2 h-7 sm:h-8 mb-1.5">
+        <Link to={productLink} className="block mb-2">
+          <h3 className="font-bold text-gray-900 text-xs sm:text-[13px] leading-snug line-clamp-2 min-h-[34px] sm:min-h-[36px] group-hover:text-primary transition-colors">
             {product.name}
           </h3>
         </Link>
 
-        <div className="mt-auto">
-          <div className="flex flex-col mb-2">
-            <span className="font-extrabold text-[#0068FF] text-[11px] sm:text-xs leading-none">
+        <div className="mt-auto pt-1">
+          <div className="flex flex-col mb-2.5">
+            <span className="font-extrabold text-[#0068FF] text-sm sm:text-base leading-none">
               {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND', maximumFractionDigits: 0 }).format(product.price)}
-              {product.pricingUnit && <span className="text-[9px] font-bold text-gray-500 ml-1">{product.pricingUnit}</span>}
+              {product.pricingUnit && <span className="text-[10px] font-bold text-gray-500 ml-1">{product.pricingUnit}</span>}
             </span>
             {product.originalPrice > product.price && (
-              <span className="text-[9px] text-gray-400 line-through mt-0.5">
+              <span className="text-[10px] sm:text-[11px] text-gray-400 line-through mt-1 font-medium">
                 {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND', maximumFractionDigits: 0 }).format(product.originalPrice)}
               </span>
             )}
           </div>
 
-          <a
-            href="https://zalo.me/g/bguamkuy0hcgjpvf9kyp"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="w-full h-6 rounded-md bg-gray-950 text-white flex items-center justify-center text-[10px] font-bold active:scale-95 transition-transform hover:bg-[#0068FF]"
+          <Link
+            to={productLink}
+            className="w-full h-8 sm:h-9 rounded-xl bg-gray-950 text-white flex items-center justify-center text-xs font-bold active:scale-95 transition-all hover:bg-[#0068FF] shadow-sm"
           >
             Mua ngay
-          </a>
+          </Link>
         </div>
       </div>
     </div>
   );
 };
+

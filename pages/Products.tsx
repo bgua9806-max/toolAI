@@ -347,8 +347,8 @@ export const ProductsPage: React.FC<ProductsPageProps> = ({ addToCart }) => {
              {loading ? (
                 <>
                   {/* Mobile Loading */}
-                  <div className="lg:hidden grid grid-cols-3 gap-2 sm:gap-3">
-                     {[1,2,3,4,5,6,7,8,9].map(i => <div key={i} className="w-full aspect-[1/1.5] bg-gray-200 rounded-[1.25rem] animate-pulse"></div>)}
+                  <div className="lg:hidden grid grid-cols-2 gap-3 sm:gap-4">
+                     {[1,2,3,4,5,6,7,8].map(i => <div key={i} className="w-full aspect-[1/1.4] bg-gray-200 rounded-2xl animate-pulse"></div>)}
                   </div>
                   {/* Desktop Loading */}
                   <div className="hidden lg:grid lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -357,8 +357,8 @@ export const ProductsPage: React.FC<ProductsPageProps> = ({ addToCart }) => {
                 </>
              ) : filteredProducts.length > 0 ? (
                 <>
-                  {/* Mobile Grid 3 Columns */}
-                  <div className="lg:hidden grid grid-cols-3 gap-2 sm:gap-3">
+                  {/* Mobile Grid 2 Columns */}
+                  <div className="lg:hidden grid grid-cols-2 gap-3 sm:gap-4">
                     {filteredProducts.map((product) => (
                       <MobileProductCard key={`mob-${product.id}`} product={product} />
                     ))}

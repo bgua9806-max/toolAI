@@ -152,10 +152,10 @@ export const Home: React.FC<HomeProps> = ({ addToCart }) => {
              </div>
         )}
 
-        {/* MOBILE GRID 3x3 */}
-        <div className="lg:hidden grid grid-cols-3 gap-2 sm:gap-3 pb-4">
+        {/* MOBILE GRID 2 COLS */}
+        <div className="lg:hidden grid grid-cols-2 gap-3 sm:gap-4 pb-4">
             {loading ? (
-                [1,2,3,4,5,6,7,8,9,10,11,12].map(i => <div key={i} className="w-full aspect-[1/1.5] bg-gray-200 rounded-[1.25rem] animate-pulse"></div>)
+                [1,2,3,4,5,6,7,8].map(i => <div key={i} className="w-full aspect-[1/1.4] bg-gray-200 rounded-2xl animate-pulse"></div>)
             ) : hotProducts.slice(0, 12).map((product) => (
                 <MobileProductCard key={`mob-hot-${product.id}`} product={product} />
             ))}
@@ -190,11 +190,11 @@ export const Home: React.FC<HomeProps> = ({ addToCart }) => {
           </div>
         )}
 
-        {/* MOBILE GRID 3x3 */}
-        <div className="lg:hidden grid grid-cols-3 gap-2 sm:gap-3 pb-4">
+        {/* MOBILE GRID 2 COLS */}
+        <div className="lg:hidden grid grid-cols-2 gap-3 sm:gap-4 pb-4">
             {loading ? (
-                [1,2,3,4,5,6,7,8,9].map(i => <div key={i} className="w-full aspect-[1/1.5] bg-gray-200 rounded-[1.25rem] animate-pulse"></div>)
-            ) : newProducts.slice(0, 9).map((product) => (
+                [1,2,3,4,5,6].map(i => <div key={i} className="w-full aspect-[1/1.4] bg-gray-200 rounded-2xl animate-pulse"></div>)
+            ) : newProducts.slice(0, 10).map((product) => (
                 <MobileProductCard key={`mob-new-${product.id}`} product={product} />
             ))}
         </div>
