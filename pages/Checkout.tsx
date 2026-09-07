@@ -1,11 +1,11 @@
-
 import React, { useState, useEffect } from 'react';
 import * as ReactRouterDOM from 'react-router-dom';
 import { CartItem } from '../types';
 import { supabase } from '../lib/supabase';
 import { 
-  ArrowLeft, ShieldCheck, CreditCard, Lock, CheckCircle, Package, 
-  Copy, Download, Mail, Info, MessageCircle, ExternalLink, Phone, Check, ArrowRight, Zap 
+  ArrowLeft, ShieldCheck, CreditCard, Lock, Package, 
+  Copy, Download, Mail, Info, MessageCircle, ExternalLink, Phone, Check, ArrowRight, Zap,
+  User, PhoneCall, CheckCircle2, ChevronDown, ChevronUp, ShoppingBag, Sparkles
 } from 'lucide-react';
 
 const { useNavigate, Link } = ReactRouterDOM;
@@ -36,11 +36,12 @@ export const Checkout: React.FC<CheckoutProps> = ({ cart, clearCart }) => {
   const [paymentMethod, setPaymentMethod] = useState('qr');
   const [isProcessing, setIsProcessing] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
-  const [isPaidConfirmed, setIsPaidConfirmed] = useState(false); // Đã bấm xác nhận thanh toán để nhận qua Zalo
+  const [isPaidConfirmed, setIsPaidConfirmed] = useState(false);
   const [orderId, setOrderId] = useState('');
   const [finalTotal, setFinalTotal] = useState(0);
-  const [savedItems, setSavedItems] = useState<CartItem[]>([]); // Lưu lại danh sách sản phẩm sau khi clear cart
+  const [savedItems, setSavedItems] = useState<CartItem[]>([]);
   const [copiedField, setCopiedField] = useState<string | null>(null);
+  const [isMobileCartOpen, setIsMobileCartOpen] = useState(false);
 
   // Chuyển hướng nếu giỏ hàng trống khi chưa hoàn tất
   useEffect(() => {
@@ -115,7 +116,7 @@ export const Checkout: React.FC<CheckoutProps> = ({ cart, clearCart }) => {
 
   const formattedTotal = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(finalTotal);
 
-  // Soạn sẵn nội dung tin nhắn Zalo đầy đủ để khách chỉ cần ấn gửi
+  // Soạn sẵn nội dung tin nhắn Zalo đầy đủ
   const zaloPreFilledText = `Chào shop MuaToolAI! Tôi vừa chuyển khoản đơn hàng #${orderId.slice(0, 8).toUpperCase()}.\n` +
     `- Số tiền: ${formattedTotal}\n` +
     `- Sản phẩm: ${itemsSummary}\n` +
@@ -138,7 +139,6 @@ export const Checkout: React.FC<CheckoutProps> = ({ cart, clearCart }) => {
       }
     }
 
-    // Tự động mở tab Zalo để khách nhắn tin gửi bill nhận tài khoản
     if (typeof window !== 'undefined') {
       window.open(zaloDirectUrl, '_blank', 'noopener,noreferrer');
     }
@@ -151,92 +151,90 @@ export const Checkout: React.FC<CheckoutProps> = ({ cart, clearCart }) => {
   };
 
   // =========================================================================
-  // MÀN HÌNH SAU KHI TẠO ĐƠN HÀNG THÀNH CÔNG
+  // MÀN HÌNH SAU KHI TẠO ĐƠN HÀNG THÀNH CÔNG (VIETQR + ZALO HANDOVER)
   // =========================================================================
   if (isSuccess) {
     const showQrView = paymentMethod === 'qr' && !isPaidConfirmed;
 
     return (
-      <main className="min-h-screen bg-[#F5F5F7] flex items-center justify-center p-4 py-16">
-        <div className="max-w-xl w-full text-center space-y-8 animate-fade-in-up">
+      <main className="min-h-screen bg-[#F8FAFC] flex items-center justify-center px-4 py-20 sm:py-24">
+        <div className="max-w-xl w-full text-center space-y-6 animate-fade-in-up">
            
            {showQrView ? (
-             /* -------------------------------------------------------------
-                GIAO DIỆN 1: QUÉT MÃ VIETQR & HƯỚNG DẪN NHẮN ZALO
-             ------------------------------------------------------------- */
-             <div className="bg-white rounded-[2.5rem] shadow-2xl border border-gray-100 overflow-hidden text-left">
+             /* GIAO DIỆN 1: QUÉT MÃ VIETQR & NHẮN ZALO */
+             <div className="bg-white rounded-3xl shadow-xl border border-gray-200/80 overflow-hidden text-left">
                 {/* Header Banner */}
-                <div className="bg-gradient-to-r from-blue-700 via-blue-600 to-indigo-700 p-6 sm:p-8 text-white text-center relative overflow-hidden">
+                <div className="bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-700 p-6 sm:p-7 text-white text-center relative overflow-hidden">
                     <div className="absolute -right-10 -bottom-10 w-40 h-40 bg-white/10 rounded-full blur-2xl pointer-events-none"></div>
-                    <div className="w-16 h-16 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center mx-auto mb-3 border border-white/20 shadow-inner">
-                        <CreditCard size={32} strokeWidth={2.5} />
+                    <div className="w-13 h-13 sm:w-14 sm:h-14 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center mx-auto mb-3 border border-white/20 shadow-inner">
+                        <CreditCard size={28} strokeWidth={2.5} />
                     </div>
                     <span className="inline-block px-3 py-1 bg-white/20 backdrop-blur-md rounded-full text-xs font-black uppercase tracking-wider mb-2">
                         Đơn Hàng #{orderId.slice(0, 8).toUpperCase()}
                     </span>
-                    <h1 className="text-2xl sm:text-3xl font-black tracking-tight">Thanh toán chuyển khoản VietQR</h1>
-                    <p className="text-white/85 text-xs sm:text-sm mt-1.5 font-medium">
-                        Quét mã bên dưới bằng ứng dụng ngân hàng bất kỳ để hoàn tất.
+                    <h1 className="text-xl sm:text-2xl font-black tracking-tight">Thanh toán chuyển khoản VietQR</h1>
+                    <p className="text-white/90 text-xs sm:text-sm mt-1 font-medium">
+                        Quét mã bên dưới bằng App ngân hàng bất kỳ để hoàn tất
                     </p>
                 </div>
                 
-                <div className="p-6 sm:p-8 space-y-6">
-                    {/* 3 Bước nhận tài khoản qua Zalo */}
-                    <div className="bg-blue-50/80 border border-blue-200/80 rounded-2xl p-4 sm:p-5 space-y-3">
-                        <div className="flex items-center gap-2 text-blue-900 font-extrabold text-xs uppercase tracking-wider">
-                            <Zap size={16} className="text-yellow-500 fill-yellow-500" />
-                            <span>Quy trình 3 bước nhận tài khoản siêu tốc:</span>
+                <div className="p-5 sm:p-7 space-y-5">
+                    {/* 3 Bước nhận tài khoản siêu tốc */}
+                    <div className="bg-blue-50/70 border border-blue-200/70 rounded-2xl p-3.5 sm:p-4 space-y-2.5">
+                        <div className="flex items-center gap-1.5 text-blue-900 font-extrabold text-xs uppercase tracking-wider">
+                            <Zap size={15} className="text-amber-500 fill-amber-500" />
+                            <span>Quy trình nhận tài khoản siêu tốc:</span>
                         </div>
-                        <div className="space-y-2 text-xs text-gray-700 font-medium">
-                            <div className="flex items-start gap-2.5">
-                                <span className="w-5 h-5 rounded-full bg-blue-600 text-white font-black text-[10px] flex items-center justify-center shrink-0 mt-0.5">1</span>
-                                <span>Mở App ngân hàng quét mã QR (số tiền & nội dung tự động điền chính xác).</span>
+                        <div className="space-y-1.5 text-xs text-gray-700 font-medium">
+                            <div className="flex items-start gap-2">
+                                <span className="w-4.5 h-4.5 rounded-full bg-blue-600 text-white font-black text-[10px] flex items-center justify-center shrink-0 mt-0.5">1</span>
+                                <span>Mở App ngân hàng quét mã QR (tự điền số tiền & nội dung chính xác).</span>
                             </div>
-                            <div className="flex items-start gap-2.5">
-                                <span className="w-5 h-5 rounded-full bg-blue-600 text-white font-black text-[10px] flex items-center justify-center shrink-0 mt-0.5">2</span>
-                                <span>Chụp lại ảnh màn hình thông báo chuyển khoản thành công.</span>
+                            <div className="flex items-start gap-2">
+                                <span className="w-4.5 h-4.5 rounded-full bg-blue-600 text-white font-black text-[10px] flex items-center justify-center shrink-0 mt-0.5">2</span>
+                                <span>Chụp lại ảnh màn hình chuyển khoản thành công.</span>
                             </div>
-                            <div className="flex items-start gap-2.5">
-                                <span className="w-5 h-5 rounded-full bg-blue-600 text-white font-black text-[10px] flex items-center justify-center shrink-0 mt-0.5">3</span>
-                                <span>Bấm nút <strong>"Tôi Đã Chuyển Khoản"</strong> bên dưới để gửi bill qua Zalo nhận tài khoản ngay trong <strong>3 - 5 phút</strong>.</span>
+                            <div className="flex items-start gap-2">
+                                <span className="w-4.5 h-4.5 rounded-full bg-blue-600 text-white font-black text-[10px] flex items-center justify-center shrink-0 mt-0.5">3</span>
+                                <span>Bấm nút <strong>"Tôi Đã Chuyển Khoản"</strong> để gửi bill qua Zalo nhận tài khoản ngay trong <strong>3 - 5 phút</strong>.</span>
                             </div>
                         </div>
                     </div>
 
                     {/* QR Code Section */}
                     <div className="text-center">
-                        <div className="relative group w-fit mx-auto p-3 bg-white rounded-2xl border-2 border-gray-100 shadow-lg">
+                        <div className="relative group w-fit mx-auto p-3 bg-white rounded-2xl border-2 border-gray-100 shadow-md">
                             <img 
                                 src={qrUrl} 
                                 alt="VietQR Payment" 
-                                className="w-full max-w-[260px] sm:max-w-[290px] mx-auto rounded-xl"
+                                className="w-full max-w-[240px] sm:max-w-[270px] mx-auto rounded-xl"
                             />
                             <a 
                                 href={qrUrl} 
                                 download={`vietqr-${orderId.slice(0, 8)}.png`}
-                                className="absolute bottom-5 right-5 bg-white/95 p-2.5 rounded-xl text-gray-700 hover:text-blue-600 shadow-md transition-all border border-gray-100 active:scale-95"
+                                className="absolute bottom-4 right-4 bg-white/95 p-2 rounded-xl text-gray-700 hover:text-blue-600 shadow-md transition-all border border-gray-100 active:scale-95"
                                 title="Tải mã QR"
                             >
-                                <Download size={18} />
+                                <Download size={16} />
                             </a>
                         </div>
-                        <p className="text-[11px] text-gray-400 mt-2 italic">
-                            * Hỗ trợ tất cả ngân hàng: Vietcombank, Techcombank, MBBank, VPBank, ACB, BIDV, Agribank...
+                        <p className="text-[11px] text-gray-400 mt-2 font-medium">
+                          * Hỗ trợ quét mã bằng tất cả ngân hàng (MB, VCB, TCB, ACB, BIDV, Agribank...)
                         </p>
                     </div>
 
-                    {/* Bank Details Table with One-Click Copy */}
-                    <div className="space-y-3 bg-gray-50 p-5 rounded-2xl border border-gray-100 text-xs sm:text-sm">
-                        <div className="flex justify-between items-center pb-2.5 border-b border-gray-200">
-                            <span className="text-gray-500">Ngân hàng</span>
+                    {/* Bank Details Table */}
+                    <div className="space-y-2.5 bg-gray-50/80 p-4 rounded-2xl border border-gray-200/70 text-xs sm:text-sm">
+                        <div className="flex justify-between items-center pb-2 border-b border-gray-200/80">
+                            <span className="text-gray-500 font-medium">Ngân hàng</span>
                             <span className="font-extrabold text-gray-900">MB BANK (Quân Đội)</span>
                         </div>
-                        <div className="flex justify-between items-center pb-2.5 border-b border-gray-200">
-                            <span className="text-gray-500">Chủ tài khoản</span>
+                        <div className="flex justify-between items-center pb-2 border-b border-gray-200/80">
+                            <span className="text-gray-500 font-medium">Chủ tài khoản</span>
                             <span className="font-extrabold text-gray-900 uppercase">{BANK_INFO.ACCOUNT_NAME}</span>
                         </div>
-                        <div className="flex justify-between items-center pb-2.5 border-b border-gray-200">
-                            <span className="text-gray-500">Số tài khoản</span>
+                        <div className="flex justify-between items-center pb-2 border-b border-gray-200/80">
+                            <span className="text-gray-500 font-medium">Số tài khoản</span>
                             <div className="flex items-center gap-2">
                                 <span className="font-black text-blue-600 text-base tracking-wider">{BANK_INFO.ACCOUNT_NO}</span>
                                 <button 
@@ -244,25 +242,25 @@ export const Checkout: React.FC<CheckoutProps> = ({ cart, clearCart }) => {
                                   className="p-1 rounded-md text-gray-400 hover:text-blue-600 hover:bg-blue-50 transition-colors"
                                   title="Sao chép"
                                 >
-                                  {copiedField === 'account' ? <Check size={16} className="text-green-600" /> : <Copy size={16}/>}
+                                  {copiedField === 'account' ? <Check size={16} className="text-emerald-600" /> : <Copy size={16}/>}
                                 </button>
                             </div>
                         </div>
-                        <div className="flex justify-between items-center pb-2.5 border-b border-gray-200">
-                            <span className="text-gray-500">Số tiền</span>
+                        <div className="flex justify-between items-center pb-2 border-b border-gray-200/80">
+                            <span className="text-gray-500 font-medium">Số tiền</span>
                             <div className="flex items-center gap-2">
-                                <span className="font-black text-red-600 text-base">{formattedTotal}</span>
+                                <span className="font-black text-rose-600 text-base">{formattedTotal}</span>
                                 <button 
                                   onClick={() => copyToClipboard(finalTotal.toString(), 'amount')} 
                                   className="p-1 rounded-md text-gray-400 hover:text-blue-600 hover:bg-blue-50 transition-colors"
                                   title="Sao chép"
                                 >
-                                  {copiedField === 'amount' ? <Check size={16} className="text-green-600" /> : <Copy size={16}/>}
+                                  {copiedField === 'amount' ? <Check size={16} className="text-emerald-600" /> : <Copy size={16}/>}
                                 </button>
                             </div>
                         </div>
                         <div className="flex justify-between items-center">
-                            <span className="text-gray-500">Nội dung CK</span>
+                            <span className="text-gray-500 font-medium">Nội dung CK</span>
                             <div className="flex items-center gap-2">
                                 <span className="font-extrabold text-gray-900 bg-amber-100 text-amber-900 px-2.5 py-1 rounded-lg text-xs font-mono">{transferContent}</span>
                                 <button 
@@ -270,19 +268,19 @@ export const Checkout: React.FC<CheckoutProps> = ({ cart, clearCart }) => {
                                   className="p-1 rounded-md text-gray-400 hover:text-blue-600 hover:bg-blue-50 transition-colors"
                                   title="Sao chép"
                                 >
-                                  {copiedField === 'content' ? <Check size={16} className="text-green-600" /> : <Copy size={16}/>}
+                                  {copiedField === 'content' ? <Check size={16} className="text-emerald-600" /> : <Copy size={16}/>}
                                 </button>
                             </div>
                         </div>
                     </div>
 
                     {/* CONFIRMATION & ZALO BUTTONS */}
-                    <div className="space-y-3 pt-2">
+                    <div className="space-y-2.5 pt-1">
                         <button 
                             onClick={handleConfirmPaid}
-                            className="w-full py-4 px-6 bg-gradient-to-r from-[#0068FF] to-[#0052cc] hover:from-[#0052cc] hover:to-[#0041a8] text-white font-black text-base sm:text-lg rounded-2xl shadow-xl shadow-blue-500/30 active:scale-[0.98] transition-all flex items-center justify-center gap-3 animate-pulse"
+                            className="w-full py-3.5 px-5 bg-gradient-to-r from-[#0068FF] to-[#0052cc] hover:from-[#0052cc] hover:to-[#0041a8] text-white font-black text-sm sm:text-base rounded-2xl shadow-lg shadow-blue-500/25 active:scale-[0.98] transition-all flex items-center justify-center gap-2.5"
                         >
-                            <MessageCircle size={24} />
+                            <MessageCircle size={20} />
                             <span>Tôi Đã Chuyển Khoản 👉 Nhắn Zalo Nhận Tài Khoản</span>
                         </button>
                         
@@ -290,131 +288,81 @@ export const Checkout: React.FC<CheckoutProps> = ({ cart, clearCart }) => {
                             href={zaloDirectUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="w-full py-3 px-4 bg-gray-50 hover:bg-blue-50 text-gray-800 hover:text-[#0068FF] font-bold text-xs sm:text-sm rounded-xl transition-all flex items-center justify-center gap-2 border border-gray-200"
+                            className="w-full py-2.5 px-4 bg-gray-50 hover:bg-blue-50 text-gray-800 hover:text-[#0068FF] font-bold text-xs rounded-xl transition-all flex items-center justify-center gap-2 border border-gray-200"
                         >
-                            <Phone size={15} />
-                            <span>Hoặc gọi/chat Zalo trực tiếp: {BANK_INFO.HOTLINE_ZALO} (24/7)</span>
+                            <Phone size={14} />
+                            <span>Hotline / Zalo hỗ trợ: {BANK_INFO.HOTLINE_ZALO} (24/7)</span>
                         </a>
-
-                        <p className="text-[11px] text-gray-400 text-center italic">
-                            * Sau khi bấm nút, hệ thống sẽ tự động mở Zalo và điền sẵn thông tin đơn hàng giúp bạn gửi bill nhanh chóng.
-                        </p>
                     </div>
-                </div>
+                 </div>
              </div>
            ) : (
-             /* -------------------------------------------------------------
-                GIAO DIỆN 2: ĐÃ XÁC NHẬN CHUYỂN KHOẢN - BƯỚC NHẬN TÀI KHOẢN QUA ZALO
-             ------------------------------------------------------------- */
-             <div className="bg-white rounded-[2.5rem] shadow-2xl border border-gray-100 p-6 sm:p-10 space-y-7 text-center">
-                {/* Animated Green Badge */}
-                <div className="w-20 h-20 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto shadow-inner">
-                    <CheckCircle size={44} strokeWidth={2.5} className="animate-bounce" />
+             /* GIAO DIỆN 2: ĐÃ XÁC NHẬN CHUYỂN KHOẢN */
+             <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-xl border border-gray-200/80 text-center space-y-5">
+                <div className="w-16 h-16 bg-emerald-50 text-emerald-600 rounded-full flex items-center justify-center mx-auto shadow-inner">
+                    <CheckCircle2 size={36} strokeWidth={2.5} />
                 </div>
-                
                 <div>
-                    <span className="inline-block px-3 py-1 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-full text-xs font-black uppercase tracking-wider mb-2">
-                        Đã ghi nhận chuyển khoản đơn hàng
-                    </span>
-                    <h1 className="text-2xl sm:text-3xl font-black text-gray-900 tracking-tight">
-                        Đơn Hàng #{orderId.slice(0, 8).toUpperCase()}
-                    </h1>
-                    <p className="text-gray-500 text-sm mt-2 max-w-md mx-auto">
-                        Cảm ơn bạn <strong>{formData.name}</strong> đã ủng hộ MuaToolAI! Hệ thống đã ghi nhận thông tin đơn hàng thành công.
+                    <h2 className="text-xl sm:text-2xl font-black text-gray-900">Đã gửi yêu cầu nhận tài khoản!</h2>
+                    <p className="text-xs sm:text-sm text-gray-500 mt-1">
+                        Chuyên viên MuaToolAI đang đối soát và bàn giao thông tin đăng nhập trong vòng <strong>3 - 5 phút</strong> qua Zalo.
                     </p>
                 </div>
 
-                {/* ZALO HANDOVER CALL-TO-ACTION CARD */}
-                <div className="bg-gradient-to-b from-blue-50 to-indigo-50/70 border-2 border-blue-200 rounded-3xl p-6 sm:p-7 text-left space-y-4 shadow-sm">
-                    <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                            <span className="w-2.5 h-2.5 rounded-full bg-green-500 animate-ping"></span>
-                            <span className="text-xs font-black uppercase tracking-wider text-blue-900">Kỹ thuật viên đang trực 24/7</span>
-                        </div>
-                        <span className="text-xs font-bold text-blue-600 bg-white px-2.5 py-1 rounded-full border border-blue-100 shadow-sm">
-                            Bàn giao: 3 - 5 phút
-                        </span>
-                    </div>
-
-                    <h3 className="text-lg sm:text-xl font-black text-gray-900 leading-snug">
-                        Nhắn tin Zalo để nhận tài khoản & link kích hoạt ngay:
-                    </h3>
-
-                    <p className="text-xs sm:text-sm text-gray-600 leading-relaxed font-medium">
-                        Bạn vui lòng gửi ảnh chụp màn hình chuyển khoản qua Zalo cho shop. Tin nhắn đã được chuẩn bị sẵn mã đơn hàng và gói bạn vừa mua, chỉ cần nhấn gửi!
-                    </p>
-
-                    {/* Nút lớn mở Zalo */}
+                <div className="space-y-2.5">
                     <a 
                         href={zaloDirectUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="w-full py-4 px-6 bg-[#0068FF] hover:bg-[#0052cc] text-white font-black text-base sm:text-lg rounded-2xl shadow-xl shadow-blue-500/30 flex items-center justify-center gap-3 active:scale-95 transition-all group text-center"
+                        className="w-full py-3.5 px-5 bg-[#0068FF] hover:bg-[#0052cc] text-white font-black text-sm sm:text-base rounded-2xl shadow-lg shadow-blue-500/25 flex items-center justify-center gap-2.5 active:scale-95 transition-all text-center"
                     >
-                        <MessageCircle size={26} className="group-hover:scale-110 transition-transform" />
+                        <MessageCircle size={20} />
                         <span>Mở Zalo Nhận Tài Khoản Ngay ({BANK_INFO.HOTLINE_ZALO})</span>
                     </a>
 
-                    {/* Nút nhóm Zalo cộng đồng VIP */}
                     <a 
                         href={zaloGroupUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="w-full py-3 px-4 bg-white border border-blue-200 text-[#0068FF] hover:bg-blue-50 font-bold text-xs sm:text-sm rounded-xl flex items-center justify-center gap-2 shadow-sm transition-all text-center"
+                        className="w-full py-2.5 px-4 bg-white border border-blue-200 text-[#0068FF] hover:bg-blue-50 font-bold text-xs rounded-xl flex items-center justify-center gap-1.5 shadow-sm transition-all text-center"
                     >
-                        <span>Hoặc tham gia Nhóm Zalo Hỗ Trợ Khách Hàng VIP</span>
-                        <ExternalLink size={16} />
+                        <span>Tham gia Nhóm Zalo Hỗ Trợ Khách Hàng VIP</span>
+                        <ExternalLink size={14} />
                     </a>
                 </div>
 
-                {/* Tóm tắt chi tiết đơn hàng */}
-                <div className="bg-gray-50 rounded-2xl p-5 border border-gray-100 text-left space-y-2.5 text-xs sm:text-sm">
-                    <div className="font-extrabold text-gray-900 text-xs uppercase tracking-wider pb-2 border-b border-gray-200 flex justify-between items-center">
-                        <span>Chi tiết đơn đặt hàng:</span>
+                {/* Tóm tắt đơn */}
+                <div className="bg-gray-50/80 rounded-2xl p-4 border border-gray-200/70 text-left space-y-2 text-xs sm:text-sm">
+                    <div className="font-extrabold text-gray-900 text-xs uppercase tracking-wider pb-1.5 border-b border-gray-200 flex justify-between items-center">
+                        <span>Chi tiết đơn:</span>
                         <span className="text-blue-600 font-mono">#{orderId.slice(0, 8).toUpperCase()}</span>
                     </div>
                     <div className="flex justify-between text-gray-600">
                         <span>Sản phẩm:</span>
-                        <span className="font-bold text-gray-900 text-right max-w-[65%] line-clamp-2">{itemsSummary}</span>
+                        <span className="font-bold text-gray-900 text-right max-w-[65%] line-clamp-1">{itemsSummary}</span>
                     </div>
                     <div className="flex justify-between text-gray-600">
-                        <span>Email nhận tài khoản:</span>
+                        <span>Email nhận:</span>
                         <span className="font-bold text-gray-900">{formData.email}</span>
                     </div>
                     <div className="flex justify-between text-gray-600">
                         <span>Số điện thoại:</span>
                         <span className="font-bold text-gray-900">{formData.phone}</span>
                     </div>
-                    <div className="flex justify-between text-gray-600 pt-2 border-t border-gray-200">
+                    <div className="flex justify-between text-gray-600 pt-1.5 border-t border-gray-200">
                         <span className="font-bold">Tổng thanh toán:</span>
-                        <span className="font-black text-red-600 text-base">{formattedTotal}</span>
-                    </div>
-                </div>
-
-                {/* Cam kết dịch vụ */}
-                <div className="grid grid-cols-3 gap-3 pt-2 text-center">
-                    <div className="bg-gray-50 p-3 rounded-xl border border-gray-100">
-                        <span className="block font-black text-blue-600 text-xs sm:text-sm">3 - 5 Phút</span>
-                        <span className="text-[10px] text-gray-500 font-medium">Bàn giao siêu tốc</span>
-                    </div>
-                    <div className="bg-gray-50 p-3 rounded-xl border border-gray-100">
-                        <span className="block font-black text-emerald-600 text-xs sm:text-sm">Bảo Hành 1-1</span>
-                        <span className="text-[10px] text-gray-500 font-medium">Trọn đời sử dụng</span>
-                    </div>
-                    <div className="bg-gray-50 p-3 rounded-xl border border-gray-100">
-                        <span className="block font-black text-purple-600 text-xs sm:text-sm">Ultraview 24/7</span>
-                        <span className="text-[10px] text-gray-500 font-medium">Hỗ trợ cài từ xa</span>
+                        <span className="font-black text-rose-600 text-sm sm:text-base">{formattedTotal}</span>
                     </div>
                 </div>
              </div>
            )}
            
-           {/* Navigation Buttons */}
-           <div className="pt-2 space-y-3 max-w-sm mx-auto">
-              <Link to="/order-lookup" className="block w-full py-3.5 bg-gray-900 text-white font-bold text-sm rounded-xl shadow-lg hover:bg-black transition-all">
-                 Tra cứu tình trạng đơn hàng
+           {/* Navigation */}
+           <div className="pt-1 flex items-center justify-center gap-3 max-w-sm mx-auto">
+              <Link to="/order-lookup" className="flex-1 py-2.5 bg-gray-900 text-white font-bold text-xs rounded-xl shadow hover:bg-black transition-all text-center">
+                 Tra cứu đơn hàng
               </Link>
-              <Link to="/" className="block w-full py-3 bg-white text-gray-700 font-bold text-sm rounded-xl border border-gray-200 hover:bg-gray-50 transition-all">
+              <Link to="/" className="flex-1 py-2.5 bg-white text-gray-700 font-bold text-xs rounded-xl border border-gray-200 hover:bg-gray-50 transition-all text-center">
                  Về trang chủ
               </Link>
            </div>
@@ -424,70 +372,163 @@ export const Checkout: React.FC<CheckoutProps> = ({ cart, clearCart }) => {
   }
 
   // =========================================================================
-  // MÀN HÌNH NHẬP THÔNG TIN THANH TOÁN (FORM CHECKOUT)
+  // MÀN HÌNH NHẬP THÔNG TIN THANH TOÁN (FORM CHECKOUT NÂNG CẤP)
   // =========================================================================
   return (
-    <main className="min-h-screen bg-[#F5F5F7] pb-20 pt-28">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <main className="min-h-screen bg-[#F8FAFC] pb-32 lg:pb-16 pt-20 sm:pt-24">
+      <div className="max-w-6xl mx-auto px-3 sm:px-6 lg:px-8">
         
-        {/* Header */}
-        <div className="mb-8 flex items-center gap-4">
-           <button onClick={() => navigate(-1)} className="p-2.5 bg-white rounded-full text-gray-500 hover:text-black shadow-sm transition-all">
-              <ArrowLeft size={20} />
-           </button>
-           <div>
-              <h1 className="text-2xl sm:text-3xl font-black text-gray-900">Thanh toán an toàn</h1>
-              <p className="text-xs sm:text-sm text-gray-500 font-medium mt-0.5">
-                 Nhập thông tin nhận tài khoản và chọn phương thức chuyển khoản
-              </p>
-           </div>
+        {/* Step Progress Bar */}
+        <div className="flex items-center justify-between max-w-md mx-auto mb-5 px-2 text-[11px] sm:text-xs font-bold">
+          <div className="flex items-center gap-1 text-emerald-600">
+            <CheckCircle2 size={15} /> <span>Giỏ hàng</span>
+          </div>
+          <div className="w-8 sm:w-12 h-0.5 bg-emerald-500/30"></div>
+          <div className="flex items-center gap-1 text-blue-600 font-black">
+            <span className="w-4 h-4 rounded-full bg-blue-600 text-white text-[10px] flex items-center justify-center">2</span>
+            <span>Thanh toán</span>
+          </div>
+          <div className="w-8 sm:w-12 h-0.5 bg-gray-200"></div>
+          <div className="flex items-center gap-1 text-gray-400">
+            <span className="w-4 h-4 rounded-full bg-gray-200 text-gray-500 text-[10px] flex items-center justify-center">3</span>
+            <span>Nhận tài khoản</span>
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        {/* Top Header */}
+        <div className="mb-4 sm:mb-6 flex items-center justify-between">
+           <div className="flex items-center gap-3">
+              <button 
+                onClick={() => navigate(-1)} 
+                className="w-9 h-9 rounded-full bg-white border border-gray-200/80 text-gray-600 hover:text-black shadow-sm flex items-center justify-center active:scale-95 transition-all"
+                title="Quay lại"
+              >
+                 <ArrowLeft size={18} />
+              </button>
+              <div>
+                 <h1 className="text-xl sm:text-2xl font-black text-gray-900 tracking-tight">Thanh toán an toàn</h1>
+                 <p className="text-[11px] sm:text-xs text-gray-500 font-medium">
+                    Kích hoạt nhanh trong 3 - 5 phút • Bảo mật thông tin tuyệt đối
+                 </p>
+              </div>
+           </div>
+           
+           <span className="hidden sm:inline-flex items-center gap-1 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-bold border border-emerald-200/80">
+              <ShieldCheck size={14} /> Bảo hành 1-1
+           </span>
+        </div>
+
+        {/* Mobile Quick Cart Preview Accordion */}
+        <div className="lg:hidden mb-4 bg-white rounded-2xl border border-gray-200/80 shadow-sm overflow-hidden">
+           <button 
+             type="button"
+             onClick={() => setIsMobileCartOpen(!isMobileCartOpen)}
+             className="w-full p-3.5 flex items-center justify-between text-left active:bg-gray-50 transition-colors"
+           >
+              <div className="flex items-center gap-2.5 min-w-0">
+                 <div className="w-8 h-8 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
+                    <ShoppingBag size={16} />
+                 </div>
+                 <div className="min-w-0">
+                    <span className="text-xs font-bold text-gray-900 block truncate">
+                       Đơn hàng ({cart.length} sản phẩm)
+                    </span>
+                    <span className="text-[11px] text-gray-500 font-medium">
+                       Bấm để xem chi tiết
+                    </span>
+                 </div>
+              </div>
+              <div className="flex items-center gap-2 shrink-0">
+                 <span className="text-sm font-black text-[#0068FF]">
+                    {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(totalAmount)}
+                 </span>
+                 {isMobileCartOpen ? <ChevronUp size={16} className="text-gray-400" /> : <ChevronDown size={16} className="text-gray-400" />}
+              </div>
+           </button>
+
+           {isMobileCartOpen && (
+              <div className="px-3.5 pb-3.5 pt-1 border-t border-gray-100 space-y-2.5">
+                 {cart.map((item) => (
+                    <div key={item.id} className="flex items-center gap-2.5 py-1">
+                       <img 
+                         src={item.image} 
+                         alt={item.name} 
+                         className="w-10 h-10 rounded-lg object-cover border border-gray-100 bg-gray-50 shrink-0" 
+                       />
+                       <div className="flex-1 min-w-0">
+                          <h4 className="text-xs font-bold text-gray-900 truncate">{item.name}</h4>
+                          <p className="text-[10px] text-gray-400">Số lượng: {item.quantity}</p>
+                       </div>
+                       <span className="text-xs font-bold text-gray-800 shrink-0">
+                          {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.price * item.quantity)}
+                       </span>
+                    </div>
+                 ))}
+                 <div className="pt-2 border-t border-gray-100 flex items-center justify-between text-xs text-gray-500">
+                    <span>Phí kích hoạt & Hỗ trợ kỹ thuật</span>
+                    <span className="text-emerald-600 font-bold">Miễn phí (0đ)</span>
+                 </div>
+              </div>
+           )}
+        </div>
+
+        {/* Main Grid: Form Left, Summary Right */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-8">
            
            {/* CỘT TRÁI: FORM THÔNG TIN & PHƯƠNG THỨC THANH TOÁN */}
-           <div className="lg:col-span-7 space-y-6">
+           <div className="lg:col-span-7 space-y-4 sm:space-y-5">
               
-              {/* Khối 1: Thông tin khách hàng */}
-              <div className="bg-white rounded-[2rem] p-6 sm:p-8 shadow-sm border border-gray-100">
-                 <h2 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
-                    <span className="w-8 h-8 rounded-full bg-blue-50 text-blue-600 font-extrabold flex items-center justify-center text-sm">1</span>
-                    Thông tin nhận tài khoản / key
-                 </h2>
-                 <form id="checkout-form" onSubmit={handleSubmit} className="space-y-4">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                       <div className="space-y-2">
-                          <label className="text-sm font-bold text-gray-700 ml-1">Họ và tên của bạn</label>
-                          <input 
-                            type="text" 
-                            name="name" 
-                            required 
-                            value={formData.name}
-                            onChange={handleInputChange}
-                            onBlur={handleBlur}
-                            placeholder="Nguyễn Văn A" 
-                            className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 transition-all font-medium outline-none" 
-                          />
+              {/* Khối 1: Thông tin khách hàng nhận tài khoản */}
+              <div className="bg-white rounded-2xl p-4 sm:p-6 shadow-sm border border-gray-200/80">
+                 <div className="flex items-center justify-between mb-4">
+                    <h2 className="text-sm sm:text-base font-black text-gray-900 flex items-center gap-2">
+                       <span className="w-6 h-6 rounded-full bg-blue-50 text-blue-600 font-extrabold flex items-center justify-center text-xs">1</span>
+                       Thông tin người nhận tài khoản
+                    </h2>
+                    <span className="text-[11px] text-gray-400 font-medium">Bắt buộc</span>
+                 </div>
+
+                 <form id="checkout-form" onSubmit={handleSubmit} className="space-y-3 sm:space-y-3.5">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                       <div className="space-y-1">
+                          <label className="text-xs font-bold text-gray-700 ml-1">Họ và tên</label>
+                          <div className="relative">
+                             <User className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" size={15} />
+                             <input 
+                               type="text" 
+                               name="name" 
+                               required 
+                               value={formData.name}
+                               onChange={handleInputChange}
+                               onBlur={handleBlur}
+                               placeholder="Ví dụ: Nguyễn Văn A" 
+                               className="w-full pl-9 pr-3.5 py-2.5 bg-gray-50/80 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 transition-all text-xs sm:text-sm font-medium outline-none" 
+                             />
+                          </div>
                        </div>
-                       <div className="space-y-2">
-                          <label className="text-sm font-bold text-gray-700 ml-1">Số điện thoại / Zalo</label>
-                          <input 
-                            type="tel" 
-                            name="phone" 
-                            required 
-                            value={formData.phone}
-                            onChange={handleInputChange}
-                            onBlur={handleBlur}
-                            placeholder="0912... (Dùng nhận tài khoản qua Zalo)" 
-                            className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 transition-all font-medium outline-none" 
-                          />
+
+                       <div className="space-y-1">
+                          <label className="text-xs font-bold text-gray-700 ml-1">Số điện thoại / Zalo</label>
+                          <div className="relative">
+                             <PhoneCall className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" size={15} />
+                             <input 
+                               type="tel" 
+                               name="phone" 
+                               required 
+                               value={formData.phone}
+                               onChange={handleInputChange}
+                               onBlur={handleBlur}
+                               placeholder="0912... (Dùng nhận tài khoản qua Zalo)" 
+                               className="w-full pl-9 pr-3.5 py-2.5 bg-gray-50/80 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 transition-all text-xs sm:text-sm font-medium outline-none" 
+                             />
+                          </div>
                        </div>
                     </div>
 
-                    <div className="space-y-2">
-                        <label className="text-sm font-bold text-gray-700 ml-1">Email nhận tài khoản / bản quyền</label>
+                    <div className="space-y-1">
+                        <label className="text-xs font-bold text-gray-700 ml-1">Email nhận thông tin & sao lưu</label>
                         <div className="relative">
-                            <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+                            <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" size={15} />
                             <input 
                               type="email" 
                               name="email" 
@@ -497,78 +538,121 @@ export const Checkout: React.FC<CheckoutProps> = ({ cart, clearCart }) => {
                               onChange={handleInputChange}
                               onBlur={handleBlur}
                               placeholder="name@example.com (Dùng nâng cấp chính chủ hoặc gửi key)" 
-                              className="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 transition-all font-medium outline-none" 
+                              className="w-full pl-9 pr-3.5 py-2.5 bg-gray-50/80 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 transition-all text-xs sm:text-sm font-medium outline-none" 
                             />
                         </div>
-                        <div className="flex items-start gap-2 bg-blue-50/80 p-3 rounded-xl border border-blue-100 mt-1">
-                            <Info size={16} className="text-blue-600 mt-0.5 shrink-0" />
-                            <p className="text-xs text-blue-800 font-medium leading-relaxed">
-                                Lưu ý: Thông tin đăng nhập và link kích hoạt sẽ được bàn giao trực tiếp qua <strong>Zalo</strong> và gửi sao lưu về <strong>Email</strong> này.
-                            </p>
-                        </div>
+                        <p className="text-[11px] text-blue-700 bg-blue-50/70 px-2.5 py-1 rounded-lg mt-1 border border-blue-100 flex items-center gap-1.5 font-medium">
+                            <Info size={13} className="shrink-0 text-blue-600" />
+                            <span>Tài khoản và link kích hoạt sẽ được gửi ngay qua <strong>Zalo</strong> & sao lưu về <strong>Email</strong> này.</span>
+                        </p>
                     </div>
 
-                    <div className="space-y-2">
-                        <label className="text-sm font-bold text-gray-700 ml-1">Ghi chú thêm (Tùy chọn)</label>
+                    <div className="space-y-1">
+                        <label className="text-xs font-bold text-gray-700 ml-1">Ghi chú thêm (Tùy chọn)</label>
                         <textarea 
                           name="note" 
                           rows={2}
                           value={formData.note}
                           onChange={handleInputChange}
                           onBlur={handleBlur}
-                          placeholder="Ví dụ: Cần nâng cấp trên email chính chủ, cài đặt từ xa Ultraview..." 
-                          className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 transition-all font-medium outline-none resize-none" 
+                          placeholder="Ví dụ: Cần nâng cấp trên email cá nhân, hỗ trợ cài từ xa qua Ultraview..." 
+                          className="w-full px-3.5 py-2 bg-gray-50/80 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 transition-all text-xs sm:text-sm font-medium outline-none resize-none" 
                         ></textarea>
                     </div>
                  </form>
               </div>
 
-              {/* Khối 2: Chọn phương thức thanh toán */}
-              <div className="bg-white rounded-[2rem] p-6 sm:p-8 shadow-sm border border-gray-100">
-                 <h2 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
-                    <span className="w-8 h-8 rounded-full bg-blue-50 text-blue-600 font-extrabold flex items-center justify-center text-sm">2</span>
-                    Chọn phương thức thanh toán
-                 </h2>
-                 <div className="space-y-3">
+              {/* Khối 2: Chọn phương thức thanh toán (Gọn gàng & Hiện đại) */}
+              <div className="bg-white rounded-2xl p-4 sm:p-6 shadow-sm border border-gray-200/80">
+                 <div className="flex items-center justify-between mb-3.5">
+                    <h2 className="text-sm sm:text-base font-black text-gray-900 flex items-center gap-2">
+                       <span className="w-6 h-6 rounded-full bg-blue-50 text-blue-600 font-extrabold flex items-center justify-center text-xs">2</span>
+                       Chọn phương thức thanh toán
+                    </h2>
+                    <span className="text-[11px] text-emerald-600 font-bold bg-emerald-50 px-2 py-0.5 rounded-full">
+                       Miễn phí giao dịch
+                    </span>
+                 </div>
+
+                 <div className="space-y-2.5">
                     
-                    {/* QR Code Banking (Ưu tiên số 1) */}
-                    <label className={`flex items-center gap-4 p-4 rounded-2xl border-2 cursor-pointer transition-all ${paymentMethod === 'qr' ? 'border-blue-600 bg-blue-50/50 shadow-sm' : 'border-gray-100 hover:border-gray-200'}`}>
-                       <input type="radio" name="payment" value="qr" checked={paymentMethod === 'qr'} onChange={(e) => setPaymentMethod(e.target.value)} className="w-5 h-5 accent-blue-600" />
-                       <div className="w-12 h-12 rounded-xl bg-white flex items-center justify-center border border-gray-200 shadow-sm text-blue-600 overflow-hidden shrink-0">
-                          <img src={`https://img.vietqr.io/image/${BANK_INFO.BANK_ID}-${BANK_INFO.ACCOUNT_NO}-compact.png`} className="w-full h-full object-cover p-1" alt="VietQR" />
+                    {/* Option 1: QR Code Banking (Ưu tiên số 1 - Khuyên dùng) */}
+                    <label className={`flex items-center gap-3 p-3 sm:p-3.5 rounded-xl border transition-all cursor-pointer ${
+                       paymentMethod === 'qr' 
+                         ? 'border-[#0068FF] bg-blue-50/50 ring-1 ring-[#0068FF]/30 shadow-sm' 
+                         : 'border-gray-200/90 hover:border-gray-300 bg-white'
+                    }`}>
+                       <input 
+                         type="radio" 
+                         name="payment" 
+                         value="qr" 
+                         checked={paymentMethod === 'qr'} 
+                         onChange={(e) => setPaymentMethod(e.target.value)} 
+                         className="w-4 h-4 accent-[#0068FF] shrink-0" 
+                       />
+                       <div className="w-10 h-10 rounded-lg bg-white flex items-center justify-center border border-gray-200 shadow-xs text-blue-600 overflow-hidden shrink-0">
+                          <img 
+                            src={`https://img.vietqr.io/image/${BANK_INFO.BANK_ID}-${BANK_INFO.ACCOUNT_NO}-compact.png`} 
+                            className="w-full h-full object-cover p-0.5" 
+                            alt="VietQR" 
+                          />
                        </div>
                        <div className="flex-1 min-w-0">
-                          <div className="font-extrabold text-gray-900 text-sm sm:text-base flex items-center gap-2 flex-wrap">
+                          <div className="font-black text-gray-900 text-xs sm:text-sm flex items-center gap-1.5 flex-wrap">
                              <span>Chuyển khoản Ngân hàng (VietQR)</span>
-                             <span className="text-[10px] bg-emerald-100 text-emerald-700 font-black px-2 py-0.5 rounded-full uppercase">Khuyên Dùng</span>
+                             <span className="text-[10px] bg-emerald-100 text-emerald-800 font-black px-1.5 py-0.2 rounded-md uppercase">
+                                Khuyên dùng
+                             </span>
                           </div>
-                          <div className="text-xs text-gray-500 mt-0.5">
-                             Quét mã QR tự điền số tiền & nội dung • Nhận tài khoản qua Zalo siêu tốc trong 3-5 phút
+                          <div className="text-[11px] text-gray-500 mt-0.5 line-clamp-1 font-medium">
+                             Quét mã QR tự điền số tiền & nội dung • Kích hoạt qua Zalo 3-5 phút
                           </div>
                        </div>
                     </label>
 
-                    {/* Momo */}
-                    <label className={`flex items-center gap-4 p-4 rounded-2xl border-2 cursor-pointer transition-all ${paymentMethod === 'momo' ? 'border-[#A50064] bg-pink-50/50' : 'border-gray-100 hover:border-gray-200'}`}>
-                       <input type="radio" name="payment" value="momo" checked={paymentMethod === 'momo'} onChange={(e) => setPaymentMethod(e.target.value)} className="w-5 h-5 accent-[#A50064]" />
-                       <div className="w-12 h-12 rounded-xl bg-[#A50064] flex items-center justify-center shadow-sm text-white font-black text-xs shrink-0">
+                    {/* Option 2: Momo */}
+                    <label className={`flex items-center gap-3 p-3 rounded-xl border transition-all cursor-pointer ${
+                       paymentMethod === 'momo' 
+                         ? 'border-[#A50064] bg-pink-50/50 ring-1 ring-[#A50064]/30 shadow-sm' 
+                         : 'border-gray-200/90 hover:border-gray-300 bg-white'
+                    }`}>
+                       <input 
+                         type="radio" 
+                         name="payment" 
+                         value="momo" 
+                         checked={paymentMethod === 'momo'} 
+                         onChange={(e) => setPaymentMethod(e.target.value)} 
+                         className="w-4 h-4 accent-[#A50064] shrink-0" 
+                       />
+                       <div className="w-10 h-10 rounded-lg bg-[#A50064] flex items-center justify-center shadow-xs text-white font-black text-[11px] shrink-0">
                           MoMo
                        </div>
                        <div className="flex-1 min-w-0">
-                          <div className="font-extrabold text-gray-900 text-sm sm:text-base">Ví điện tử MoMo</div>
-                          <div className="text-xs text-gray-500 mt-0.5">Quét mã chuyển tiền qua App MoMo tiện lợi</div>
+                          <div className="font-bold text-gray-900 text-xs sm:text-sm">Ví điện tử MoMo</div>
+                          <div className="text-[11px] text-gray-500 font-medium">Quét mã chuyển tiền qua App MoMo tiện lợi</div>
                        </div>
                     </label>
 
-                    {/* Visa/Master */}
-                    <label className={`flex items-center gap-4 p-4 rounded-2xl border-2 cursor-pointer transition-all ${paymentMethod === 'card' ? 'border-gray-900 bg-gray-50' : 'border-gray-100 hover:border-gray-200'}`}>
-                       <input type="radio" name="payment" value="card" checked={paymentMethod === 'card'} onChange={(e) => setPaymentMethod(e.target.value)} className="w-5 h-5 accent-black" />
-                       <div className="w-12 h-12 rounded-xl bg-gray-900 flex items-center justify-center shadow-sm text-white shrink-0">
-                          <CreditCard size={22} />
+                    {/* Option 3: Visa/Master */}
+                    <label className={`flex items-center gap-3 p-3 rounded-xl border transition-all cursor-pointer ${
+                       paymentMethod === 'card' 
+                         ? 'border-gray-900 bg-gray-50 ring-1 ring-gray-900/20 shadow-sm' 
+                         : 'border-gray-200/90 hover:border-gray-300 bg-white'
+                    }`}>
+                       <input 
+                         type="radio" 
+                         name="payment" 
+                         value="card" 
+                         checked={paymentMethod === 'card'} 
+                         onChange={(e) => setPaymentMethod(e.target.value)} 
+                         className="w-4 h-4 accent-black shrink-0" 
+                       />
+                       <div className="w-10 h-10 rounded-lg bg-gray-900 flex items-center justify-center shadow-xs text-white shrink-0">
+                          <CreditCard size={18} />
                        </div>
                        <div className="flex-1 min-w-0">
-                          <div className="font-extrabold text-gray-900 text-sm sm:text-base">Thẻ quốc tế (Visa / Mastercard)</div>
-                          <div className="text-xs text-gray-500 mt-0.5">Thanh toán an toàn, bảo mật tiêu chuẩn quốc tế</div>
+                          <div className="font-bold text-gray-900 text-xs sm:text-sm">Thẻ quốc tế (Visa / Mastercard)</div>
+                          <div className="text-[11px] text-gray-500 font-medium">Hỗ trợ tư vấn và thanh toán trực tiếp qua Zalo</div>
                        </div>
                     </label>
 
@@ -577,84 +661,122 @@ export const Checkout: React.FC<CheckoutProps> = ({ cart, clearCart }) => {
 
            </div>
 
-           {/* CỘT PHẢI: TÓM TẮT ĐƠN HÀNG */}
+           {/* CỘT PHẢI: TÓM TẮT ĐƠN HÀNG (DESKTOP STICKY & SUMMARY) */}
            <div className="lg:col-span-5">
-              <div className="bg-white rounded-[2rem] p-6 sm:p-8 shadow-sm border border-gray-100 sticky top-28 space-y-6">
-                 <h2 className="text-lg font-bold text-gray-900 flex items-center gap-2">
-                    <Package size={20} className="text-blue-600" /> 
-                    <span>Tóm tắt đơn hàng ({cart.length})</span>
-                 </h2>
+              <div className="bg-white rounded-2xl p-4 sm:p-6 shadow-sm border border-gray-200/80 sticky top-24 space-y-4 sm:space-y-5">
+                 <div className="flex items-center justify-between pb-3 border-b border-gray-100">
+                    <h2 className="text-sm sm:text-base font-black text-gray-900 flex items-center gap-2">
+                       <Package size={18} className="text-blue-600" /> 
+                       <span>Tóm tắt đơn hàng ({cart.length})</span>
+                    </h2>
+                    <span className="text-[11px] font-bold text-gray-400">
+                       {cart.reduce((total, i) => total + i.quantity, 0)} gói
+                    </span>
+                 </div>
                  
-                 <div className="space-y-4 max-h-[280px] overflow-y-auto pr-1 custom-scrollbar">
+                 {/* Product List */}
+                 <div className="space-y-3 max-h-[260px] overflow-y-auto pr-1">
                     {cart.map((item) => (
-                       <div key={item.id} className="flex gap-3 items-center">
-                          <div className="w-14 h-14 rounded-xl bg-gray-50 border border-gray-100 overflow-hidden shrink-0 shadow-sm">
+                       <div key={item.id} className="flex gap-2.5 items-center">
+                          <div className="w-11 h-11 rounded-xl bg-gray-50 border border-gray-100 overflow-hidden shrink-0 shadow-xs">
                              <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
                           </div>
                           <div className="flex-1 min-w-0">
-                             <div className="font-bold text-gray-900 text-sm line-clamp-1">{item.name}</div>
-                             <div className="text-xs text-gray-500 mt-0.5">Số lượng: {item.quantity}</div>
+                             <div className="font-bold text-gray-900 text-xs sm:text-sm truncate">{item.name}</div>
+                             <div className="text-[11px] text-gray-500">Số lượng: {item.quantity}</div>
                           </div>
-                          <div className="font-black text-gray-900 text-sm shrink-0">
+                          <div className="font-black text-gray-900 text-xs sm:text-sm shrink-0">
                              {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.price * item.quantity)}
                           </div>
                        </div>
                     ))}
                  </div>
 
-                 <div className="border-t border-gray-100 pt-4 space-y-2.5">
-                    <div className="flex justify-between text-sm text-gray-500">
+                 {/* Price Breakdown */}
+                 <div className="border-t border-gray-100 pt-3 space-y-2 text-xs sm:text-sm">
+                    <div className="flex justify-between text-gray-500 font-medium">
                        <span>Tạm tính</span>
-                       <span className="font-medium">{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(totalAmount)}</span>
+                       <span className="font-bold text-gray-700">{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(totalAmount)}</span>
                     </div>
-                    <div className="flex justify-between text-sm text-gray-500">
-                       <span>Phí kích hoạt & bảo hành</span>
+                    <div className="flex justify-between text-gray-500 font-medium">
+                       <span>Phí kích hoạt & Bảo hành 1-1</span>
                        <span className="text-emerald-600 font-bold">Miễn phí (0đ)</span>
                     </div>
-                    <div className="flex justify-between text-lg font-black text-gray-900 pt-2 border-t border-dashed border-gray-200">
+                    <div className="flex justify-between text-sm sm:text-base font-black text-gray-900 pt-2 border-t border-dashed border-gray-200">
                        <span>Tổng thanh toán</span>
-                       <span className="text-2xl font-black text-blue-600">
+                       <span className="text-xl sm:text-2xl font-black text-[#0068FF]">
                           {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(totalAmount)}
                        </span>
                     </div>
                  </div>
 
-                 {/* Nút Submit Tạo Đơn */}
-                 <button 
-                    form="checkout-form"
-                    type="submit"
-                    disabled={isProcessing}
-                    className="w-full py-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-black text-base rounded-2xl shadow-xl shadow-blue-500/25 active:scale-[0.98] transition-all flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer"
-                 >
-                    {isProcessing ? (
-                       <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                    ) : (
-                       <>
-                         <span>Tiến hành chuyển khoản & Nhận tài khoản</span>
-                         <ArrowRight size={18} />
-                       </>
-                    )}
-                 </button>
+                 {/* Desktop Submit Button */}
+                 <div className="hidden lg:block pt-1">
+                    <button 
+                       form="checkout-form"
+                       type="submit"
+                       disabled={isProcessing}
+                       className="w-full py-3.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-black text-sm sm:text-base rounded-xl shadow-lg shadow-blue-500/25 active:scale-[0.98] transition-all flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer"
+                    >
+                       {isProcessing ? (
+                          <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                       ) : (
+                          <>
+                            <span>Tiến hành chuyển khoản & Nhận key</span>
+                            <ArrowRight size={17} />
+                          </>
+                       )}
+                    </button>
+                 </div>
 
-                 {/* Badges Cam kết */}
-                 <div className="pt-2 border-t border-gray-100 space-y-2">
-                    <div className="flex items-center gap-2 text-xs text-gray-500 font-medium">
-                       <ShieldCheck size={16} className="text-emerald-500 shrink-0" />
-                       <span>Bảo hành 1-1 trọn đời toàn thời gian sử dụng</span>
+                 {/* Trust Assurance */}
+                 <div className="pt-2 border-t border-gray-100 space-y-1.5">
+                    <div className="flex items-center gap-2 text-[11px] text-gray-600 font-medium">
+                       <ShieldCheck size={14} className="text-emerald-500 shrink-0" />
+                       <span>Bảo hành 1-1 toàn thời gian sử dụng</span>
                     </div>
-                    <div className="flex items-center gap-2 text-xs text-gray-500 font-medium">
-                       <MessageCircle size={16} className="text-blue-500 shrink-0" />
-                       <span>Kỹ thuật viên hỗ trợ bàn giao qua Zalo trong 3 - 5 phút</span>
+                    <div className="flex items-center gap-2 text-[11px] text-gray-600 font-medium">
+                       <Zap size={14} className="text-amber-500 shrink-0" />
+                       <span>Bàn giao tài khoản trong 3 - 5 phút qua Zalo</span>
                     </div>
-                    <div className="flex items-center gap-2 text-xs text-gray-400 font-medium pt-1">
-                       <Lock size={14} className="shrink-0" />
-                       <span>Thanh toán an toàn, bảo mật thông tin tuyệt đối</span>
+                    <div className="flex items-center gap-2 text-[11px] text-gray-500 font-medium">
+                       <Lock size={13} className="text-gray-400 shrink-0" />
+                       <span>Bảo mật thông tin khách hàng tuyệt đối</span>
                     </div>
                  </div>
               </div>
            </div>
 
         </div>
+
+        {/* Mobile Sticky Bottom Action Bar */}
+        <div className="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur-xl border-t border-gray-200/90 shadow-[0_-8px_30px_rgba(0,0,0,0.1)] px-4 py-2.5 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
+           <div className="flex items-center justify-between gap-3 max-w-lg mx-auto">
+              <div className="min-w-0">
+                 <div className="text-[10px] uppercase font-bold text-gray-500">Tổng thanh toán</div>
+                 <div className="text-base sm:text-lg font-black text-[#0068FF] leading-tight">
+                    {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(totalAmount)}
+                 </div>
+              </div>
+
+              <button
+                 form="checkout-form"
+                 type="submit"
+                 disabled={isProcessing}
+                 className="h-11 px-5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-black text-xs sm:text-sm flex items-center justify-center gap-2 shadow-md shadow-blue-500/25 active:scale-95 transition-all shrink-0"
+              >
+                 {isProcessing ? (
+                    <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                 ) : (
+                    <>
+                       <span>Tiếp tục thanh toán</span>
+                       <ArrowRight size={15} />
+                    </>
+                 )}
+              </button>
+           </div>
+        </div>
+
       </div>
     </main>
   );
