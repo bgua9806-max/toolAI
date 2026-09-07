@@ -298,15 +298,18 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({ addToCart }) => {
     fetchProduct();
   }, [paramSlug]);
 
+  const [showStickyBar, setShowStickyBar] = useState(false);
+
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 40);
+      setShowStickyBar(window.scrollY > 350);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const ZALO_GROUP_URL = 'https://zalo.me/g/bguamkuy0hcgjpvf9kyp';
+  const HOTLINE_ZALO = '0906291941';
 
   const currentPrice = selectedVariant ? selectedVariant.price : (product?.price || 0);
   const rawOriginalPrice = (selectedVariant?.originalPrice && selectedVariant.originalPrice > currentPrice)
@@ -327,7 +330,7 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({ addToCart }) => {
 
   const openZaloConsultation = () => {
     const message = encodeURIComponent(getConsultationMessage());
-    window.open(`${ZALO_GROUP_URL}?text=${message}`, '_blank', 'noopener,noreferrer');
+    window.open(`https://zalo.me/${HOTLINE_ZALO}?text=${message}`, '_blank', 'noopener,noreferrer');
   };
 
   const copyToClipboard = () => {
@@ -1300,14 +1303,63 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({ addToCart }) => {
                   Xem tất cả <ChevronRight size={14} />
                 </Link>
               </div>
-              <div className="grid grid-cols-4 gap-6">
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
                 {relatedProducts.map(p => (
-                  <ProductCard key={p.id} product={p} onAddToCart={addToCart} />
+                  <React.Fragment key={p.id}>
+                    <div className="lg:hidden">
+                      <MobileProductCard product={p} />
+                    </div>
+                    <div className="hidden lg:block">
+                      <ProductCard product={p} onAddToCart={addToCart} />
+                    </div>
+                  </React.Fragment>
                 ))}
               </div>
             </div>
           )}
 
+        </div>
+      </div>
+
+      {/* Sticky Bottom Action Bar on Mobile */}
+      <div 
+        className={`fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-xl border-t border-gray-200/90 shadow-[0_-8px_30px_rgba(0,0,0,0.12)] p-3 pb-[calc(0.75rem+env(safe-area-inset-bottom,0px))] lg:hidden transition-all duration-300 ease-out ${
+          showStickyBar ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0 pointer-events-none'
+        }`}
+      >
+        <div className="flex items-center justify-between gap-3 max-w-lg mx-auto">
+          <div className="flex items-center gap-2.5 min-w-0 flex-1">
+            <img 
+              src={product.image || 'https://placehold.co/100'} 
+              alt={product.name} 
+              className="w-11 h-11 rounded-xl object-cover border border-gray-100 bg-gray-50 shrink-0 mix-blend-multiply"
+            />
+            <div className="min-w-0">
+              <div className="text-[11px] font-bold text-gray-500 truncate">{selectedVariant?.name || product.name}</div>
+              <div className="text-base font-black text-[#0068FF] leading-tight">
+                {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND', maximumFractionDigits: 0 }).format(currentPrice)}
+              </div>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2 shrink-0">
+            <button
+              onClick={openZaloConsultation}
+              className="h-11 px-3.5 rounded-xl bg-blue-50 border border-blue-200 text-[#0068FF] font-black text-xs flex items-center gap-1.5 active:scale-95 transition-transform"
+              title="Nhắn tin Zalo tư vấn"
+            >
+              <MessageCircle size={18} />
+              <span>Zalo</span>
+            </button>
+
+            <button
+              onClick={handleAddToCart}
+              className="h-11 px-4 sm:px-5 rounded-xl bg-gray-950 text-white font-black text-xs flex items-center gap-1.5 active:scale-95 transition-transform hover:bg-[#0068FF] shadow-lg shadow-gray-900/20"
+            >
+              <ShoppingCart size={16} />
+              <span>Mua ngay</span>
+            </button>
+          </div>
         </div>
       </div>
 

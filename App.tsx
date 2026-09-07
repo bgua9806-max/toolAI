@@ -159,8 +159,8 @@ function AppContent() {
                   isSearchOpen={isSearchOpen}
                   setIsSearchOpen={setIsSearchOpen}
                 />
-                {/* Removed pb-24 since BottomNav is gone */}
-                <div className="">
+                {/* Safe padding bottom for mobile floating widgets */}
+                <div className="pb-10 sm:pb-0">
                   <Routes>
                     <Route path="/" element={<Home addToCart={addToCart} />} />
                     <Route path="/products" element={<ProductsPage addToCart={addToCart} />} />

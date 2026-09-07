@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect, useRef } from 'react';
-import { MessageCircle, X, Send, Bot, ChevronRight, Sparkles, RefreshCcw, Minus } from 'lucide-react';
+import { MessageCircle, X, Send, Bot, ChevronRight, Sparkles, RefreshCcw, Minus, Phone } from 'lucide-react';
 import { PRODUCTS as FALLBACK_PRODUCTS } from '../constants';
 import { Product } from '../types';
 import * as ReactRouterDOM from 'react-router-dom';
@@ -198,20 +198,21 @@ export const ChatBot: React.FC = () => {
       {/* Floating Button */}
       <button
         onClick={toggleChat}
-        className={`fixed ${mobileBottomClass} lg:bottom-6 right-6 z-[60] p-4 rounded-full shadow-2xl transition-all duration-500 hover:scale-110 active:scale-95 group 
+        className={`fixed ${mobileBottomClass} lg:bottom-6 right-4 sm:right-6 z-[60] w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 flex items-center justify-center rounded-full shadow-2xl transition-all duration-300 hover:scale-110 active:scale-95 group 
         ${isOpen 
             ? 'opacity-0 pointer-events-none lg:opacity-100 lg:pointer-events-auto bg-gray-900 rotate-90' 
             : 'opacity-100 bg-primary animate-bounce-slow'
         }`}
+        aria-label="Mở trợ lý ảo AI"
       >
         {isOpen ? (
-            <X size={28} className="text-white" />
+            <X size={24} className="text-white" />
         ) : (
             <>
-                <MessageCircle size={28} className="text-white fill-white" />
-                <span className="absolute top-0 right-0 -mt-1 -mr-1 flex h-4 w-4">
+                <MessageCircle size={24} className="text-white fill-white" />
+                <span className="absolute top-0 right-0 -mt-0.5 -mr-0.5 flex h-3.5 w-3.5">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-4 w-4 bg-green-400 border-2 border-white"></span>
+                  <span className="relative inline-flex rounded-full h-3.5 w-3.5 bg-green-400 border-2 border-white"></span>
                 </span>
             </>
         )}
@@ -222,28 +223,38 @@ export const ChatBot: React.FC = () => {
         className={`fixed ${mobileBottomClass} lg:bottom-24 right-4 sm:right-6 w-[calc(100vw-2rem)] sm:w-[400px] h-[600px] max-h-[70vh] bg-white/95 backdrop-blur-2xl rounded-[2.5rem] shadow-2xl border border-white/20 z-[60] flex flex-col overflow-hidden transition-all duration-500 origin-bottom-right ${isOpen ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-50 translate-y-20 pointer-events-none'}`}
       >
         {/* Header */}
-        <div className="bg-white/50 backdrop-blur-md p-5 flex items-center justify-between shrink-0 border-b border-gray-100">
+        <div className="bg-white/50 backdrop-blur-md p-4 sm:p-5 flex items-center justify-between shrink-0 border-b border-gray-100">
            <div className="flex items-center gap-3">
               <div className="relative">
-                <div className="w-11 h-11 rounded-full bg-gradient-to-tr from-primary to-blue-400 flex items-center justify-center shadow-lg shadow-primary/30">
-                    <Bot size={22} className="text-white" />
+                <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-gradient-to-tr from-primary to-blue-400 flex items-center justify-center shadow-lg shadow-primary/30">
+                    <Bot size={20} className="text-white" />
                 </div>
-                <div className="absolute bottom-0 right-0 w-3.5 h-3.5 bg-green-500 border-2 border-white rounded-full"></div>
+                <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></div>
               </div>
               <div>
-                 <h3 className="font-extrabold text-gray-900 text-base">MuaToolAI.com AI</h3>
-                 <p className="text-xs text-gray-500 font-medium flex items-center gap-1">
+                 <h3 className="font-extrabold text-gray-900 text-sm sm:text-base">MuaToolAI.com AI</h3>
+                 <p className="text-[11px] text-gray-500 font-medium flex items-center gap-1">
                     <Sparkles size={10} className="text-primary" /> Trợ lý ảo thông minh
                  </p>
               </div>
            </div>
            <div className="flex items-center gap-2">
-               <button onClick={() => setMessages([messages[0]])} className="p-2 text-gray-400 hover:text-primary hover:bg-gray-100 rounded-full transition-colors" title="Làm mới đoạn chat">
-                 <RefreshCcw size={18} />
+               <a 
+                 href="https://zalo.me/0906291941" 
+                 target="_blank" 
+                 rel="noopener noreferrer" 
+                 className="px-2.5 py-1 rounded-full bg-blue-50 text-[#0068FF] text-[11px] font-extrabold hover:bg-blue-100 transition-colors flex items-center gap-1 border border-blue-200"
+                 title="Chat Zalo với kỹ thuật viên"
+               >
+                 <Phone size={11} />
+                 <span>Zalo CSKH</span>
+               </a>
+               <button onClick={() => setMessages([messages[0]])} className="p-1.5 text-gray-400 hover:text-primary hover:bg-gray-100 rounded-full transition-colors" title="Làm mới đoạn chat">
+                 <RefreshCcw size={16} />
                </button>
                {/* Mobile Close Button */}
-               <button onClick={() => setIsOpen(false)} className="lg:hidden p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-full transition-colors" title="Đóng chat">
-                 <Minus size={22} />
+               <button onClick={() => setIsOpen(false)} className="lg:hidden p-1.5 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-full transition-colors" title="Đóng chat">
+                 <Minus size={20} />
                </button>
            </div>
         </div>
