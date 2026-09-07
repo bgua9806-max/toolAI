@@ -4,6 +4,7 @@ import { Product } from '../../types';
 import * as ReactRouterDOM from 'react-router-dom';
 import { slugify } from '../../lib/utils';
 import { getProductImageFallback } from '../../lib/imageFallbacks';
+import { ShoppingCart } from 'lucide-react';
 
 const { Link } = ReactRouterDOM;
 
@@ -12,7 +13,7 @@ interface MobileProductCardProps {
   onAddToCart?: (product: Product) => void;
 }
 
-export const MobileProductCard: React.FC<MobileProductCardProps> = ({ product }) => {
+export const MobileProductCard: React.FC<MobileProductCardProps> = ({ product, onAddToCart }) => {
   const productLink = `/product/${product.slug || slugify(product.name)}`;
   const [imgSrc, setImgSrc] = useState(product.image);
 
@@ -67,9 +68,18 @@ export const MobileProductCard: React.FC<MobileProductCardProps> = ({ product })
 
           <Link
             to={productLink}
-            className="h-8 px-3 rounded-xl bg-gray-950 text-white flex items-center justify-center text-[11px] font-black active:scale-95 transition-all hover:bg-[#0068FF] shadow-sm shrink-0"
+            onClick={(e) => {
+              if (onAddToCart) {
+                e.preventDefault();
+                e.stopPropagation();
+                onAddToCart(product);
+              }
+            }}
+            aria-label={`Mua ${product.name}`}
+            className="w-8 h-8 rounded-xl bg-gray-950 hover:bg-[#0068FF] text-white flex items-center justify-center active:scale-90 transition-all shadow-xs shrink-0"
+            title="Mua ngay"
           >
-            Mua ngay
+            <ShoppingCart size={15} strokeWidth={2.2} />
           </Link>
         </div>
       </div>
