@@ -233,14 +233,14 @@ export const ProductsPage: React.FC<ProductsPageProps> = ({ addToCart }) => {
       />
 
       {/* Premium Dark Hero Banner */}
-      <div className="relative bg-gray-950 pt-24 pb-12 md:pt-32 md:pb-20 mb-6 md:mb-10 overflow-hidden rounded-b-[2rem] md:rounded-b-[2.5rem] shadow-2xl shadow-gray-900/10">
+      <div className="relative bg-gray-950 pt-18 pb-6 md:pt-32 md:pb-20 mb-3 md:mb-10 overflow-hidden rounded-b-[1.5rem] md:rounded-b-[2.5rem] shadow-2xl shadow-gray-900/10">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_30%,rgba(0,104,255,0.22),transparent_38%),radial-gradient(circle_at_80%_80%,rgba(16,185,129,0.14),transparent_38%)]"></div>
         <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-            <span className="inline-block py-1 px-3 md:py-1.5 md:px-4 rounded-full bg-white/10 border border-white/10 text-blue-200 text-[10px] md:text-xs font-black uppercase tracking-widest mb-4 md:mb-6 backdrop-blur-md">
+            <span className="inline-block py-0.5 px-2.5 md:py-1.5 md:px-4 rounded-full bg-white/10 border border-white/10 text-blue-200 text-[9px] md:text-xs font-black uppercase tracking-widest mb-2 md:mb-6 backdrop-blur-md">
                 Cửa hàng bản quyền
             </span>
-            <h1 className="text-3xl md:text-5xl lg:text-6xl font-black text-white mb-3 md:mb-6 tracking-tight leading-tight">
+            <h1 className="text-2xl md:text-5xl lg:text-6xl font-black text-white mb-1.5 md:mb-6 tracking-tight leading-tight">
                 {isFlashSalePage ? (
                   <>
                     Flash Sale <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-red-400">Đang Diễn Ra</span>
@@ -251,55 +251,53 @@ export const ProductsPage: React.FC<ProductsPageProps> = ({ addToCart }) => {
                   </>
                 )}
             </h1>
-            <p className="text-gray-400 max-w-2xl mx-auto text-sm md:text-xl font-medium leading-relaxed">Hàng trăm phần mềm và tài khoản Premium với mức giá tiết kiệm đến 80%.</p>
+            <p className="text-gray-400 max-w-2xl mx-auto text-xs md:text-xl font-medium leading-relaxed line-clamp-1 sm:line-clamp-none">Hàng trăm phần mềm và tài khoản Premium với mức giá tiết kiệm đến 80%.</p>
         </div>
       </div>
 
       {/* Control Bar */}
-      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 mb-4 sm:mb-6 relative z-30">
-        <div className="bg-white/95 backdrop-blur-xl border border-gray-200/90 rounded-2xl p-3 sm:p-3.5 shadow-sm space-y-2.5">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 mb-3 sm:mb-6 relative z-30">
+        <div className="bg-white/95 backdrop-blur-xl border border-gray-200/90 rounded-2xl p-2 sm:p-3.5 shadow-xs space-y-1.5 sm:space-y-0">
           
           {/* Row 1: Breadcrumbs & Controls */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+          <div className="flex items-center justify-between gap-2">
             {/* Breadcrumbs */}
-            <div className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm text-gray-500 font-medium overflow-x-auto no-scrollbar whitespace-nowrap">
-              <span className="cursor-pointer hover:text-[#0068FF] transition-colors shrink-0" onClick={() => navigate('/')}>Trang chủ</span>
-              <span className="text-gray-300 shrink-0">/</span>
-              <span className="font-bold text-gray-900 shrink-0">{isFlashSalePage ? 'Flash Sale' : 'Tất cả sản phẩm'}</span>
-              <span className="bg-blue-50 text-[#0068FF] border border-blue-100/80 px-2 py-0.5 rounded-full text-[11px] font-black shrink-0">
-                {filteredProducts.length} kết quả
+            <div className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm text-gray-500 font-medium min-w-0">
+              <span className="hidden sm:inline cursor-pointer hover:text-[#0068FF] transition-colors shrink-0" onClick={() => navigate('/')}>Trang chủ</span>
+              <span className="hidden sm:inline text-gray-300 shrink-0">/</span>
+              <span className="font-bold text-gray-900 truncate shrink-0">{isFlashSalePage ? 'Flash Sale' : 'Tất cả sản phẩm'}</span>
+              <span className="bg-blue-50 text-[#0068FF] border border-blue-100/80 px-1.5 py-[1px] sm:px-2 sm:py-0.5 rounded-full text-[10px] sm:text-[11px] font-black shrink-0">
+                {filteredProducts.length} <span className="hidden xs:inline">kết quả</span>
               </span>
             </div>
 
             {/* Action Buttons: Filter & Custom Sort Dropdown */}
-            <div className="flex items-center gap-2 self-end sm:self-auto w-full sm:w-auto">
+            <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
               {/* Mobile Filter Trigger */}
               <button 
                 type="button"
-                className="lg:hidden flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 h-9 px-3 bg-gray-100/90 hover:bg-gray-200/80 active:scale-95 text-xs font-bold text-gray-800 rounded-xl transition-all border border-gray-200/70 shrink-0"
+                className="lg:hidden inline-flex items-center justify-center gap-1 h-7.5 px-2.5 bg-gray-100/90 hover:bg-gray-200/80 active:scale-95 text-[11px] font-bold text-gray-800 rounded-lg transition-all border border-gray-200/70 shrink-0"
                 onClick={() => setIsMobileFilterOpen(true)}
               >
-                <SlidersHorizontal size={14} className="text-gray-600" />
+                <SlidersHorizontal size={12} className="text-gray-600" />
                 <span>Bộ lọc</span>
                 {activeFiltersCount > 0 && (
-                  <span className="w-4.5 h-4.5 rounded-full bg-[#0068FF] text-white text-[10px] font-black flex items-center justify-center">
+                  <span className="w-3.5 h-3.5 rounded-full bg-[#0068FF] text-white text-[9px] font-black flex items-center justify-center">
                     {activeFiltersCount}
                   </span>
                 )}
               </button>
 
-              {/* Custom Sort Dropdown (No native select popup) */}
-              <div ref={sortDropdownRef} className="relative flex-1 sm:flex-initial min-w-0">
+              {/* Custom Sort Dropdown */}
+              <div ref={sortDropdownRef} className="relative">
                 <button
                   type="button"
                   onClick={() => setIsSortOpen(!isSortOpen)}
-                  className="w-full sm:w-auto h-9 px-3 bg-gray-50 hover:bg-white border border-gray-200/90 hover:border-gray-300 rounded-xl text-xs font-bold text-gray-800 flex items-center justify-between sm:justify-start gap-2 shadow-xs active:scale-98 transition-all"
+                  className="h-7.5 sm:h-9 px-2.5 sm:px-3 bg-gray-50 hover:bg-white border border-gray-200/90 hover:border-gray-300 rounded-lg sm:rounded-xl text-[11px] sm:text-xs font-bold text-gray-800 flex items-center gap-1 sm:gap-1.5 shadow-2xs active:scale-98 transition-all"
                 >
-                  <div className="flex items-center gap-1.5 min-w-0 truncate">
-                    <ArrowUpDown size={13} className="text-gray-500 shrink-0" />
-                    <span className="truncate">{currentSortLabel}</span>
-                  </div>
-                  <ChevronDown size={14} className={`text-gray-400 shrink-0 transition-transform duration-200 ${isSortOpen ? 'rotate-180 text-[#0068FF]' : ''}`} />
+                  <ArrowUpDown size={12} className="text-gray-500 shrink-0" />
+                  <span className="truncate max-w-[85px] sm:max-w-none">{currentSortLabel}</span>
+                  <ChevronDown size={12} className={`text-gray-400 shrink-0 transition-transform duration-200 ${isSortOpen ? 'rotate-180 text-[#0068FF]' : ''}`} />
                 </button>
 
                 {/* Custom Popover Menu */}
@@ -342,13 +340,13 @@ export const ProductsPage: React.FC<ProductsPageProps> = ({ addToCart }) => {
           </div>
 
           {/* Row 2: Mobile Category Quick Pills (Horizontal Scroll) */}
-          <div className="lg:hidden pt-2 border-t border-gray-100 flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-0.5">
+          <div className="lg:hidden pt-1.5 border-t border-gray-100/90 flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5">
             <button
               type="button"
               onClick={() => handleCategoryChange('all')}
-              className={`px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap shrink-0 transition-all ${
+              className={`px-2.5 py-1 rounded-lg text-[11px] font-bold whitespace-nowrap shrink-0 transition-all ${
                 selectedCategory === 'all'
-                  ? 'bg-[#0068FF] text-white shadow-sm'
+                  ? 'bg-[#0068FF] text-white shadow-xs'
                   : 'bg-gray-50 text-gray-600 border border-gray-200/70 hover:bg-gray-100'
               }`}
             >
@@ -362,13 +360,13 @@ export const ProductsPage: React.FC<ProductsPageProps> = ({ addToCart }) => {
                   key={cat.id}
                   type="button"
                   onClick={() => handleCategoryChange(cat.id)}
-                  className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap shrink-0 transition-all ${
+                  className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[11px] font-bold whitespace-nowrap shrink-0 transition-all ${
                     isCatActive
-                      ? 'bg-[#0068FF] text-white shadow-sm'
+                      ? 'bg-[#0068FF] text-white shadow-xs'
                       : 'bg-gray-50 text-gray-600 border border-gray-200/70 hover:bg-gray-100'
                   }`}
                 >
-                  <CatIcon size={13} className={isCatActive ? 'text-white' : 'text-gray-500'} />
+                  <CatIcon size={12} className={isCatActive ? 'text-white' : 'text-gray-500'} />
                   <span>{cat.name}</span>
                 </button>
               );
