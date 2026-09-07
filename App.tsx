@@ -13,6 +13,8 @@ import { Login } from './pages/Login';
 import { Contact } from './pages/Contact';
 import { Checkout } from './pages/Checkout';
 import { Maintenance } from './pages/Maintenance';
+import { ToolsHub } from './pages/tools/ToolsHub';
+import { AiImageCleaner } from './pages/tools/AiImageCleaner';
 import { CartDrawer } from './components/CartDrawer';
 import { ChatBot } from './components/ChatBot';
 import { Product, CartItem } from './types';
@@ -166,6 +168,9 @@ function AppContent() {
                     <Route path="/products" element={<ProductsPage addToCart={addToCart} />} />
                     <Route path="/product/:id" element={<ProductDetail addToCart={addToCart} />} />
                     <Route path="/checkout" element={<Checkout cart={cart} clearCart={clearCart} />} />
+                    <Route path="/tools" element={<ToolsHub />} />
+                    <Route path="/cho-tool" element={<ToolsHub />} />
+                    <Route path="/tools/xoa-danh-dau-ai" element={<AiImageCleaner />} />
                     <Route path="/blog" element={<Blog />} />
                     <Route path="/blog/:id" element={<BlogPost addToCart={addToCart} />} />
                     {/* <Route path="/order-lookup" element={<OrderLookup />} /> */}

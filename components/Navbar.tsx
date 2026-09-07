@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Search, ShoppingBag, Menu, X, User, ChevronDown, LayoutDashboard, LogOut, ArrowRight, MessageCircle, Facebook, Command, Clock, TrendingUp, CornerDownLeft, ChevronRight, Bell, Home, LayoutGrid, BookOpen, Phone, PackageCheck, Crown } from 'lucide-react';
+import { Search, ShoppingBag, Menu, X, User, ChevronDown, LayoutDashboard, LogOut, ArrowRight, MessageCircle, Facebook, Command, Clock, TrendingUp, CornerDownLeft, ChevronRight, Bell, Home, LayoutGrid, BookOpen, Phone, PackageCheck, Crown, Sparkles } from 'lucide-react';
 import { CATEGORIES, PRODUCTS } from '../constants';
 import * as ReactRouterDOM from 'react-router-dom';
 import { Product } from '../types';
@@ -197,6 +197,7 @@ export const Navbar: React.FC<NavbarProps> = ({ cartCount, onOpenCart, isSearchO
   const MOBILE_MENU_ITEMS = [
       { path: '/', label: 'Trang chủ', icon: Home },
       { path: '/products', label: 'Cửa hàng', icon: LayoutGrid },
+      { path: '/tools', label: 'Chợ Tool AI', icon: Sparkles, isNew: true },
       { path: '/blog', label: 'Tin tức & Blog', icon: BookOpen }, // Blog is here
       // { path: '/order-lookup', label: 'Tra cứu đơn hàng', icon: PackageCheck },
       { path: '/contact', label: 'Liên hệ hỗ trợ', icon: Phone },
@@ -259,11 +260,21 @@ export const Navbar: React.FC<NavbarProps> = ({ cartCount, onOpenCart, isSearchO
                  >
                    Cửa hàng
                    <ChevronDown size={14} className={`opacity-50 transition-transform duration-300 ${isCategoryOpen ? 'rotate-180' : ''}`} />
-                 </button>
-                 <Link 
-                  to="/blog" 
-                  className={`text-[13px] font-bold px-4 py-2 rounded-full transition-all ${isActive('/blog') ? 'bg-black text-white shadow-md' : 'text-gray-600 hover:text-black hover:bg-gray-50'}`}
-                 >
+                  </button>
+                  <Link 
+                   to="/tools" 
+                   className={`flex items-center gap-1.5 text-[13px] font-bold px-3.5 py-2 rounded-full transition-all ${isActive('/tools') ? 'bg-black text-white shadow-md' : 'text-gray-700 hover:text-black hover:bg-gray-50'}`}
+                  >
+                    <Sparkles size={14} className="text-emerald-500" />
+                    <span>Chợ Tool</span>
+                    <span className="px-1.5 py-0.5 rounded-full bg-emerald-500 text-white text-[9px] font-black uppercase tracking-wider leading-none">
+                      Mới
+                    </span>
+                  </Link>
+                  <Link 
+                   to="/blog" 
+                   className={`text-[13px] font-bold px-4 py-2 rounded-full transition-all ${isActive('/blog') ? 'bg-black text-white shadow-md' : 'text-gray-600 hover:text-black hover:bg-gray-50'}`}
+                  >
                    Tin tức
                  </Link>
                  <Link 
@@ -443,8 +454,13 @@ export const Navbar: React.FC<NavbarProps> = ({ cartCount, onOpenCart, isSearchO
                         onClick={() => setIsMobileMenuOpen(false)}
                         className={`flex items-center gap-4 p-4 rounded-2xl transition-all ${active ? 'bg-primary text-white shadow-lg shadow-primary/30' : 'text-gray-700 hover:bg-gray-50'}`}
                     >
-                        <item.icon size={22} strokeWidth={active ? 2.5 : 2} />
+                        <item.icon size={22} strokeWidth={active ? 2.5 : 2} className={item.isNew ? 'text-emerald-500' : ''} />
                         <span className={`text-base ${active ? 'font-bold' : 'font-medium'}`}>{item.label}</span>
+                        {item.isNew && (
+                          <span className="px-2 py-0.5 rounded-full bg-emerald-500 text-white text-[10px] font-black uppercase tracking-wider ml-1 shadow-xs">
+                            Mới
+                          </span>
+                        )}
                         {active && <ChevronRight size={18} className="ml-auto opacity-80" />}
                     </Link>
                   )
