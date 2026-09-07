@@ -22,6 +22,172 @@ interface ProductDetailProps {
   addToCart: (product: Product) => void;
 }
 
+interface ProductDescriptionViewProps {
+  description?: string;
+  isCompact?: boolean;
+}
+
+export const ProductDescriptionView: React.FC<ProductDescriptionViewProps> = ({ description, isCompact = false }) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  if (!description) return null;
+
+  const normalized = description
+    .replace(/\\r\\n/g, '\n')
+    .replace(/\\n/g, '\n')
+    .replace(/\r\n/g, '\n')
+    .trim();
+
+  // If it is a short 1-sentence description without line breaks
+  if (!normalized.includes('\n')) {
+    return (
+      <p className={`text-gray-600 leading-relaxed font-normal ${isCompact ? 'text-xs mb-4' : 'text-base mb-6'}`}>
+        {normalized}
+      </p>
+    );
+  }
+
+  const lines = normalized.split('\n').map(l => l.trim()).filter(Boolean);
+
+  interface ParsedBlock {
+    type: 'badge' | 'header' | 'bullet' | 'step' | 'alert' | 'text';
+    icon?: string;
+    step?: number;
+    text: string;
+  }
+
+  const blocks: ParsedBlock[] = [];
+  let currentContext: 'general' | 'process' | 'benefits' = 'general';
+  let stepCounter = 1;
+
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+
+    // 1. Headline badge: First line if it starts with emoji or uppercase title
+    if (i === 0 && (line.startsWith('🤖') || line.startsWith('🔥') || line.startsWith('⭐') || line.startsWith('💎') || (line === line.toUpperCase() && line.length < 60))) {
+      blocks.push({ type: 'badge', text: line });
+      continue;
+    }
+
+    // 2. Alert / Timing badges: starts with ⏱, 🕒, ⏳, ⚠️, 🔔
+    if (/^[⏱🕒⏳⚠️🔔]/u.test(line)) {
+      blocks.push({ type: 'alert', text: line });
+      continue;
+    }
+
+    // 3. Section header: ends with ':' or starts with section emojis
+    if (/^[🚀🔐🛠📌💡🎯💎🔑]/u.test(line) || line.endsWith(':')) {
+      if (line.includes('Quy trình') || line.includes('bước') || line.includes('Hướng dẫn')) {
+        currentContext = 'process';
+        stepCounter = 1;
+      } else if (line.includes('là gì') || line.includes('Quyền lợi') || line.includes('Lưu ý') || line.includes('Tính năng')) {
+        currentContext = 'benefits';
+      } else {
+        currentContext = 'general';
+      }
+      blocks.push({ type: 'header', text: line });
+      continue;
+    }
+
+    // 4. Bullet points: starts with emojis (⚡, ✍️, 🌐, 🔁, 📲, ✅, ✔) or bullet chars (-, *, •)
+    const bulletMatch = line.match(/^([⚡✍️🌐🔁📲✅✔\-\*•])\s*(.*)$/u);
+    if (bulletMatch) {
+      blocks.push({ type: 'bullet', icon: bulletMatch[1], text: bulletMatch[2] });
+      continue;
+    }
+
+    // 5. Context-aware list item under active header
+    if (currentContext === 'process') {
+      blocks.push({ type: 'step', step: stepCounter++, text: line });
+      continue;
+    }
+
+    if (currentContext === 'benefits') {
+      blocks.push({ type: 'bullet', icon: '✓', text: line });
+      continue;
+    }
+
+    // 6. Normal text
+    blocks.push({ type: 'text', text: line });
+  }
+
+  const limit = isCompact ? 6 : 14;
+  const shouldTruncate = blocks.length > limit;
+  const visibleBlocks = shouldTruncate && !isExpanded ? blocks.slice(0, limit) : blocks;
+
+  return (
+    <div className={`space-y-2.5 ${isCompact ? 'mb-4' : 'mb-6'}`}>
+      {visibleBlocks.map((b, idx) => {
+        if (b.type === 'badge') {
+          return (
+            <div key={idx} className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-blue-50 border border-blue-200/80 text-blue-900 font-extrabold text-xs mb-1 shadow-xs">
+              <span className="w-2 h-2 rounded-full bg-blue-600 animate-pulse"></span>
+              <span>{b.text}</span>
+            </div>
+          );
+        }
+
+        if (b.type === 'header') {
+          return (
+            <div key={idx} className="pt-2 pb-0.5 text-xs sm:text-sm font-black uppercase tracking-wider text-gray-900 flex items-center gap-1.5">
+              <span>{b.text}</span>
+            </div>
+          );
+        }
+
+        if (b.type === 'bullet') {
+          return (
+            <div key={idx} className="flex items-start gap-2.5 text-xs sm:text-sm text-gray-700 leading-relaxed group">
+              <span className="text-base shrink-0 select-none transition-transform group-hover:scale-110 mt-0.5">
+                {b.icon === '-' || b.icon === '•' || b.icon === '*' ? '🔹' : (b.icon === '✓' ? <Check size={14} className="text-blue-600 font-bold mt-1" /> : b.icon)}
+              </span>
+              <span className="flex-1 font-medium">{b.text}</span>
+            </div>
+          );
+        }
+
+        if (b.type === 'step') {
+          return (
+            <div key={idx} className="flex items-center gap-2.5 text-xs sm:text-sm text-gray-800 leading-relaxed bg-slate-50/80 border border-slate-200/60 px-3 py-2 rounded-xl">
+              <span className="w-5 h-5 rounded-full bg-blue-600 text-white font-black text-[10px] flex items-center justify-center shrink-0">
+                {b.step}
+              </span>
+              <span className="flex-1 font-medium">{b.text}</span>
+            </div>
+          );
+        }
+
+        if (b.type === 'alert') {
+          return (
+            <div key={idx} className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl bg-amber-50 border border-amber-200 text-amber-900 text-xs font-bold shadow-xs">
+              <span>{b.text}</span>
+            </div>
+          );
+        }
+
+        return (
+          <p key={idx} className="text-xs sm:text-sm text-gray-600 leading-relaxed font-normal">
+            {b.text}
+          </p>
+        );
+      })}
+
+      {shouldTruncate && (
+        <button
+          type="button"
+          onClick={() => setIsExpanded(!isExpanded)}
+          className="inline-flex items-center gap-1.5 pt-1 text-xs font-bold text-blue-600 hover:text-blue-700 transition-colors cursor-pointer group"
+        >
+          <span className="group-hover:underline">
+            {isExpanded ? 'Thu gọn nội dung' : `Xem thêm toàn bộ quy trình & chi tiết (${blocks.length - limit} mục nữa)`}
+          </span>
+          <ChevronDown size={14} className={`transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`} />
+        </button>
+      )}
+    </div>
+  );
+};
+
 export const ProductDetail: React.FC<ProductDetailProps> = ({ addToCart }) => {
   const { id: paramSlug } = useParams<{ id: string }>();
   const navigate = useNavigate();
@@ -143,7 +309,12 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({ addToCart }) => {
   const ZALO_GROUP_URL = 'https://zalo.me/g/bguamkuy0hcgjpvf9kyp';
 
   const currentPrice = selectedVariant ? selectedVariant.price : (product?.price || 0);
-  const currentOriginalPrice = selectedVariant ? selectedVariant.originalPrice : (product?.originalPrice || (currentPrice * 1.5));
+  const rawOriginalPrice = (selectedVariant?.originalPrice && selectedVariant.originalPrice > currentPrice)
+    ? selectedVariant.originalPrice
+    : (product?.originalPrice && product.originalPrice > currentPrice
+        ? product.originalPrice
+        : Math.round(currentPrice * 1.25));
+  const currentOriginalPrice = rawOriginalPrice > currentPrice ? rawOriginalPrice : Math.round(currentPrice * 1.25);
   const discountPercent = Math.max(0, Math.round(((currentOriginalPrice - currentPrice) / (currentOriginalPrice || 1)) * 100));
   const savingsAmount = Math.max(0, currentOriginalPrice - currentPrice);
 
@@ -470,12 +641,10 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({ addToCart }) => {
         {/* Mobile Product Main Card */}
         <div className="px-4 mt-4 space-y-4">
           <div className="bg-white rounded-3xl p-5 border border-gray-200/80 shadow-sm">
-            <h1 className="text-2xl font-black text-gray-900 tracking-tight leading-snug mb-2">
+            <h1 className="text-2xl font-black text-gray-900 tracking-tight leading-snug mb-3">
               {product.name}
             </h1>
-            <p className="text-xs text-gray-600 leading-relaxed mb-4">
-              {product.description}
-            </p>
+            <ProductDescriptionView description={product.description} isCompact={true} />
 
             {/* Mobile Buy Box / Price Preview */}
             <div className="rounded-2xl bg-gradient-to-br from-blue-50/70 via-white to-indigo-50/70 p-4 border border-blue-100">
@@ -688,7 +857,7 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({ addToCart }) => {
       {/* ========================================================
           DESKTOP VIEW (hidden lg:block)
           ======================================================== */}
-      <div className="hidden lg:block pt-24 pb-24">
+      <div className="hidden lg:block pt-36 pb-24">
         <div className="max-w-7xl mx-auto px-6">
           
           {/* 1. Breadcrumbs & Top Meta */}
@@ -779,9 +948,7 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({ addToCart }) => {
                   {product.name}
                 </h1>
 
-                <p className="text-base text-gray-600 leading-relaxed mb-6">
-                  {product.description}
-                </p>
+                <ProductDescriptionView description={product.description} isCompact={false} />
 
                 {/* High-Converting Price Card */}
                 <div className="rounded-3xl bg-gradient-to-br from-blue-50/60 via-white to-indigo-50/60 border border-blue-100 p-6 shadow-sm mb-6">
@@ -961,11 +1128,11 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({ addToCart }) => {
               )}
 
               <div className="pt-6 border-t border-gray-100">
-                <h3 className="text-lg font-black text-gray-900 mb-3 flex items-center gap-2">
+                <h3 className="text-lg font-black text-gray-900 mb-4 flex items-center gap-2">
                   <Info size={18} className="text-gray-500" /> Mô tả chi tiết phần mềm
                 </h3>
                 <div className="text-gray-600 leading-relaxed text-sm space-y-4">
-                  <p className="whitespace-pre-line">{product.description}</p>
+                  <ProductDescriptionView description={product.description} isCompact={false} />
                   {product.content && (
                     <div className="prose max-w-none text-gray-700" dangerouslySetInnerHTML={{ __html: product.content }} />
                   )}
