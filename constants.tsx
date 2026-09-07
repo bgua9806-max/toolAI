@@ -11,6 +11,7 @@ import {
   Bot
 } from 'lucide-react';
 import { Category, Product, BlogPost, HeroSlide } from './types';
+import { ALL_BLOG_POSTS } from './data/allBlogs';
 
 export const CATEGORIES: Category[] = [
   { id: 'ai', name: 'AI Tools', icon: Bot },
@@ -460,5 +461,6 @@ Kết luận: Không có app tốt nhất cho tất cả mọi người. Hãy ch
     category: 'Thủ thuật',
     readTime: '5 phút',
     relatedProductId: '9'
-  }
+  },
+  ...ALL_BLOG_POSTS
 ];
