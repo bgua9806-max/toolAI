@@ -63,7 +63,7 @@ export const ImageComparisonSlider: React.FC<ImageComparisonSliderProps> = ({
   return (
     <div
       ref={containerRef}
-      className={`relative select-none overflow-hidden rounded-2xl bg-gray-900 shadow-xl cursor-ew-resize touch-none ${className}`}
+      className={`relative select-none overflow-hidden rounded-2xl bg-gray-950 border border-gray-200/80 shadow-md cursor-ew-resize touch-none ${className}`}
       onMouseDown={handleMouseDown}
       onTouchStart={handleTouchStart}
     >
@@ -76,7 +76,7 @@ export const ImageComparisonSlider: React.FC<ImageComparisonSliderProps> = ({
       />
 
       {/* Label Processed (Right) */}
-      <div className="absolute top-3 right-3 z-10 px-2.5 py-1 rounded-full bg-emerald-950/80 border border-emerald-500/40 text-emerald-300 text-[10px] font-black uppercase tracking-wider backdrop-blur-md shadow-md pointer-events-none">
+      <div className="absolute top-3 right-3 z-10 px-2.5 py-1 rounded-full bg-[#0068FF]/90 border border-white/20 text-white text-[10px] font-black uppercase tracking-wider backdrop-blur-md shadow-md pointer-events-none">
         {processedLabel}
       </div>
 
@@ -107,7 +107,7 @@ export const ImageComparisonSlider: React.FC<ImageComparisonSliderProps> = ({
         className="absolute top-0 bottom-0 w-0.5 bg-white shadow-[0_0_10px_rgba(255,255,255,0.8)] pointer-events-none"
         style={{ left: `${sliderPosition}%` }}
       >
-        <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-8 h-8 rounded-full bg-white text-gray-900 border-2 border-emerald-500 shadow-lg flex items-center justify-center pointer-events-none">
+        <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-8 h-8 rounded-full bg-white text-[#0068FF] border-2 border-[#0068FF] shadow-lg flex items-center justify-center pointer-events-none">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
             <polyline points="15 18 9 12 15 6"></polyline>
           </svg>
